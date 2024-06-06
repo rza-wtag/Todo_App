@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="logo.png" alt="Logo">
+                    <h1>Todos</h1>
+                </div>
+                <div class="search-icon">
+                    <img src="search_icon.jpg" alt="Search">
+                </div>
+            </nav>
+        </header>
+        <main>
+            <section class="add-task-filter">
+                <div class="add-task">
+                    <h2>Add Tasks</h2>
+                    <button class="btn-create" onclick="openForm()">+ Create</button>
+                </div>
+                <div class="filter-tasks">
+                    <button class="btn-filter" onclick="filterTasks('all')">All</button>
+                    <button class="btn-filter" onclick="filterTasks('incomplete')">Incomplete</button>
+                    <button class="btn-filter" onclick="filterTasks('complete')">Complete</button>
+                </div>
+            </section>
+            <div id="taskForm" class="task-form">
+                <input type="text" id="taskTitle" placeholder="Task Title">
+                <button onclick="addTask()">Add Task</button>
+                <button onclick="closeForm()">Close</button>
+            </div>
+            <section class="task-list" id="taskList">
+            </section>
+            <button class="btn-load-more">Load More</button>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

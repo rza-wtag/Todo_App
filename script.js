@@ -29,17 +29,11 @@ function addTask() {
     closeForm();
 }
 
-function renderTasks(filter = 'all') {
+function renderTasks() {
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = "";
 
-    const filteredTasks = tasks.filter(task => {
-        if (filter === 'all') return true;
-        if (filter === 'incomplete') return !task.completed;
-        if (filter === 'complete') return task.completed;
-    });
-
-    filteredTasks.forEach(task => {
+    tasks.forEach(task => {
         const taskCard = document.createElement("div");
         taskCard.className = "task-card";
         taskCard.innerHTML = `
@@ -56,22 +50,3 @@ function renderTasks(filter = 'all') {
     });
 }
 
-function completeTask(taskId) {
-    const task = tasks.find(task => task.id === taskId);
-    task.completed = true;
-    renderTasks();
-}
-
-function editTask(taskId) {
-    const task = tasks.find(task => task.id === taskId);
-    const newTitle = prompt("Edit task title:", task.title);
-    if (newTitle !== null) {
-        task.title = newTitle;
-        renderTasks();
-    }
-}
-
-function deleteTask(taskId) {
-    tasks = tasks.filter(task => task.id !== taskId);
-    renderTasks();
-}

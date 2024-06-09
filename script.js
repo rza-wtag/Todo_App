@@ -1,36 +1,37 @@
+import { taskForm, taskTitle, taskList, btnCreate } from './elements.js';
+
 let tasks = [];
 let taskId = 0;
 
 function openForm() {
-    document.getElementById("taskForm").style.display = "flex";
+    taskForm.classList.add("show");
 }
 
 function closeForm() {
-    document.getElementById("taskForm").style.display = "none";
+    taskForm.classList.remove("show");
 }
 
 function addTask() {
-    const taskTitle = document.getElementById("taskTitle").value;
-    if (taskTitle === "") {
+    const title = taskTitle.value;
+    if (title === "") {
         alert("Please enter a task title.");
         return;
     }
 
     const newTask = {
         id: taskId++,
-        title: taskTitle,
+        title: title,
         createdAt: new Date().toLocaleDateString(),
         completed: false,
     };
 
     tasks.push(newTask);
     renderTasks();
-    document.getElementById("taskTitle").value = "";
+    taskTitle.value = "";
     closeForm();
 }
 
-function renderTasks(filter = 'all') {
-    const taskList = document.getElementById("taskList");
+function renderTasks() {
     taskList.innerHTML = "";
 
     tasks.forEach(task => {
@@ -39,14 +40,11 @@ function renderTasks(filter = 'all') {
         taskCard.innerHTML = `
             <p>${task.title}</p>
             <p class="created-at">Created At: ${task.createdAt}</p>
-            <div class="task-actions">
-                <button class="btn-complete" onclick="completeTask(${task.id})">&#10003;</button>
-                <button class="btn-edit" onclick="editTask(${task.id})">&#9998;</button>
-                <button class="btn-delete" onclick="deleteTask(${task.id})">&#128465;</button>
-            </div>
-            ${task.completed ? `<span class="completion-status">Completed</span>` : ''}
         `;
         taskList.appendChild(taskCard);
     });
 }
 
+btnCreate.addEventListener('click', openForm);
+taskForm.querySelector('button:nth-child(2)').addEventListener('click', addTask);
+taskForm.querySelector('button:nth-child(3)').addEventListener('click', closeForm);

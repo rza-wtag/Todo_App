@@ -2,6 +2,8 @@ import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js'
 
 let tasks = [];
 let taskId = 0;
+const $errorMessage = document.createElement("p");
+$errorMessage.className = "error-message";
 
 function openForm() {
     $taskForm.classList.add("show");
@@ -12,9 +14,9 @@ function closeForm() {
 }
 
 function addTask() {
-    const title = $taskTitle.value;
+    const title = $taskTitle.value.trim();
     if (title === "") {
-        alert("Please enter a task title.");
+        showError("Please enter a task title.");
         return;
     }
 
@@ -45,6 +47,11 @@ function renderTasks() {
         `;
         $taskList.appendChild(taskCard);
     });
+}
+
+function showError(message) {
+    $errorMessage.textContent = message;
+    $taskForm.insertBefore($errorMessage, $taskTitle);
 }
 
 $btnCreate.addEventListener('click', openForm);

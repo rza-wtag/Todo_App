@@ -21,7 +21,7 @@ function addTask() {
     }
 
     const newTask = {
-        id: taskId++,
+        id: Date.now(), 
         title: title,
         createdAt: new Date().toLocaleDateString(),
         completed: false,
@@ -32,6 +32,7 @@ function addTask() {
     $taskTitle.value = "";
     closeForm();
 }
+
 
 function renderTasks() {
     $taskList.innerHTML = "";

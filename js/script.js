@@ -1,18 +1,18 @@
-import { taskForm, taskTitle, taskList, btnCreate } from './elements.js';
+import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js';
 
 let tasks = [];
 let taskId = 0;
 
 function openForm() {
-    taskForm.classList.add("show");
+    $taskForm.classList.add("show");
 }
 
 function closeForm() {
-    taskForm.classList.remove("show");
+    $taskForm.classList.remove("show");
 }
 
 function addTask() {
-    const title = taskTitle.value;
+    const title = $taskTitle.value;
     if (title === "") {
         alert("Please enter a task title.");
         return;
@@ -27,12 +27,12 @@ function addTask() {
 
     tasks.push(newTask);
     renderTasks();
-    taskTitle.value = "";
+    $taskTitle.value = "";
     closeForm();
 }
 
 function renderTasks() {
-    taskList.innerHTML = "";
+    $taskList.innerHTML = "";
 
     tasks.forEach(task => {
         const taskCard = document.createElement("div");
@@ -43,10 +43,10 @@ function renderTasks() {
             <button class="btn-edit">Edit</button>
             <button class="btn-delete">Delete</button>
         `;
-        taskList.appendChild(taskCard);
+        $taskList.appendChild(taskCard);
     });
 }
 
-btnCreate.addEventListener('click', openForm);
-taskForm.querySelector('button:nth-child(2)').addEventListener('click', addTask);
-taskForm.querySelector('button:nth-child(3)').addEventListener('click', closeForm);
+$btnCreate.addEventListener('click', openForm);
+$taskForm.querySelector('button:nth-child(2)').addEventListener('click', addTask);
+$taskForm.querySelector('button:nth-child(3)').addEventListener('click', closeForm);

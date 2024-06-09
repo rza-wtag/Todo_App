@@ -5,15 +5,15 @@ let taskId = 0;
 const $errorMessage = document.createElement("p");
 $errorMessage.className = "error-message";
 
-function openForm() {
+const openForm = () => {
     $taskForm.classList.add("show");
-}
+};
 
-function closeForm() {
+const closeForm = () => {
     $taskForm.classList.remove("show");
-}
+};
 
-function addTask() {
+const addTask = () => {
     const title = $taskTitle.value.trim();
     if (title === "") {
         showError("Please enter a task title.");
@@ -31,9 +31,9 @@ function addTask() {
     renderTasks();
     $taskTitle.value = "";
     closeForm();
-}
+};
 
-function createTaskCard(task) {
+const createTaskCard = task => {
     const taskCard = document.createElement("div");
     taskCard.className = "task-card";
     taskCard.innerHTML = `
@@ -43,24 +43,21 @@ function createTaskCard(task) {
         <button class="btn-delete">Delete</button>
     `;
     return taskCard;
-}
+};
 
-
-
-function renderTasks() {
+const renderTasks = () => {
     $taskList.innerHTML = "";
 
     tasks.forEach(task => {
         const taskCard = createTaskCard(task);
         $taskList.appendChild(taskCard);
     });
-}
+};
 
-
-function showError(message) {
+const showError = message => {
     $errorMessage.textContent = message;
     $taskForm.insertBefore($errorMessage, $taskTitle);
-}
+};
 
 $btnCreate.addEventListener('click', openForm);
 $taskForm.querySelector('button:nth-child(2)').addEventListener('click', addTask);

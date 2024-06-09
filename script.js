@@ -40,6 +40,8 @@ function renderTasks() {
         taskCard.innerHTML = `
             <p>${task.title}</p>
             <p class="created-at">Created At: ${task.createdAt}</p>
+            <button class="btn-edit">Edit</button>
+            <button class="btn-delete">Delete</button>
         `;
         taskList.appendChild(taskCard);
     });

@@ -33,22 +33,29 @@ function addTask() {
     closeForm();
 }
 
+function createTaskCard(task) {
+    const taskCard = document.createElement("div");
+    taskCard.className = "task-card";
+    taskCard.innerHTML = `
+        <p>${task.title}</p>
+        <p class="created-at">Created At: ${task.createdAt}</p>
+        <button class="btn-edit">Edit</button>
+        <button class="btn-delete">Delete</button>
+    `;
+    return taskCard;
+}
+
+
 
 function renderTasks() {
     $taskList.innerHTML = "";
 
     tasks.forEach(task => {
-        const taskCard = document.createElement("div");
-        taskCard.className = "task-card";
-        taskCard.innerHTML = `
-            <p>${task.title}</p>
-            <p class="created-at">Created At: ${task.createdAt}</p>
-            <button class="btn-edit">Edit</button>
-            <button class="btn-delete">Delete</button>
-        `;
+        const taskCard = createTaskCard(task);
         $taskList.appendChild(taskCard);
     });
 }
+
 
 function showError(message) {
     $errorMessage.textContent = message;

@@ -29,7 +29,7 @@ function addTask() {
     closeForm();
 }
 
-function renderTasks() {
+function renderTasks(filter = 'all') {
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = "";
 

@@ -1,7 +1,6 @@
 import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js';
 
 let tasks = [];
-let taskId = 0;
 const $errorMessage = document.createElement("p");
 $errorMessage.className = "error-message";
 
@@ -42,7 +41,21 @@ const createTaskCard = task => {
         <button class="btn-edit">Edit</button>
         <button class="btn-delete">Delete</button>
     `;
+
+    const deleteButton = taskCard.querySelector('.btn-delete');
+    deleteButton.addEventListener('click', () => {
+        deleteTask(task.id);
+    });
+    
     return taskCard;
+};
+
+const deleteTask = taskId => {
+    const index = tasks.findIndex(t => t.id === taskId);
+    if (index !== -1) {
+        tasks.splice(index, 1);
+        renderTasks();
+    }
 };
 
 const renderTasks = () => {
@@ -62,3 +75,5 @@ const showError = message => {
 $btnCreate.addEventListener('click', openForm);
 $taskForm.querySelector('button:nth-child(2)').addEventListener('click', addTask);
 $taskForm.querySelector('button:nth-child(3)').addEventListener('click', closeForm);
+
+

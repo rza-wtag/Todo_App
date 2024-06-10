@@ -35,14 +35,32 @@ const addTask = () => {
 const createTaskCard = task => {
     const taskCard = document.createElement("div");
     taskCard.className = "task-card";
-    taskCard.innerHTML = `
-        <p>${task.title}</p>
-        <p class="created-at">Created At: ${task.createdAt}</p>
-        <button class="btn-edit">Edit</button>
-        <button class="btn-delete">Delete</button>
-    `;
+
+    const titleElement = document.createElement("p");
+    titleElement.textContent = task.title;
+    taskCard.appendChild(titleElement);
+
+    const createdAtElement = document.createElement("p");
+    createdAtElement.className = "created-at";
+    createdAtElement.textContent = `Created At: ${task.createdAt}`;
+    taskCard.appendChild(createdAtElement);
+
+    const editButton = document.createElement("button");
+    editButton.className = "btn-edit";
+    editButton.textContent = "Edit";
+    taskCard.appendChild(editButton);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn-delete";
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener('click', () => {
+        deleteTask(task.id);
+    });
+    taskCard.appendChild(deleteButton);
+
     return taskCard;
 };
+
 
 const renderTasks = () => {
     $taskList.innerHTML = "";

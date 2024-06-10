@@ -12,12 +12,30 @@ const closeForm = () => {
     $taskForm.classList.remove("show");
 };
 
+const sanitizeInput = (input) => {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '/': '&#x2F;',
+        '`': '&#x60;',
+        '=': '&#x3D;'
+    };
+    return input.replace(/[&<>"'/`=]/g, function(match) {
+        return map[match];
+    });
+};
+
 const addTask = () => {
-    const title = $taskTitle.value.trim();
+    let title = $taskTitle.value.trim();
     if (title === "") {
         showError("Please enter a task title.");
         return;
     }
+
+    title = sanitizeInput(title);
 
     const newTask = {
         id: Date.now(), 
@@ -35,18 +53,29 @@ const addTask = () => {
 const createTaskCard = task => {
     const taskCard = document.createElement("div");
     taskCard.className = "task-card";
-    taskCard.innerHTML = `
-        <p>${task.title}</p>
-        <p class="created-at">Created At: ${task.createdAt}</p>
-        <button class="btn-edit">Edit</button>
-        <button class="btn-delete">Delete</button>
-    `;
 
-    const deleteButton = taskCard.querySelector('.btn-delete');
+    const titleElement = document.createElement("p");
+    titleElement.textContent = task.title;
+    taskCard.appendChild(titleElement);
+
+    const createdAtElement = document.createElement("p");
+    createdAtElement.className = "created-at";
+    createdAtElement.textContent = `Created At: ${task.createdAt}`;
+    taskCard.appendChild(createdAtElement);
+
+    const editButton = document.createElement("button");
+    editButton.className = "btn-edit";
+    editButton.textContent = "Edit";
+    taskCard.appendChild(editButton);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn-delete";
+    deleteButton.textContent = "Delete";
     deleteButton.addEventListener('click', () => {
         deleteTask(task.id);
     });
-    
+    taskCard.appendChild(deleteButton);
+
     return taskCard;
 };
 
@@ -75,5 +104,3 @@ const showError = message => {
 $btnCreate.addEventListener('click', openForm);
 $taskForm.querySelector('button:nth-child(2)').addEventListener('click', addTask);
 $taskForm.querySelector('button:nth-child(3)').addEventListener('click', closeForm);
-
-

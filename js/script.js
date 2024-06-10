@@ -1,7 +1,6 @@
 import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js';
 
 let tasks = [];
-let taskId = 0;
 const $errorMessage = document.createElement("p");
 $errorMessage.className = "error-message";
 

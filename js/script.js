@@ -80,7 +80,6 @@ const createTaskCard = task => {
 };
 
 
-
 const renderTasks = () => {
     $taskList.innerHTML = "";
 

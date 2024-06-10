@@ -79,6 +79,14 @@ const createTaskCard = task => {
     return taskCard;
 };
 
+const deleteTask = taskId => {
+    const index = tasks.findIndex(t => t.id === taskId);
+    if (index !== -1) {
+        tasks.splice(index, 1);
+        renderTasks();
+    }
+};
+
 
 const renderTasks = () => {
     $taskList.innerHTML = "";

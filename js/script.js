@@ -12,12 +12,30 @@ const closeForm = () => {
     $taskForm.classList.remove("show");
 };
 
+const sanitizeInput = (input) => {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '/': '&#x2F;',
+        '`': '&#x60;',
+        '=': '&#x3D;'
+    };
+    return input.replace(/[&<>"'/`=]/g, function(match) {
+        return map[match];
+    });
+};
+
 const addTask = () => {
-    const title = $taskTitle.value.trim();
+    let title = $taskTitle.value.trim();
     if (title === "") {
         showError("Please enter a task title.");
         return;
     }
+
+    title = sanitizeInput(title);
 
     const newTask = {
         id: Date.now(), 
@@ -61,6 +79,13 @@ const createTaskCard = task => {
     return taskCard;
 };
 
+const deleteTask = taskId => {
+    const index = tasks.findIndex(t => t.id === taskId);
+    if (index !== -1) {
+        tasks.splice(index, 1);
+        renderTasks();
+    }
+};
 
 const renderTasks = () => {
     $taskList.innerHTML = "";

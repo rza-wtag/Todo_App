@@ -26,7 +26,6 @@ const addTask = () => {
         id: Date.now(), 
         title: displayTitle,
         createdAt: new Date().toLocaleDateString(),
-        completed: false,
     };
 
     tasks.unshift(newTask);
@@ -64,13 +63,9 @@ const createTaskCard = task => {
     return taskCard;
 };
 
-
 const deleteTask = taskId => {
-    const index = tasks.findIndex(task => task.id === taskId);
-    if (index !== -1) {
-        tasks.splice(index, 1);
-        renderTasks();
-    }
+    tasks = tasks.filter(task => task.id !== taskId);
+    renderTasks();
 };
 
 const renderTasks = () => {

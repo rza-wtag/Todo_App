@@ -79,9 +79,6 @@ const deleteTask = taskId => {
     }
 };
 
-
-
-
 const renderTasks = () => {
     $taskList.innerHTML = "";
 

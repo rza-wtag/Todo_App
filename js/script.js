@@ -65,7 +65,21 @@ const createTaskCard = task => {
 
     const titleElement = document.createElement("p");
     titleElement.textContent = task.title;
+    titleElement.className = task.completed ? "completed" : "";
     taskCard.appendChild(titleElement);
+
+    const statusCheckbox = document.createElement("input");
+    statusCheckbox.type = "checkbox";
+    statusCheckbox.checked = task.completed;
+    statusCheckbox.addEventListener('change', () => {
+        toggleTaskCompletion(task.id, statusCheckbox.checked);
+    });
+    taskCard.appendChild(statusCheckbox);
+
+    const completionText = document.createElement("span");
+    completionText.className = "completion-text";
+    completionText.textContent = task.completed ? "Completed" : "";
+    taskCard.appendChild(completionText);
 
     const createdAtElement = document.createElement("p");
     createdAtElement.className = "created-at";
@@ -95,6 +109,14 @@ const deleteTask = taskId => {
     const index = tasks.findIndex(task => task.id === taskId);
     if (index !== -1) {
         tasks.splice(index, 1);
+        renderTasks();
+    }
+};
+
+const toggleTaskCompletion = (taskId, completed) => {
+    const taskIndex = tasks.findIndex(task => task.id === taskId);
+    if (taskIndex !== -1) {
+        tasks[taskIndex].completed = completed;
         renderTasks();
     }
 };

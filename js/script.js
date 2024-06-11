@@ -52,7 +52,6 @@ const addTask = () => {
 
 const editTask = taskId => {
     const taskToEdit = tasks.find(task => task.id === taskId);
-    console.log(taskToEdit);
     if (taskToEdit) {
         $taskTitle.value = taskToEdit.title; 
         editingTaskId = taskId; 

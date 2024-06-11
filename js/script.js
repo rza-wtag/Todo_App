@@ -67,13 +67,19 @@ const createTaskCard = task => {
     return taskCard;
 };
 
+const isMatchingId = (task, taskId) => {
+    return task.id === taskId;
+};
+
 const deleteTask = taskId => {
-    const index = tasks.findIndex(t => t.id === taskId);
+    const index = tasks.findIndex(task => isMatchingId(task, taskId));
     if (index !== -1) {
         tasks.splice(index, 1);
         renderTasks();
     }
 };
+
+
 
 
 const renderTasks = () => {

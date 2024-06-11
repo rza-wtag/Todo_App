@@ -1,4 +1,5 @@
 import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js';
+import { stripSanitizedParts } from '../js/utils/utilities.js';
 
 let tasks = [];
 const $errorMessage = document.createElement("p");
@@ -12,9 +13,6 @@ const closeForm = () => {
     $taskForm.classList.remove("show");
 };
 
-const stripSanitizedParts = (input) => {
-    return input.replace(/<[^>]*>/g, '');
-};
 
 const addTask = () => {
     let title = $taskTitle.value.trim();

@@ -45,7 +45,7 @@ const addTask = () => {
         completed: false,
     };
 
-    tasks.push(newTask);
+    tasks.unshift(newTask);
     renderTasks();
     closeForm();
 };

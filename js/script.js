@@ -1,6 +1,7 @@
 import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js';
 
 let tasks = [];
+let editingTaskId = null;
 const $errorMessage = document.createElement("p");
 $errorMessage.className = "error-message";
 
@@ -10,6 +11,8 @@ const openForm = () => {
 
 const closeForm = () => {
     $taskForm.classList.remove("show");
+    $taskTitle.value = ""; 
+    editingTaskId = null; 
 };
 
 const stripSanitizedParts = (input) => {
@@ -25,6 +28,16 @@ const addTask = () => {
 
     const displayTitle = stripSanitizedParts(title);
 
+    if (editingTaskId !== null) {
+        const editedTaskIndex = tasks.findIndex(task => task.id === editingTaskId);
+        if (editedTaskIndex !== -1) {
+            tasks[editedTaskIndex].title = displayTitle;
+            renderTasks();
+            closeForm();
+            return;
+        }
+    }
+
     const newTask = {
         id: Date.now(), 
         title: displayTitle,
@@ -34,8 +47,17 @@ const addTask = () => {
 
     tasks.push(newTask);
     renderTasks();
-    $taskTitle.value = "";
     closeForm();
+};
+
+const editTask = taskId => {
+    const taskToEdit = tasks.find(task => task.id === taskId);
+    console.log(taskToEdit);
+    if (taskToEdit) {
+        $taskTitle.value = taskToEdit.title; 
+        editingTaskId = taskId; 
+        openForm(); 
+    }
 };
 
 const createTaskCard = task => {
@@ -43,7 +65,7 @@ const createTaskCard = task => {
     taskCard.className = "task-card";
 
     const titleElement = document.createElement("p");
-    titleElement.textContent = task.title; 
+    titleElement.textContent = task.title;
     taskCard.appendChild(titleElement);
 
     const createdAtElement = document.createElement("p");
@@ -54,6 +76,9 @@ const createTaskCard = task => {
     const editButton = document.createElement("button");
     editButton.className = "btn-edit";
     editButton.textContent = "Edit";
+    editButton.addEventListener('click', () => {
+        editTask(task.id);
+    });
     taskCard.appendChild(editButton);
 
     const deleteButton = document.createElement("button");
@@ -67,12 +92,8 @@ const createTaskCard = task => {
     return taskCard;
 };
 
-const isMatchingId = (task, taskId) => {
-    return task.id === taskId;
-};
-
 const deleteTask = taskId => {
-    const index = tasks.findIndex(task => isMatchingId(task, taskId));
+    const index = tasks.findIndex(task => task.id === taskId);
     if (index !== -1) {
         tasks.splice(index, 1);
         renderTasks();

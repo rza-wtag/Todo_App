@@ -1,4 +1,5 @@
 import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js';
+import { stripSanitizedParts } from '../js/utils/utilities.js';
 
 let tasks = [];
 const $errorMessage = document.createElement("p");
@@ -10,10 +11,6 @@ const openForm = () => {
 
 const closeForm = () => {
     $taskForm.classList.remove("show");
-};
-
-const stripSanitizedParts = (input) => {
-    return input.replace(/<[^>]*>/g, '');
 };
 
 const addTask = () => {
@@ -67,9 +64,6 @@ const createTaskCard = task => {
     return taskCard;
 };
 
-const isMatchingId = (task, taskId) => {
-    return task.id === taskId;
-};
 
 const deleteTask = taskId => {
     const index = tasks.findIndex(task => task.id === taskId);
@@ -94,5 +88,5 @@ const showError = message => {
 };
 
 $btnCreate.addEventListener('click', openForm);
-$taskForm.querySelector('button:nth-child(2)').addEventListener('click', addTask);
-$taskForm.querySelector('button:nth-child(3)').addEventListener('click', closeForm);
+document.getElementById('btnAddTask').addEventListener('click', addTask);
+document.getElementById('btnCloseForm').addEventListener('click', closeForm);

@@ -65,7 +65,6 @@ const createTaskCard = task => {
 
     const titleElement = document.createElement("p");
     titleElement.textContent = task.title;
-    titleElement.className = task.completed ? "completed" : "";
     taskCard.appendChild(titleElement);
 
     const statusCheckbox = document.createElement("input");
@@ -77,7 +76,6 @@ const createTaskCard = task => {
     taskCard.appendChild(statusCheckbox);
 
     const completionText = document.createElement("span");
-    completionText.className = "completion-text";
     completionText.textContent = task.completed ? "Completed" : "";
     taskCard.appendChild(completionText);
 

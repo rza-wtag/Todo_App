@@ -26,7 +26,6 @@ const addTask = () => {
         id: Date.now(), 
         title: displayTitle,
         createdAt: new Date().toLocaleDateString(),
-        completed: false,
     };
 
     tasks.unshift(newTask);

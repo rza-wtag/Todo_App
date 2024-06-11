@@ -72,7 +72,7 @@ const isMatchingId = (task, taskId) => {
 };
 
 const deleteTask = taskId => {
-    const index = tasks.findIndex(task => isMatchingId(task, taskId));
+    const index = tasks.findIndex(task => task.id === taskId);
     if (index !== -1) {
         tasks.splice(index, 1);
         renderTasks();

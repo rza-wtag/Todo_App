@@ -13,7 +13,6 @@ const closeForm = () => {
     $taskForm.classList.remove("show");
 };
 
-
 const addTask = () => {
     let title = $taskTitle.value.trim();
     if (title === "") {
@@ -65,7 +64,6 @@ const createTaskCard = task => {
     return taskCard;
 };
 
-
 const renderTasks = () => {
     $taskList.innerHTML = "";
 
@@ -81,5 +79,5 @@ const showError = message => {
 };
 
 $btnCreate.addEventListener('click', openForm);
-$taskForm.querySelector('button:nth-child(2)').addEventListener('click', addTask);
-$taskForm.querySelector('button:nth-child(3)').addEventListener('click', closeForm);
+document.getElementById('btnAddTask').addEventListener('click', addTask);
+document.getElementById('btnCloseForm').addEventListener('click', closeForm);

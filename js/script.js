@@ -12,20 +12,8 @@ const closeForm = () => {
     $taskForm.classList.remove("show");
 };
 
-const sanitizeInput = (input) => {
-    const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;',
-        '/': '&#x2F;',
-        '`': '&#x60;',
-        '=': '&#x3D;'
-    };
-    return input.replace(/[&<>"'/`=]/g, function(match) {
-        return map[match];
-    });
+const stripSanitizedParts = (input) => {
+    return input.replace(/<[^>]*>/g, '');
 };
 
 const addTask = () => {
@@ -35,11 +23,11 @@ const addTask = () => {
         return;
     }
 
-    title = sanitizeInput(title);
+    const displayTitle = stripSanitizedParts(title);
 
     const newTask = {
         id: Date.now(), 
-        title: title,
+        title: displayTitle,
         createdAt: new Date().toLocaleDateString(),
         completed: false,
     };
@@ -55,7 +43,7 @@ const createTaskCard = task => {
     taskCard.className = "task-card";
 
     const titleElement = document.createElement("p");
-    titleElement.textContent = task.title;
+    titleElement.textContent = task.title; 
     taskCard.appendChild(titleElement);
 
     const createdAtElement = document.createElement("p");

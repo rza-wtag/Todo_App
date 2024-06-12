@@ -11,6 +11,13 @@ const closeForm = () => {
     $taskForm.classList.remove("show");
 };
 
+const formatDate = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear() % 100;
+    return `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year < 10 ? '0' : ''}${year}`;
+};
+
 const addTask = () => {
     const title = $taskTitle.value.trim();
     if (title === "") {
@@ -21,9 +28,9 @@ const addTask = () => {
     const taskTitle = stripSanitizedParts(title);
 
     const newTask = {
-        id: Date.now(), 
+        id: Date.now(),
         title: taskTitle,
-        createdAt: new Date().toLocaleDateString(),
+        createdAt: formatDate(new Date()),
     };
 
     tasks.unshift(newTask);

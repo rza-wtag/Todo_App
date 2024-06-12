@@ -1,8 +1,16 @@
-*{
+* {
+    background-color: rgb(254, 254, 254);
+    box-sizing: border-box;
     margin: 10px;
     padding: 0;
-    box-sizing: border-box;
-    background-color: rgb(254, 254, 254);
+}
+
+.btn-save {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
 }
 
 .error-message {
@@ -11,6 +19,23 @@
     margin-bottom: 10px;
 }
 
+input[type="text"] {
+    box-sizing: border-box;
+    margin: 5px 0;
+    padding: 5px;
+}
+
+.task-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.task-card {
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    padding: 10px;
+    position: relative;
+}
 
 .task-form {
     display: none;
@@ -20,33 +45,3 @@
 .task-form.show {
     display: flex;
 }
-
-.task-card {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin: 10px 0;
-    position: relative;
-}
-
-.task-actions {
-    display: flex;
-    gap: 5px;
-}
-
-.btn-save {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-
-
-input[type="text"] {
-    padding: 5px;
-    margin: 5px 0;
-    box-sizing: border-box;
-}
-
-

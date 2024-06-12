@@ -1,9 +1,7 @@
 import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js';
-import { stripSanitizedParts } from '../js/utils/utilities.js';
+import { stripSanitizedParts } from '../js/utils/stripSanitizedParts.js';
 
 let tasks = [];
-const $errorMessage = document.createElement("p");
-$errorMessage.className = "error-message";
 
 const openForm = () => {
     $taskForm.classList.add("show");
@@ -13,19 +11,27 @@ const closeForm = () => {
     $taskForm.classList.remove("show");
 };
 
+const formatDate = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear() % 100;
+    return `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year < 10 ? '0' : ''}${year}`;
+};
+
 const addTask = () => {
-    let title = $taskTitle.value.trim();
+    const title = $taskTitle.value.trim();
     if (title === "") {
         showError("Please enter a task title.");
         return;
     }
 
-    const displayTitle = stripSanitizedParts(title);
+    const taskTitle = stripSanitizedParts(title);
 
     const newTask = {
-        id: Date.now(), 
-        title: displayTitle,
-        createdAt: new Date().toLocaleDateString(),
+
+        id: Date.now(),
+        title: taskTitle,
+        createdAt: formatDate(new Date()),
     };
 
     tasks.unshift(newTask);
@@ -78,6 +84,8 @@ const renderTasks = () => {
 };
 
 const showError = message => {
+    const $errorMessage = document.createElement("p");
+    $errorMessage.className = "error-message";
     $errorMessage.textContent = message;
     $taskForm.insertBefore($errorMessage, $taskTitle);
 };

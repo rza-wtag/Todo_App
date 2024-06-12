@@ -1,5 +1,5 @@
 import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js';
-import { stripSanitizedParts } from '../js/utils/utilities.js';
+import { stripSanitizedParts } from '../js/utils/stripSanitizedParts.js';
 
 let tasks = [];
 
@@ -12,17 +12,17 @@ const closeForm = () => {
 };
 
 const addTask = () => {
-    let title = $taskTitle.value.trim();
+    const title = $taskTitle.value.trim();
     if (title === "") {
         showError("Please enter a task title.");
         return;
     }
 
-    const displayTitle = stripSanitizedParts(title);
+    const taskTitle = stripSanitizedParts(title);
 
     const newTask = {
         id: Date.now(), 
-        title: displayTitle,
+        title: taskTitle,
         createdAt: new Date().toLocaleDateString(),
     };
 

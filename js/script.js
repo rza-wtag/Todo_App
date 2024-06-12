@@ -2,8 +2,6 @@ import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js'
 import { stripSanitizedParts } from '../js/utils/utilities.js';
 
 let tasks = [];
-const $errorMessage = document.createElement("p");
-$errorMessage.className = "error-message";
 
 const openForm = () => {
     $taskForm.classList.add("show");
@@ -73,6 +71,8 @@ const renderTasks = () => {
 };
 
 const showError = message => {
+    const $errorMessage = document.createElement("p");
+    $errorMessage.className = "error-message";
     $errorMessage.textContent = message;
     $taskForm.insertBefore($errorMessage, $taskTitle);
 };

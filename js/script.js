@@ -1,9 +1,8 @@
 import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js';
+import { stripSanitizedParts } from '../js/utils/stripSanitizedParts.js';
 
 let tasks = [];
 let editingTaskId = null;
-const $errorMessage = document.createElement("p");
-$errorMessage.className = "error-message";
 
 const openForm = () => {
     $taskForm.classList.add("show");
@@ -11,27 +10,30 @@ const openForm = () => {
 
 const closeForm = () => {
     $taskForm.classList.remove("show");
-    $taskTitle.value = ""; 
-    editingTaskId = null; 
+    $taskTitle.value = "";
+    editingTaskId = null;
 };
 
-const stripSanitizedParts = (input) => {
-    return input.replace(/<[^>]*>/g, '');
+const formatDate = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear() % 100;
+    return `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year < 10 ? '0' : ''}${year}`;
 };
 
 const addTask = () => {
-    let title = $taskTitle.value.trim();
+    const title = $taskTitle.value.trim();
     if (title === "") {
         showError("Please enter a task title.");
         return;
     }
 
-    const displayTitle = stripSanitizedParts(title);
+    const taskTitle = stripSanitizedParts(title);
 
     if (editingTaskId !== null) {
         const editedTaskIndex = tasks.findIndex(task => task.id === editingTaskId);
         if (editedTaskIndex !== -1) {
-            tasks[editedTaskIndex].title = displayTitle;
+            tasks[editedTaskIndex].title = taskTitle;
             renderTasks();
             closeForm();
             return;
@@ -39,10 +41,9 @@ const addTask = () => {
     }
 
     const newTask = {
-        id: Date.now(), 
-        title: displayTitle,
-        createdAt: new Date().toLocaleDateString(),
-        completed: false,
+        id: Date.now(),
+        title: taskTitle,
+        createdAt: formatDate(new Date()),
     };
 
     tasks.unshift(newTask);
@@ -53,9 +54,9 @@ const addTask = () => {
 const editTask = taskId => {
     const taskToEdit = tasks.find(task => task.id === taskId);
     if (taskToEdit) {
-        $taskTitle.value = taskToEdit.title; 
-        editingTaskId = taskId; 
-        openForm(); 
+        $taskTitle.value = taskToEdit.title;
+        editingTaskId = taskId;
+        openForm();
     }
 };
 
@@ -92,11 +93,8 @@ const createTaskCard = task => {
 };
 
 const deleteTask = taskId => {
-    const index = tasks.findIndex(task => task.id === taskId);
-    if (index !== -1) {
-        tasks.splice(index, 1);
-        renderTasks();
-    }
+    tasks = tasks.filter(task => task.id !== taskId);
+    renderTasks();
 };
 
 const renderTasks = () => {
@@ -109,10 +107,12 @@ const renderTasks = () => {
 };
 
 const showError = message => {
+    const $errorMessage = document.createElement("p");
+    $errorMessage.className = "error-message";
     $errorMessage.textContent = message;
     $taskForm.insertBefore($errorMessage, $taskTitle);
 };
 
 $btnCreate.addEventListener('click', openForm);
-$taskForm.querySelector('button:nth-child(2)').addEventListener('click', addTask);
-$taskForm.querySelector('button:nth-child(3)').addEventListener('click', closeForm);
+document.getElementById('btnAddTask').addEventListener('click', addTask);
+document.getElementById('btnCloseForm').addEventListener('click', closeForm);

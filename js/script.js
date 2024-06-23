@@ -41,6 +41,7 @@ const addTask = () => {
         id: Date.now(),
         title: taskTitle,
         createdAt: formatDate(new Date()),
+        isCompleted: false,
         isBeingEdited: false
     };
 
@@ -80,6 +81,9 @@ const createTaskCard = task => {
     const taskCard = document.createElement("div");
     taskCard.className = "task-card";
     taskCard.setAttribute("data-id", task.id);
+    if (task.isCompleted) {
+        taskCard.classList.add('isCompleted');
+    }
 
     const titleElement = document.createElement("p");
     titleElement.textContent = task.title;
@@ -105,6 +109,21 @@ const createTaskCard = task => {
         deleteTask(task.id);
     });
     taskCard.appendChild(deleteButton);
+
+    const checkButton = document.createElement('button');
+    checkButton.className = 'btn-check';
+    checkButton.textContent = '✔️';
+    checkButton.addEventListener('click', () => {
+        task.isCompleted = !task.isCompleted;
+        taskCard.classList.toggle('isCompleted');
+        renderTasks();
+    });
+    taskCard.appendChild(checkButton);
+
+    const completedDiv = document.createElement("div");
+    completedDiv.textContent = "Completed";
+    completedDiv.style.display = task.isCompleted ? "block" : "none";
+    taskCard.appendChild(completedDiv);
 
     return taskCard;
 };

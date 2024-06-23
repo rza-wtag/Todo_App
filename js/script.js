@@ -5,8 +5,7 @@ import {
   $btnCreate,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
-import { formatDate } from "../js/helpers/formatDate.js"; // Import the formatDate function
-
+import { formatDate } from "../js/helpers/formatDate.js";
 let tasks = [];
 
 const openForm = () => {
@@ -30,7 +29,7 @@ const addTask = () => {
   const newTask = {
     id: Date.now(),
     title: taskTitle,
-    createdAt: formatDate(new Date()), // Use the imported formatDate function
+    createdAt: formatDate(new Date()), 
   };
 
   tasks.unshift(newTask);

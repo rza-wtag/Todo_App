@@ -1,5 +1,6 @@
 import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js';
 import { stripSanitizedParts } from '../js/utils/stripSanitizedParts.js';
+import { formatDate } from '../js/helpers/formatDate.js'; // Import the formatDate function
 
 let tasks = [];
 
@@ -9,13 +10,6 @@ const openForm = () => {
 
 const closeForm = () => {
     $taskForm.classList.remove("show");
-};
-
-const formatDate = (date) => {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear() % 100;
-    return `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year < 10 ? '0' : ''}${year}`;
 };
 
 const addTask = () => {
@@ -31,7 +25,7 @@ const addTask = () => {
     const newTask = {
         id: Date.now(),
         title: taskTitle,
-        createdAt: formatDate(new Date()),
+        createdAt: formatDate(new Date()), // Use the imported formatDate function
     };
 
     tasks.unshift(newTask);
@@ -88,3 +82,5 @@ const showError = message => {
 $btnCreate.addEventListener('click', openForm);
 document.getElementById('btnAddTask').addEventListener('click', addTask);
 document.getElementById('btnCloseForm').addEventListener('click', closeForm);
+
+

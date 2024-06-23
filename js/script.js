@@ -79,6 +79,7 @@ const showError = message => {
     $taskForm.insertBefore($errorMessage, $taskTitle);
 };
 
+
 $btnCreate.addEventListener('click', openForm);
 document.getElementById('btnAddTask').addEventListener('click', addTask);
 document.getElementById('btnCloseForm').addEventListener('click', closeForm);

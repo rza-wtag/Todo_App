@@ -2,7 +2,6 @@ import { $taskForm, $taskTitle, $taskList, $btnCreate } from '../js/elements.js'
 import { stripSanitizedParts } from '../js/utils/stripSanitizedParts.js';
 
 let tasks = [];
-let editingTaskId = null;
 
 const openForm = () => {
     $taskForm.classList.add("show");
@@ -11,7 +10,6 @@ const openForm = () => {
 const closeForm = () => {
     $taskForm.classList.remove("show");
     $taskTitle.value = "";
-    editingTaskId = null;
 };
 
 const formatDate = (date) => {
@@ -30,20 +28,20 @@ const addTask = () => {
 
     const taskTitle = stripSanitizedParts(title);
 
-    if (editingTaskId !== null) {
-        const editedTaskIndex = tasks.findIndex(task => task.id === editingTaskId);
-        if (editedTaskIndex !== -1) {
-            tasks[editedTaskIndex].title = taskTitle;
-            renderTasks();
-            closeForm();
-            return;
-        }
+    const editedTaskIndex = tasks.findIndex(task => task.isBeingEdited === true);
+    if (editedTaskIndex !== -1) {
+        tasks[editedTaskIndex].title = taskTitle;
+        tasks[editedTaskIndex].isBeingEdited = false;
+        renderTasks();
+        closeForm();
+        return;
     }
 
     const newTask = {
         id: Date.now(),
         title: taskTitle,
         createdAt: formatDate(new Date()),
+        isBeingEdited: false
     };
 
     tasks.unshift(newTask);
@@ -54,15 +52,34 @@ const addTask = () => {
 const editTask = taskId => {
     const taskToEdit = tasks.find(task => task.id === taskId);
     if (taskToEdit) {
-        $taskTitle.value = taskToEdit.title;
-        editingTaskId = taskId;
-        openForm();
+        taskToEdit.isBeingEdited = true;
+        const taskCard = document.querySelector(`.task-card[data-id="${taskId}"]`);
+        const $taskTitle = taskCard.querySelector('p');
+        const $editInput = document.createElement('input');
+        $editInput.type = 'text';
+        $editInput.value = taskToEdit.title;
+        const $saveButton = document.createElement('button');
+        $saveButton.textContent = 'Save';
+        
+        $saveButton.addEventListener('click', () => {
+            const newTaskTitle = $editInput.value.trim();
+            if (newTaskTitle) {
+                taskToEdit.title = newTaskTitle;
+                $taskTitle.textContent = newTaskTitle;
+                taskToEdit.isBeingEdited = false;
+                renderTasks();
+            }
+        });
+
+        taskCard.replaceChild($editInput, $taskTitle);
+        taskCard.querySelector('.btn-edit').replaceWith($saveButton);
     }
 };
 
 const createTaskCard = task => {
     const taskCard = document.createElement("div");
     taskCard.className = "task-card";
+    taskCard.setAttribute("data-id", task.id);
 
     const titleElement = document.createElement("p");
     titleElement.textContent = task.title;

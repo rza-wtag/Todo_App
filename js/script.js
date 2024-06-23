@@ -20,6 +20,7 @@ const formatDate = (date) => {
 
 const addTask = () => {
     const title = $taskTitle.value.trim();
+    
     if (title === "") {
         showError("Please enter a task title.");
         return;

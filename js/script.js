@@ -124,7 +124,6 @@ const createTaskCard = task => {
     completedDiv.textContent = "Completed";
     completedDiv.style.display = task.isCompleted ? "block" : "none";
     taskCard.appendChild(completedDiv);
-
     return taskCard;
 };
 

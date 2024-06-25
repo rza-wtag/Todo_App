@@ -51,7 +51,6 @@ const addTask = () => {
 const createTaskCard = (task) => {
   const taskCard = document.createElement("div");
   taskCard.className = "task-card";
-  taskCard.setAttribute("data-id", task.id);
 
   const titleElement = document.createElement("p");
   titleElement.textContent = task.title;

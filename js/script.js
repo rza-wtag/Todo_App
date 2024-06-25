@@ -4,6 +4,9 @@ import {
   $taskList,
   $btnCreate,
   $searchInput,
+  $filterAll,
+  $filterComplete,
+  $filterIncomplete,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
@@ -114,16 +117,23 @@ const editTask = (taskId) => {
   }
 };
 
-const renderTasks = () => {
+const renderTasks = (filter = "all") => {
   const searchText = $searchInput.value.toLowerCase();
   $taskList.innerHTML = "";
 
-  tasks
-    .filter((task) => task.title.toLowerCase().includes(searchText))
-    .forEach((task) => {
-      const taskCard = createTaskCard(task);
-      $taskList.appendChild(taskCard);
-    });
+  const filteredTasks = tasks.filter((task) => {
+    const matchesSearch = task.title.toLowerCase().includes(searchText);
+    const matchesFilter =
+      filter === "all" ||
+      (filter === "complete" && task.isCompleted) ||
+      (filter === "incomplete" && !task.isCompleted);
+    return matchesSearch && matchesFilter;
+  });
+
+  filteredTasks.forEach((task) => {
+    const taskCard = createTaskCard(task);
+    $taskList.appendChild(taskCard);
+  });
 };
 
 const showError = (message) => {
@@ -133,7 +143,10 @@ const showError = (message) => {
   $taskForm.insertBefore($errorMessage, $taskTitle);
 };
 
-$searchInput.addEventListener("input", renderTasks);
+$searchInput.addEventListener("input", () => renderTasks());
+$filterAll.addEventListener("click", () => renderTasks("all"));
+$filterComplete.addEventListener("click", () => renderTasks("complete"));
+$filterIncomplete.addEventListener("click", () => renderTasks("incomplete"));
 $btnCreate.addEventListener("click", openForm);
 document.getElementById("btnAddTask").addEventListener("click", addTask);
 document.getElementById("btnCloseForm").addEventListener("click", closeForm);

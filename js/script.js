@@ -67,6 +67,11 @@ const createTaskCard = (task) => {
   return taskCard;
 };
 
+const deleteTask = (taskId) => {
+  tasks = tasks.filter((task) => task.id !== taskId);
+  renderTasks();
+};
+
 const renderTasks = () => {
   $taskList.innerHTML = "";
 

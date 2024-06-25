@@ -31,7 +31,6 @@ const addTask = () => {
   const editedTaskIndex = tasks.findIndex((task) => task.isBeingEdited);
   if (editedTaskIndex !== -1) {
     tasks[editedTaskIndex].title = taskTitle;
-    tasks[editedTaskIndex].createdAt = formatDate(new Date());
     tasks[editedTaskIndex].isBeingEdited = false;
   } else {
     const newTask = {

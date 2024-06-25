@@ -29,7 +29,7 @@ const addTask = () => {
   const newTask = {
     id: Date.now(),
     title: taskTitle,
-    createdAt: formatDate(new Date()), 
+    createdAt: formatDate(new Date()),
   };
 
   tasks.unshift(newTask);

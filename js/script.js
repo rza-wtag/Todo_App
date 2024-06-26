@@ -16,6 +16,7 @@ import { formatDate } from "../js/helpers/formatDate.js";
 let tasks = [];
 let page_current = 1;
 const page_load = 9;
+let currentFilter = "all";
 
 const openForm = () => {
   $taskForm.classList.add("show");
@@ -52,7 +53,7 @@ const addTask = () => {
     tasks.unshift(newTask);
   }
 
-  renderTasks();
+  renderTasks(currentFilter);
   $taskTitle.value = "";
   closeForm();
 };
@@ -95,7 +96,7 @@ const createTaskCard = (task) => {
   checkButton.addEventListener("click", () => {
     task.isCompleted = !task.isCompleted;
     taskCard.classList.toggle("isCompleted");
-    renderTasks();
+    renderTasks(currentFilter);
   });
   taskCard.appendChild(checkButton);
 
@@ -109,7 +110,7 @@ const createTaskCard = (task) => {
 
 const deleteTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== taskId);
-  renderTasks();
+  renderTasks(currentFilter);
 };
 
 const editTask = (taskId) => {
@@ -122,23 +123,18 @@ const editTask = (taskId) => {
 };
 
 const renderTasks = (filter = "all", append = false) => {
+  currentFilter = filter;
   const searchText = $searchInput.value.toLowerCase();
-  let filteredTasks = tasks;
+  let filteredTasks = tasks.filter((task) => {
+    const matchesSearch = task.title.toLowerCase().includes(searchText);
+    const matchesFilter =
+      filter === "all" ||
+      (filter === "complete" && task.isCompleted) ||
+      (filter === "incomplete" && !task.isCompleted);
+    return matchesSearch && matchesFilter;
+  });
 
-  if (searchText) {
-    filteredTasks = tasks.filter((task) => {
-      const matchesSearch = task.title.toLowerCase().includes(searchText);
-      return matchesSearch;
-    });
-  } else {
-    filteredTasks = tasks.filter((task) => {
-      const matchesFilter =
-        filter === "all" ||
-        (filter === "complete" && task.isCompleted) ||
-        (filter === "incomplete" && !task.isCompleted);
-      return matchesFilter;
-    });
-  }
+  console.log(currentFilter);
 
   if (!append) {
     $taskList.innerHTML = "";
@@ -182,10 +178,10 @@ const showError = (message) => {
 
 const handlePagination = () => {
   page_current++;
-  renderTasks("all", true);
+  renderTasks(currentFilter, true);
 };
 
-$searchInput.addEventListener("input", () => renderTasks());
+$searchInput.addEventListener("input", () => renderTasks(currentFilter));
 $filterAll.addEventListener("click", () => renderTasks("all"));
 $filterComplete.addEventListener("click", () => renderTasks("complete"));
 $filterIncomplete.addEventListener("click", () => renderTasks("incomplete"));
@@ -193,7 +189,7 @@ $btnCreate.addEventListener("click", openForm);
 $btnLoadMore.addEventListener("click", handlePagination);
 $btnShowLess.addEventListener("click", () => {
   page_current = 1;
-  renderTasks();
+  renderTasks(currentFilter);
 });
 document.getElementById("btnAddTask").addEventListener("click", addTask);
 document.getElementById("btnCloseForm").addEventListener("click", closeForm);

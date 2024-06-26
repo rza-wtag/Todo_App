@@ -123,19 +123,27 @@ const editTask = (taskId) => {
 
 const renderTasks = (filter = "all", append = false) => {
   const searchText = $searchInput.value.toLowerCase();
+  let filteredTasks = tasks;
+
+  if (searchText) {
+    filteredTasks = tasks.filter((task) => {
+      const matchesSearch = task.title.toLowerCase().includes(searchText);
+      return matchesSearch;
+    });
+  } else {
+    filteredTasks = tasks.filter((task) => {
+      const matchesFilter =
+        filter === "all" ||
+        (filter === "complete" && task.isCompleted) ||
+        (filter === "incomplete" && !task.isCompleted);
+      return matchesFilter;
+    });
+  }
+
   if (!append) {
     $taskList.innerHTML = "";
     page_current = 1;
   }
-
-  const filteredTasks = tasks.filter((task) => {
-    const matchesSearch = task.title.toLowerCase().includes(searchText);
-    const matchesFilter =
-      filter === "all" ||
-      (filter === "complete" && task.isCompleted) ||
-      (filter === "incomplete" && !task.isCompleted);
-    return matchesSearch && matchesFilter;
-  });
 
   const startIndex = (page_current - 1) * page_load;
   const paginatedTasks = filteredTasks.slice(
@@ -152,8 +160,6 @@ const renderTasks = (filter = "all", append = false) => {
 };
 
 const updatePaginationButtons = (totalTasks) => {
-  const totalPages = Math.ceil(totalTasks / page_load);
-
   if (page_current * page_load >= totalTasks) {
     $btnLoadMore.style.display = "none";
   } else {

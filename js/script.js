@@ -7,11 +7,15 @@ import {
   $filterAll,
   $filterComplete,
   $filterIncomplete,
+  $btnLoadMore,
+  $btnShowLess,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
 
 let tasks = [];
+let page_current = 1;
+const page_load = 9;
 
 const openForm = () => {
   $taskForm.classList.add("show");
@@ -117,9 +121,12 @@ const editTask = (taskId) => {
   }
 };
 
-const renderTasks = (filter = "all") => {
+const renderTasks = (filter = "all", append = false) => {
   const searchText = $searchInput.value.toLowerCase();
-  $taskList.innerHTML = "";
+  if (!append) {
+    $taskList.innerHTML = "";
+    page_current = 1;
+  }
 
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch = task.title.toLowerCase().includes(searchText);
@@ -130,10 +137,34 @@ const renderTasks = (filter = "all") => {
     return matchesSearch && matchesFilter;
   });
 
-  filteredTasks.forEach((task) => {
+  const startIndex = (page_current - 1) * page_load;
+  const paginatedTasks = filteredTasks.slice(
+    startIndex,
+    startIndex + page_load
+  );
+
+  paginatedTasks.forEach((task) => {
     const taskCard = createTaskCard(task);
     $taskList.appendChild(taskCard);
   });
+
+  updatePaginationButtons(filteredTasks.length);
+};
+
+const updatePaginationButtons = (totalTasks) => {
+  const totalPages = Math.ceil(totalTasks / page_load);
+
+  if (page_current * page_load >= totalTasks) {
+    $btnLoadMore.style.display = "none";
+  } else {
+    $btnLoadMore.style.display = "block";
+  }
+
+  if (page_current > 1) {
+    $btnShowLess.style.display = "block";
+  } else {
+    $btnShowLess.style.display = "none";
+  }
 };
 
 const showError = (message) => {
@@ -143,10 +174,20 @@ const showError = (message) => {
   $taskForm.insertBefore($errorMessage, $taskTitle);
 };
 
+const handlePagination = () => {
+  page_current++;
+  renderTasks("all", true);
+};
+
 $searchInput.addEventListener("input", () => renderTasks());
 $filterAll.addEventListener("click", () => renderTasks("all"));
 $filterComplete.addEventListener("click", () => renderTasks("complete"));
 $filterIncomplete.addEventListener("click", () => renderTasks("incomplete"));
 $btnCreate.addEventListener("click", openForm);
+$btnLoadMore.addEventListener("click", handlePagination);
+$btnShowLess.addEventListener("click", () => {
+  page_current = 1;
+  renderTasks();
+});
 document.getElementById("btnAddTask").addEventListener("click", addTask);
 document.getElementById("btnCloseForm").addEventListener("click", closeForm);

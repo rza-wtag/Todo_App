@@ -6,3 +6,5 @@ export const $searchInput = document.getElementById("searchInput");
 export const $filterAll = document.getElementById("filterAll");
 export const $filterComplete = document.getElementById("filterComplete");
 export const $filterIncomplete = document.getElementById("filterIncomplete");
+export const $btnLoadMore = document.getElementById("btnLoadMore");
+export const $btnShowLess = document.getElementById("btnShowLess");

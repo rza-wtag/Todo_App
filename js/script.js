@@ -107,6 +107,9 @@ const createTaskCard = (task) => {
     const actionsContainer = document.createElement("div");
     actionsContainer.className = "task-actions";
 
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.className = "task-buttons";
+
     const checkButton = document.createElement("button");
     checkButton.className = "btn-check";
     checkButton.innerHTML = "&#x2714;";
@@ -115,7 +118,7 @@ const createTaskCard = (task) => {
       taskCard.classList.toggle("isCompleted");
       renderTasks(currentFilter);
     });
-    actionsContainer.appendChild(checkButton);
+    buttonsContainer.appendChild(checkButton);
 
     const editButton = document.createElement("button");
     editButton.className = "btn-edit";
@@ -124,7 +127,7 @@ const createTaskCard = (task) => {
       task.isBeingEdited = true;
       renderTasks(currentFilter);
     });
-    actionsContainer.appendChild(editButton);
+    buttonsContainer.appendChild(editButton);
 
     const deleteButton = document.createElement("button");
     deleteButton.className = "btn-delete";
@@ -132,15 +135,18 @@ const createTaskCard = (task) => {
     deleteButton.addEventListener("click", () => {
       deleteTask(task.id);
     });
-    actionsContainer.appendChild(deleteButton);
+    buttonsContainer.appendChild(deleteButton);
 
-    taskCard.appendChild(actionsContainer);
+    actionsContainer.appendChild(buttonsContainer);
+
     if (task.isCompleted) {
       const completedTag = document.createElement("div");
       completedTag.className = "completed-tag";
       completedTag.textContent = "Completed in 3 days";
-      taskCard.appendChild(completedTag);
+      actionsContainer.appendChild(completedTag);
     }
+
+    taskCard.appendChild(actionsContainer);
   }
 
   return taskCard;

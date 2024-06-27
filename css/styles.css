@@ -116,6 +116,8 @@ header {
   padding: 20px;
   position: relative;
   transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
 .task-card p {
@@ -135,6 +137,18 @@ header {
   justify-content: flex-start;
   gap: 10px;
   margin-top: 15px;
+}
+
+.task-card .task-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.task-card .task-buttons {
+  display: flex;
+  gap: 10px;
 }
 
 .task-card .task-actions button,
@@ -182,19 +196,6 @@ header {
   transition: background-color 0.3s;
 }
 
-.task-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.task-card .task-actions {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-}
-
 .task-card .edit-actions .btn-save:hover {
   background-color: #357ab7;
 }
@@ -222,7 +223,6 @@ header {
 }
 
 .completed-tag {
-  align-self: flex-end;
   padding: 5px 10px;
   background-color: #7a8dfd;
   color: #fff;
@@ -235,7 +235,7 @@ header {
 #btnShowLess {
   display: block;
   margin: 20px auto;
-  background-color: #4a90e2;
+  background-color: #32394b;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -262,8 +262,8 @@ header {
 }
 
 .filter-tasks button.active {
-  background-color: #4a90e2;
-  color: #fff;
+  background-color: #021d3c;
+  color: #f8f8f8;
 }
 
 #filterAll.active,

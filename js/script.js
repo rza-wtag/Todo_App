@@ -138,7 +138,7 @@ const createTaskCard = (task) => {
     if (task.isCompleted) {
       const completedTag = document.createElement("div");
       completedTag.className = "completed-tag";
-      completedTag.textContent = "Completed";
+      completedTag.textContent = "Completed in 3 days";
       taskCard.appendChild(completedTag);
     }
   }

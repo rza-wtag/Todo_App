@@ -135,6 +135,12 @@ const createTaskCard = (task) => {
     actionsContainer.appendChild(deleteButton);
 
     taskCard.appendChild(actionsContainer);
+    if (task.isCompleted) {
+      const completedTag = document.createElement("div");
+      completedTag.className = "completed-tag";
+      completedTag.textContent = "Completed";
+      taskCard.appendChild(completedTag);
+    }
   }
 
   return taskCard;

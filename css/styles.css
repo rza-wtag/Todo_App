@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: Roboto, sans-serif;
   background-color: #f4f4f9;
   color: #333;
   margin: 0;
@@ -16,12 +16,19 @@ header {
   background-color: #f4f4f9;
 }
 
+.title {
+  color: #32394b;
+  font-size: 30px;
+  font-weight: bold;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid #e3e3e3;
+  height: 72px;
+  border-bottom: 1px solid #dde2ff;
 }
 
 .navbar .logo {
@@ -31,8 +38,9 @@ header {
 
 .navbar .logo h1 {
   margin: 0;
-  color: #4a90e2;
-  font-size: 1.5em;
+  color: #7a8dfd;
+  font-size: 36px;
+  font-family: Roboto, sans-serif;
 }
 
 .navbar .search-container {
@@ -55,10 +63,10 @@ header {
 
 .add-task button,
 .filter-tasks button {
-  background-color: #4a90e2;
+  background-color: #7a8dfd;
+  font-size: 16px;
   color: #fff;
   border: none;
-  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -161,11 +169,11 @@ header {
 }
 
 .task-card .task-actions .btn-check {
-  color: #28a745;
+  color: #0bc375;
 }
 
 .task-card .task-actions .btn-check:hover {
-  color: #218838;
+  color: #0bc375;
 }
 
 .task-card .task-actions .btn-edit {

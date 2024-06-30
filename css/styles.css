@@ -7,9 +7,9 @@ body {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1310px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 5px;
 }
 
 header {
@@ -44,21 +44,24 @@ header {
 }
 
 .navbar .search-container {
+  display: flex;
+  align-items: center;
   margin-left: auto;
 }
 
-.navbar .search-container input {
+.search-container input {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   width: 200px;
+  display: none; /* Hide by default */
 }
 
 .add-task-filter {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px 0;
+  margin: 40px 0;
 }
 
 .add-task button,
@@ -72,25 +75,21 @@ header {
   transition: background-color 0.3s;
 }
 
+.filter-tasks button {
+  margin-left: 10px;
+}
+
+#filterComplete {
+  width: 104px;
+}
+
+#filterIncomplete {
+  width: 111px;
+}
+
 .add-task button:hover,
 .filter-tasks button:hover {
   background-color: #357ab7;
-}
-
-.task-completed p {
-  text-decoration: line-through;
-}
-
-.task-completed .btn-edit {
-  display: none;
-}
-
-.task-completed .btn-check {
-  display: none;
-}
-
-.completed-tag.hidden {
-  display: none;
 }
 
 .task-form {
@@ -133,30 +132,40 @@ header {
 }
 
 .task-card {
-  background-color: #fff;
-  border: 1px solid #e3e3e3;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 382px;
+  height: 163px;
+  gap: 0px;
+  border-radius: 5px;
+  border: 1px solid #dde2ff;
+  opacity: 1;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
   position: relative;
   transition: all 0.3s;
-  display: flex;
-  flex-direction: column;
-  height: 163px;
-  width: 382px;
 }
 
 .task-card p {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 28.13px;
+  text-align: left;
+  color: #32394b;
+  margin: 0 0 10px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .task-card .created-at {
-  color: #bbbdd0;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 700;
+  line-height: 16.41px;
+  text-align: left;
+  color: #bbbdd0;
   margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .task-card .edit-actions {
@@ -214,8 +223,7 @@ header {
 }
 
 .task-card .edit-actions .btn-save {
-  background-color: #4a90e2;
-  color: #fff;
+  color: #32394b;
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
@@ -277,15 +285,21 @@ header {
 }
 
 .add-task button {
-  background-color: #5865f2;
-  padding: 15px 25px;
-  font-size: 1.1em;
+  width: 104px;
+  height: 36px;
+  font-size: 16px;
 }
 
 .filter-tasks button {
-  background-color: #fff;
-  color: #000103;
+  background-color: #dde2ff;
+  width: 48px;
+  height: 36px;
+  color: #020203;
   border: 1px solid #e9ebee;
+}
+
+.filter-tasks #filterButton {
+  width: 100px;
 }
 
 .filter-tasks button.active {

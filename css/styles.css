@@ -36,6 +36,22 @@ input[type="text"] {
   position: relative;
 }
 
+.task-completed p {
+  text-decoration: line-through;
+}
+
+.task-completed .btn-edit {
+  display: none;
+}
+
+.task-completed .btn-check {
+  display: none;
+}
+
+.completed-tag.hidden {
+  display: none;
+}
+
 .task-form {
   display: none;
   flex-direction: column;

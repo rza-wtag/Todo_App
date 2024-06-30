@@ -32,6 +32,7 @@ const addTask = () => {
     id: Date.now(),
     title: taskTitle,
     createdAt: formatDate(new Date()),
+    isCompleted: false,
     isBeingEdited: false,
   };
   tasks.unshift(newTask);
@@ -67,6 +68,9 @@ const saveTask = () => {
 const createTaskCard = (task) => {
   const taskCard = document.createElement("div");
   taskCard.className = "task-card";
+  if (task.isCompleted) {
+    taskCard.classList.add("task-completed");
+  }
 
   if (task.isBeingEdited) {
     const inputElement = document.createElement("input");
@@ -121,6 +125,17 @@ const createTaskCard = (task) => {
       deleteTask(task.id);
     });
     taskCard.appendChild(deleteButton);
+  }
+
+  if (!task.isCompleted) {
+    const checkButton = document.createElement("button");
+    checkButton.className = "btn-check";
+    checkButton.textContent = "✔️";
+    checkButton.addEventListener("click", () => {
+      task.isCompleted = true;
+      renderTasks();
+    });
+    taskCard.appendChild(checkButton);
   }
 
   return taskCard;

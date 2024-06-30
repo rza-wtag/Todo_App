@@ -57,7 +57,7 @@ const createTaskCard = (task) => {
   const taskCard = document.createElement("div");
   taskCard.className = "task-card";
   if (task.isCompleted) {
-    taskCard.classList.add("isCompleted");
+    taskCard.classList.add("task-completed");
   }
 
   const titleElement = document.createElement("p");
@@ -90,14 +90,17 @@ const createTaskCard = (task) => {
   checkButton.textContent = "✔️";
   checkButton.addEventListener("click", () => {
     task.isCompleted = !task.isCompleted;
-    taskCard.classList.toggle("isCompleted");
+    taskCard.classList.toggle("task-completed");
     renderTasks();
   });
   taskCard.appendChild(checkButton);
 
   const completedDiv = document.createElement("div");
   completedDiv.textContent = "Completed";
-  completedDiv.style.display = task.isCompleted ? "block" : "none";
+  completedDiv.className = "completed-tag";
+  if (!task.isCompleted) {
+    completedDiv.classList.add("hidden");
+  }
   taskCard.appendChild(completedDiv);
 
   return taskCard;

@@ -92,7 +92,10 @@ const createTaskCard = (task) => {
 
   const completedDiv = document.createElement("div");
   completedDiv.textContent = "Completed";
-  completedDiv.style.display = task.isCompleted ? "block" : "none";
+  completedDiv.className = "completed-tag";
+  if (!task.isCompleted) {
+    completedDiv.classList.add("hidden");
+  }
   taskCard.appendChild(completedDiv);
 
   return taskCard;

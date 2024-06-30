@@ -45,3 +45,15 @@ input[type="text"] {
 .task-form.show {
   display: flex;
 }
+
+.task-completed .completed-tag {
+  display: block;
+}
+
+.completed-tag {
+  display: none;
+  padding: 5px 10px;
+  color: #000000;
+  border-radius: 5px;
+  font-size: 0.9em;
+}

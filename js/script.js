@@ -28,19 +28,13 @@ const addTask = () => {
 
   const taskTitle = stripSanitizedParts(title);
 
-  const editedTaskIndex = tasks.findIndex((task) => task.isBeingEdited);
-  if (editedTaskIndex !== -1) {
-    tasks[editedTaskIndex].title = taskTitle;
-    tasks[editedTaskIndex].isBeingEdited = false;
-  } else {
-    const newTask = {
-      id: Date.now(),
-      title: taskTitle,
-      createdAt: formatDate(new Date()),
-      isBeingEdited: false,
-    };
-    tasks.unshift(newTask);
-  }
+  const newTask = {
+    id: Date.now(),
+    title: taskTitle,
+    createdAt: formatDate(new Date()),
+    isBeingEdited: false,
+  };
+  tasks.unshift(newTask);
 
   renderTasks();
   $taskTitle.value = "";
@@ -53,6 +47,21 @@ const updateTask = (taskId, newTitle) => {
     tasks[taskIndex].title = newTitle;
     tasks[taskIndex].isBeingEdited = false;
   }
+};
+
+const saveTask = () => {
+  const title = $taskTitle.value.trim();
+  const editedTaskIndex = tasks.findIndex((task) => task.isBeingEdited);
+
+  if (editedTaskIndex !== -1) {
+    updateTask(tasks[editedTaskIndex].id, title);
+  } else {
+    addTask();
+  }
+
+  renderTasks();
+  $taskTitle.value = "";
+  closeForm();
 };
 
 const createTaskCard = (task) => {
@@ -147,5 +156,5 @@ const showError = (message) => {
 };
 
 $btnCreate.addEventListener("click", openForm);
-document.getElementById("btnAddTask").addEventListener("click", addTask);
+document.getElementById("btnAddTask").addEventListener("click", saveTask);
 document.getElementById("btnCloseForm").addEventListener("click", closeForm);

@@ -47,34 +47,72 @@ const addTask = () => {
   closeForm();
 };
 
+const updateTask = (taskId, newTitle) => {
+  const taskIndex = tasks.findIndex((task) => task.id === taskId);
+  if (taskIndex !== -1) {
+    tasks[taskIndex].title = newTitle;
+    tasks[taskIndex].isBeingEdited = false;
+  }
+};
+
 const createTaskCard = (task) => {
   const taskCard = document.createElement("div");
   taskCard.className = "task-card";
 
-  const titleElement = document.createElement("p");
-  titleElement.textContent = task.title;
-  taskCard.appendChild(titleElement);
+  if (task.isBeingEdited) {
+    const inputElement = document.createElement("input");
+    inputElement.type = "text";
+    inputElement.value = task.title;
+    inputElement.className = "edit-input";
+    taskCard.appendChild(inputElement);
 
-  const createdAtElement = document.createElement("p");
-  createdAtElement.className = "created-at";
-  createdAtElement.textContent = `Created At: ${task.createdAt}`;
-  taskCard.appendChild(createdAtElement);
+    const actionsContainer = document.createElement("div");
+    actionsContainer.className = "edit-actions";
 
-  const editButton = document.createElement("button");
-  editButton.className = "btn-edit";
-  editButton.textContent = "Edit";
-  editButton.addEventListener("click", () => {
-    editTask(task.id);
-  });
-  taskCard.appendChild(editButton);
+    const saveButton = document.createElement("button");
+    saveButton.className = "btn-save";
+    saveButton.textContent = "Save";
+    saveButton.addEventListener("click", () => {
+      updateTask(task.id, inputElement.value);
+      renderTasks();
+    });
+    actionsContainer.appendChild(saveButton);
 
-  const deleteButton = document.createElement("button");
-  deleteButton.className = "btn-delete";
-  deleteButton.textContent = "Delete";
-  deleteButton.addEventListener("click", () => {
-    deleteTask(task.id);
-  });
-  taskCard.appendChild(deleteButton);
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn-delete";
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => {
+      deleteTask(task.id);
+    });
+    actionsContainer.appendChild(deleteButton);
+
+    taskCard.appendChild(actionsContainer);
+  } else {
+    const titleElement = document.createElement("p");
+    titleElement.textContent = task.title;
+    taskCard.appendChild(titleElement);
+
+    const createdAtElement = document.createElement("p");
+    createdAtElement.className = "created-at";
+    createdAtElement.textContent = `Created At: ${task.createdAt}`;
+    taskCard.appendChild(createdAtElement);
+
+    const editButton = document.createElement("button");
+    editButton.className = "btn-edit";
+    editButton.textContent = "Edit";
+    editButton.addEventListener("click", () => {
+      editTask(task.id);
+    });
+    taskCard.appendChild(editButton);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn-delete";
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => {
+      deleteTask(task.id);
+    });
+    taskCard.appendChild(deleteButton);
+  }
 
   return taskCard;
 };
@@ -87,9 +125,8 @@ const deleteTask = (taskId) => {
 const editTask = (taskId) => {
   const taskToEdit = tasks.find((task) => task.id === taskId);
   if (taskToEdit) {
-    $taskTitle.value = taskToEdit.title;
     taskToEdit.isBeingEdited = true;
-    openForm();
+    renderTasks();
   }
 };
 

@@ -12,6 +12,7 @@ import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
 
 let tasks = [];
+let currentFilter = "all";
 
 const openForm = () => {
   $taskForm.classList.add("show");
@@ -124,11 +125,8 @@ const editTask = (taskId) => {
   }
 };
 
-const renderTasks = (filter = "all") => {
-  const searchText = $searchInput.value.toLowerCase();
-  $taskList.innerHTML = "";
-
-  const filteredTasks = tasks.filter((task) => {
+const filterTasks = (searchText, filter) => {
+  return tasks.filter((task) => {
     const matchesSearch = task.title.toLowerCase().includes(searchText);
     const matchesFilter =
       filter === "all" ||
@@ -136,6 +134,13 @@ const renderTasks = (filter = "all") => {
       (filter === "incomplete" && !task.isCompleted);
     return matchesSearch && matchesFilter;
   });
+};
+
+const renderTasks = (filter = currentFilter) => {
+  const searchText = $searchInput.value.toLowerCase();
+  $taskList.innerHTML = "";
+
+  const filteredTasks = filterTasks(searchText, filter);
 
   filteredTasks.forEach((task) => {
     const taskCard = createTaskCard(task);
@@ -151,9 +156,18 @@ const showError = (message) => {
 };
 
 $searchInput.addEventListener("input", () => renderTasks());
-$filterAll.addEventListener("click", () => renderTasks("all"));
-$filterComplete.addEventListener("click", () => renderTasks("complete"));
-$filterIncomplete.addEventListener("click", () => renderTasks("incomplete"));
+$filterAll.addEventListener("click", () => {
+  currentFilter = "all";
+  renderTasks("all");
+});
+$filterComplete.addEventListener("click", () => {
+  currentFilter = "complete";
+  renderTasks("complete");
+});
+$filterIncomplete.addEventListener("click", () => {
+  currentFilter = "incomplete";
+  renderTasks("incomplete");
+});
 $btnCreate.addEventListener("click", openForm);
 document.getElementById("btnAddTask").addEventListener("click", addTask);
 document.getElementById("btnCloseForm").addEventListener("click", closeForm);

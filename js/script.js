@@ -61,7 +61,7 @@ const createTaskCard = (task) => {
   titleElement.textContent = task.title;
   taskCard.appendChild(titleElement);
 
-  const createdAtElement = document.createElement("p");
+  const createdAtElement = document.createElement("div");
   createdAtElement.className = "created-at";
   createdAtElement.textContent = `Created At: ${task.createdAt}`;
   taskCard.appendChild(createdAtElement);
@@ -98,7 +98,6 @@ const createTaskCard = (task) => {
   }
 
   const completedDiv = document.createElement("div");
-  completedDiv.textContent = "Completed";
   completedDiv.className = "completed-tag";
   if (!task.isCompleted) {
     completedDiv.classList.add("hidden");

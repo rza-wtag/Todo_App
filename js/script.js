@@ -80,6 +80,9 @@ const createTaskCard = (task) => {
   editButton.addEventListener("click", () => {
     editTask(task.id);
   });
+  if (task.isCompleted) {
+    editButton.classList.add("hidden");
+  }
   taskCard.appendChild(editButton);
 
   const deleteButton = document.createElement("button");
@@ -90,18 +93,19 @@ const createTaskCard = (task) => {
   });
   taskCard.appendChild(deleteButton);
 
-  const checkButton = document.createElement("button");
-  checkButton.className = "btn-check";
-  checkButton.textContent = "✔️";
-  checkButton.addEventListener("click", () => {
-    task.isCompleted = !task.isCompleted;
-    taskCard.classList.toggle("task-completed");
-    renderTasks();
-  });
-  taskCard.appendChild(checkButton);
+  if (!task.isCompleted) {
+    const checkButton = document.createElement("button");
+    checkButton.className = "btn-check";
+    checkButton.textContent = "✔️";
+    checkButton.addEventListener("click", () => {
+      task.isCompleted = true;
+      taskCard.classList.add("task-completed");
+      renderTasks();
+    });
+    taskCard.appendChild(checkButton);
+  }
 
   const completedDiv = document.createElement("div");
-  completedDiv.textContent = "Completed";
   completedDiv.className = "completed-tag";
   if (!task.isCompleted) {
     completedDiv.classList.add("hidden");
@@ -125,10 +129,8 @@ const editTask = (taskId) => {
   }
 };
 
-const renderTasks = (filter = "all", append = false) => {
-  currentFilter = filter;
-  const searchText = $searchInput.value.toLowerCase();
-  let filteredTasks = tasks.filter((task) => {
+const filterTasks = (searchText, filter) => {
+  return tasks.filter((task) => {
     const matchesSearch = task.title.toLowerCase().includes(searchText);
     const matchesFilter =
       filter === "all" ||
@@ -136,14 +138,17 @@ const renderTasks = (filter = "all", append = false) => {
       (filter === "incomplete" && !task.isCompleted);
     return matchesSearch && matchesFilter;
   });
+};
 
-  console.log(currentFilter);
-
+const renderTasks = (filter = currentFilter, append = false) => {
+  currentFilter = filter;
+  const searchText = $searchInput.value.toLowerCase();
   if (!append) {
     $taskList.innerHTML = "";
     page_current = 1;
   }
 
+  const filteredTasks = filterTasks(searchText, filter);
   const startIndex = (page_current - 1) * page_load;
   const paginatedTasks = filteredTasks.slice(
     startIndex,
@@ -185,9 +190,18 @@ const handlePagination = () => {
 };
 
 $searchInput.addEventListener("input", () => renderTasks(currentFilter));
-$filterAll.addEventListener("click", () => renderTasks("all"));
-$filterComplete.addEventListener("click", () => renderTasks("complete"));
-$filterIncomplete.addEventListener("click", () => renderTasks("incomplete"));
+$filterAll.addEventListener("click", () => {
+  currentFilter = "all";
+  renderTasks("all");
+});
+$filterComplete.addEventListener("click", () => {
+  currentFilter = "complete";
+  renderTasks("complete");
+});
+$filterIncomplete.addEventListener("click", () => {
+  currentFilter = "incomplete";
+  renderTasks("incomplete");
+});
 $btnCreate.addEventListener("click", openForm);
 $btnLoadMore.addEventListener("click", handlePagination);
 $btnShowLess.addEventListener("click", () => {

@@ -77,6 +77,22 @@ header {
   background-color: #357ab7;
 }
 
+.task-completed p {
+  text-decoration: line-through;
+}
+
+.task-completed .btn-edit {
+  display: none;
+}
+
+.task-completed .btn-check {
+  display: none;
+}
+
+.completed-tag.hidden {
+  display: none;
+}
+
 .task-form {
   display: none;
   margin-bottom: 20px;

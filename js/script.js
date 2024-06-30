@@ -38,19 +38,36 @@ const addTask = () => {
 
   const taskTitle = stripSanitizedParts(title);
 
+  const newTask = {
+    id: Date.now(),
+    title: taskTitle,
+    createdAt: formatDate(new Date()),
+    isCompleted: false,
+    isBeingEdited: false,
+  };
+  tasks.unshift(newTask);
+
+  renderTasks(currentFilter);
+  $taskTitle.value = "";
+  closeForm();
+};
+
+const updateTask = (taskId, newTitle) => {
+  const taskIndex = tasks.findIndex((task) => task.id === taskId);
+  if (taskIndex !== -1) {
+    tasks[taskIndex].title = newTitle;
+    tasks[taskIndex].isBeingEdited = false;
+  }
+};
+
+const saveTask = () => {
+  const title = $taskTitle.value.trim();
   const editedTaskIndex = tasks.findIndex((task) => task.isBeingEdited);
+
   if (editedTaskIndex !== -1) {
-    tasks[editedTaskIndex].title = taskTitle;
-    tasks[editedTaskIndex].isBeingEdited = false;
+    updateTask(tasks[editedTaskIndex].id, title);
   } else {
-    const newTask = {
-      id: Date.now(),
-      title: taskTitle,
-      createdAt: formatDate(new Date()),
-      isCompleted: false,
-      isBeingEdited: false,
-    };
-    tasks.unshift(newTask);
+    addTask();
   }
 
   renderTasks(currentFilter);
@@ -62,7 +79,7 @@ const createTaskCard = (task) => {
   const taskCard = document.createElement("div");
   taskCard.className = "task-card";
   if (task.isCompleted) {
-    taskCard.classList.add("isCompleted");
+    taskCard.classList.add("task-completed");
   }
 
   if (task.isBeingEdited) {
@@ -77,10 +94,9 @@ const createTaskCard = (task) => {
 
     const saveButton = document.createElement("button");
     saveButton.className = "btn-save";
-    saveButton.textContent = "Add Task";
+    saveButton.textContent = "Save";
     saveButton.addEventListener("click", () => {
-      task.title = inputElement.value;
-      task.isBeingEdited = false;
+      updateTask(task.id, inputElement.value);
       renderTasks(currentFilter);
     });
     actionsContainer.appendChild(saveButton);
@@ -115,7 +131,7 @@ const createTaskCard = (task) => {
     checkButton.innerHTML = "&#x2714;";
     checkButton.addEventListener("click", () => {
       task.isCompleted = !task.isCompleted;
-      taskCard.classList.toggle("isCompleted");
+      taskCard.classList.toggle("task-completed");
       renderTasks(currentFilter);
     });
     buttonsContainer.appendChild(checkButton);
@@ -157,10 +173,16 @@ const deleteTask = (taskId) => {
   renderTasks(currentFilter);
 };
 
-const renderTasks = (filter = "all", append = false) => {
-  currentFilter = filter;
-  const searchText = $searchInput.value.toLowerCase();
-  let filteredTasks = tasks.filter((task) => {
+const editTask = (taskId) => {
+  const taskToEdit = tasks.find((task) => task.id === taskId);
+  if (taskToEdit) {
+    taskToEdit.isBeingEdited = true;
+    renderTasks(currentFilter);
+  }
+};
+
+const filterTasks = (searchText, filter) => {
+  return tasks.filter((task) => {
     const matchesSearch = task.title.toLowerCase().includes(searchText);
     const matchesFilter =
       filter === "all" ||
@@ -168,12 +190,17 @@ const renderTasks = (filter = "all", append = false) => {
       (filter === "incomplete" && !task.isCompleted);
     return matchesSearch && matchesFilter;
   });
+};
 
+const renderTasks = (filter = currentFilter, append = false) => {
+  currentFilter = filter;
+  const searchText = $searchInput.value.toLowerCase();
   if (!append) {
     $taskList.innerHTML = "";
     page_current = 1;
   }
 
+  const filteredTasks = filterTasks(searchText, filter);
   const startIndex = (page_current - 1) * page_load;
   const paginatedTasks = filteredTasks.slice(
     startIndex,
@@ -215,14 +242,24 @@ const handlePagination = () => {
 };
 
 $searchInput.addEventListener("input", () => renderTasks(currentFilter));
-$filterAll.addEventListener("click", () => renderTasks("all"));
-$filterComplete.addEventListener("click", () => renderTasks("complete"));
-$filterIncomplete.addEventListener("click", () => renderTasks("incomplete"));
+
+$filterAll.addEventListener("click", () => {
+  currentFilter = "all";
+  renderTasks("all");
+});
+$filterComplete.addEventListener("click", () => {
+  currentFilter = "complete";
+  renderTasks("complete");
+});
+$filterIncomplete.addEventListener("click", () => {
+  currentFilter = "incomplete";
+  renderTasks("incomplete");
+});
 $btnCreate.addEventListener("click", openForm);
 $btnLoadMore.addEventListener("click", handlePagination);
 $btnShowLess.addEventListener("click", () => {
   page_current = 1;
   renderTasks(currentFilter);
 });
-document.getElementById("btnAddTask").addEventListener("click", addTask);
+document.getElementById("btnAddTask").addEventListener("click", saveTask);
 document.getElementById("btnCloseForm").addEventListener("click", closeForm);

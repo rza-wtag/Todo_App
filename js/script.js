@@ -70,6 +70,9 @@ const createTaskCard = (task) => {
   editButton.addEventListener("click", () => {
     editTask(task.id);
   });
+  if (task.isCompleted) {
+    editButton.classList.add("hidden");
+  }
   taskCard.appendChild(editButton);
 
   const deleteButton = document.createElement("button");
@@ -80,15 +83,17 @@ const createTaskCard = (task) => {
   });
   taskCard.appendChild(deleteButton);
 
-  const checkButton = document.createElement("button");
-  checkButton.className = "btn-check";
-  checkButton.textContent = "✔️";
-  checkButton.addEventListener("click", () => {
-    task.isCompleted = !task.isCompleted;
-    taskCard.classList.toggle("task-completed");
-    renderTasks();
-  });
-  taskCard.appendChild(checkButton);
+  if (!task.isCompleted) {
+    const checkButton = document.createElement("button");
+    checkButton.className = "btn-check";
+    checkButton.textContent = "✔️";
+    checkButton.addEventListener("click", () => {
+      task.isCompleted = true;
+      taskCard.classList.add("task-completed");
+      renderTasks();
+    });
+    taskCard.appendChild(checkButton);
+  }
 
   const completedDiv = document.createElement("div");
   completedDiv.textContent = "Completed";

@@ -6,9 +6,8 @@
 }
 
 .btn-save {
-  background-color: #4caf50;
-  border: none;
-  color: white;
+  border: 2px solid rgb(35, 2, 2);
+  color: rgb(35, 2, 2);
   cursor: pointer;
   padding: 5px 10px;
 }

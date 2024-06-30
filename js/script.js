@@ -52,7 +52,7 @@ const createTaskCard = (task) => {
   const taskCard = document.createElement("div");
   taskCard.className = "task-card";
   if (task.isCompleted) {
-    taskCard.classList.add("isCompleted");
+    taskCard.classList.add("task-completed");
   }
 
   const titleElement = document.createElement("p");
@@ -85,7 +85,7 @@ const createTaskCard = (task) => {
   checkButton.textContent = "✔️";
   checkButton.addEventListener("click", () => {
     task.isCompleted = !task.isCompleted;
-    taskCard.classList.toggle("isCompleted");
+    taskCard.classList.toggle("task-completed");
     renderTasks();
   });
   taskCard.appendChild(checkButton);

@@ -13,10 +13,14 @@ import {
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
 
-let tasks = [];
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let page_current = 1;
 const page_load = 9;
 let currentFilter = "all";
+
+const saveTasksToLocalStorage = () => {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};
 
 const openForm = () => {
   $taskForm.classList.add("show");
@@ -47,6 +51,7 @@ const addTask = () => {
   };
   tasks.unshift(newTask);
 
+  saveTasksToLocalStorage();
   renderTasks(currentFilter);
   $taskTitle.value = "";
   closeForm();
@@ -58,6 +63,8 @@ const updateTask = (taskId, newTitle) => {
     tasks[taskIndex].title = newTitle;
     tasks[taskIndex].isBeingEdited = false;
   }
+
+  saveTasksToLocalStorage();
 };
 
 const saveTask = () => {
@@ -141,6 +148,7 @@ const createTaskCard = (task) => {
     checkButton.addEventListener("click", () => {
       task.isCompleted = !task.isCompleted;
       taskCard.classList.toggle("task-completed");
+      saveTasksToLocalStorage();
       renderTasks(currentFilter);
     });
     buttonsContainer.appendChild(checkButton);
@@ -194,6 +202,7 @@ const createTaskCard = (task) => {
 
 const deleteTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== taskId);
+  saveTasksToLocalStorage();
   renderTasks(currentFilter);
 };
 

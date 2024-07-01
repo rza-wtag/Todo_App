@@ -12,7 +12,8 @@ import {
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
-import { checkSVG, editSVG, deleteSVG } from "../js/utils/constants.js";
+import { checkSVG, editSVG, deleteSVG } from "./utils/constants.js";
+import { calculateCompletionTime } from "./utils/utils.js";
 
 let tasks = [];
 let pageCurrent = 1;
@@ -104,8 +105,7 @@ const createTaskCard = (task) => {
 
     const deleteButton = document.createElement("button");
     deleteButton.className = "task-card__button task-card__button--delete";
-    deleteButton.innerHTML = `${deleteSVG}
-    `;
+    deleteButton.innerHTML = deleteSVG;
     deleteButton.addEventListener("click", () => {
       deleteTask(task.id);
     });
@@ -132,22 +132,23 @@ const createTaskCard = (task) => {
 
     const checkButton = document.createElement("button");
     checkButton.className = "task-card__button task-card__button--check";
-    checkButton.innerHTML = `
-      ${checkSVG}
-    `;
+    checkButton.innerHTML = checkSVG;
     checkButton.addEventListener("click", () => {
       task.isCompleted = true;
       taskCard.classList.add("task-card--completed");
       checkButton.classList.add("hidden");
       editButton.classList.add("hidden");
+
+      const completedTag = document.createElement("div");
+      completedTag.className = "task-card__completed-tag";
+      completedTag.textContent = calculateCompletionTime(task.createdAt);
+      actionsContainer.appendChild(completedTag);
     });
     buttonsContainer.appendChild(checkButton);
 
     const editButton = document.createElement("button");
     editButton.className = "task-card__button task-card__button--edit";
-    editButton.innerHTML = `
-      ${editSVG}
-    `;
+    editButton.innerHTML = editSVG;
     editButton.addEventListener("click", () => {
       task.isBeingEdited = true;
       renderTasks(currentFilter);
@@ -156,22 +157,13 @@ const createTaskCard = (task) => {
 
     const deleteButton = document.createElement("button");
     deleteButton.className = "task-card__button task-card__button--delete";
-    deleteButton.innerHTML = `
-      ${deleteSVG}
-    `;
+    deleteButton.innerHTML = deleteSVG;
     deleteButton.addEventListener("click", () => {
       deleteTask(task.id);
     });
     buttonsContainer.appendChild(deleteButton);
 
     actionsContainer.appendChild(buttonsContainer);
-
-    if (task.isCompleted) {
-      const completedTag = document.createElement("div");
-      completedTag.className = "task-card__completed-tag";
-      completedTag.textContent = "Completed in 3 days";
-      actionsContainer.appendChild(completedTag);
-    }
 
     taskCard.appendChild(actionsContainer);
   }

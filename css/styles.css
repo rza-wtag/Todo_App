@@ -22,7 +22,7 @@ header {
 
 .task-card .line-through {
   text-decoration: line-through;
-  color: green;
+  color: #0bc375;
 }
 
 .title {
@@ -85,6 +85,7 @@ header {
 }
 
 .filter-tasks button {
+  background-color: #ffffff !important;
   margin-left: 10px;
 }
 

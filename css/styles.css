@@ -1,6 +1,6 @@
 body {
   font-family: Roboto, sans-serif;
-  background-color: #f4f4f9;
+  background-color: #dfe2f3;
   color: #333;
   margin: 0;
   padding: 0;
@@ -12,11 +12,8 @@ body {
   padding: 5px;
 }
 
-header {
-  background-color: #f4f4f9;
-}
-
 #searchIcon {
+  margin-right: 340px;
   cursor: pointer;
 }
 
@@ -26,6 +23,7 @@ header {
 }
 
 .title {
+  margin-top: 120px;
   color: #32394b;
   font-size: 30px;
   font-weight: bold;
@@ -35,9 +33,15 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px 20px;
   height: 72px;
   border-bottom: 1px solid #dde2ff;
+  width: 100%;
+  background-color: #f4f4f9;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
 .navbar .logo {
@@ -46,19 +50,18 @@ header {
 }
 
 .navbar .logo h1 {
-  margin: 0;
+  margin-left: 280px;
   color: #7a8dfd;
   font-size: 36px;
   font-family: Roboto, sans-serif;
 }
 
 .navbar .search-container {
-  display: flex;
   align-items: center;
-  margin-left: auto;
 }
 
 .search-container input {
+  margin-right: 310px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;

@@ -12,7 +12,7 @@ import {
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
-import { checkSVG, editSVG, deleteSVG } from "./utils/svgIcons.js";
+import { checkSVG, editSVG, deleteSVG } from "../js/utils/constants.js";
 
 let tasks = [];
 let pageCurrent = 1;

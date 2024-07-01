@@ -9,20 +9,28 @@ import {
   $filterIncomplete,
   $btnLoadMore,
   $btnShowLess,
+  $emptyState,
+  $searchIcon,
+  $btnAddTask,
+  $btnCloseForm,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
+import { checkSVG, editSVG, deleteSVG } from "./utils/constants.js";
+import { calculateCompletionTime } from "./utils/utils.js";
 
 let tasks = [];
-let page_current = 1;
-const page_load = 9;
+let pageCurrent = 1;
+const pageLoad = 9;
 let currentFilter = "all";
 
 const openForm = () => {
   $taskForm.classList.add("show");
+  $taskForm.classList.remove("hide");
 };
 
 const closeForm = () => {
+  $taskForm.classList.add("hide");
   $taskForm.classList.remove("show");
   $taskTitle.value = "";
   tasks.forEach((task) => (task.isBeingEdited = false));
@@ -47,7 +55,7 @@ const addTask = () => {
   };
   tasks.unshift(newTask);
 
-  renderTasks();
+  renderTasks(currentFilter);
   $taskTitle.value = "";
   closeForm();
 };
@@ -79,7 +87,7 @@ const createTaskCard = (task) => {
   const taskCard = document.createElement("div");
   taskCard.className = "task-card";
   if (task.isCompleted) {
-    taskCard.classList.add("task-completed");
+    taskCard.classList.add("task-card--completed");
   }
 
   if (task.isBeingEdited) {
@@ -90,20 +98,20 @@ const createTaskCard = (task) => {
     taskCard.appendChild(inputElement);
 
     const actionsContainer = document.createElement("div");
-    actionsContainer.className = "edit-actions";
+    actionsContainer.className = "task-card__edit-actions";
 
     const saveButton = document.createElement("button");
-    saveButton.className = "btn-save";
+    saveButton.className = "task-card__edit-button--save";
     saveButton.textContent = "Save";
     saveButton.addEventListener("click", () => {
       updateTask(task.id, inputElement.value);
-      renderTasks();
+      renderTasks(currentFilter);
     });
     actionsContainer.appendChild(saveButton);
 
     const deleteButton = document.createElement("button");
-    deleteButton.className = "btn-delete";
-    deleteButton.textContent = "Delete";
+    deleteButton.className = "task-card__button task-card__button--delete";
+    deleteButton.innerHTML = deleteSVG;
     deleteButton.addEventListener("click", () => {
       deleteTask(task.id);
     });
@@ -112,40 +120,58 @@ const createTaskCard = (task) => {
     taskCard.appendChild(actionsContainer);
   } else {
     const titleElement = document.createElement("p");
+    titleElement.className = "task-card__title";
     titleElement.textContent = task.title;
+    titleElement.classList.toggle("task-card__line-through", task.isCompleted);
     taskCard.appendChild(titleElement);
 
     const createdAtElement = document.createElement("p");
-    createdAtElement.className = "created-at";
+    createdAtElement.className = "task-card__created-at";
     createdAtElement.textContent = `Created At: ${task.createdAt}`;
     taskCard.appendChild(createdAtElement);
 
-    const editButton = document.createElement("button");
-    editButton.className = "btn-edit";
-    editButton.textContent = "Edit";
-    editButton.addEventListener("click", () => {
-      editTask(task.id);
+    const actionsContainer = document.createElement("div");
+    actionsContainer.className = "task-card__task-actions";
+
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.className = "task-card__task-buttons";
+
+    const checkButton = document.createElement("button");
+    checkButton.className = "task-card__button task-card__button--check";
+    checkButton.innerHTML = checkSVG;
+    checkButton.addEventListener("click", () => {
+      task.isCompleted = true;
+      taskCard.classList.add("task-card--completed");
+      checkButton.classList.add("hide");
+      editButton.classList.add("hide");
+
+      const completedTag = document.createElement("div");
+      completedTag.className = "task-card__completed-tag";
+      completedTag.textContent = calculateCompletionTime(task.createdAt);
+      actionsContainer.appendChild(completedTag);
     });
-    taskCard.appendChild(editButton);
+    buttonsContainer.appendChild(checkButton);
+
+    const editButton = document.createElement("button");
+    editButton.className = "task-card__button task-card__button--edit";
+    editButton.innerHTML = editSVG;
+    editButton.addEventListener("click", () => {
+      task.isBeingEdited = true;
+      renderTasks(currentFilter);
+    });
+    buttonsContainer.appendChild(editButton);
 
     const deleteButton = document.createElement("button");
-    deleteButton.className = "btn-delete";
-    deleteButton.textContent = "Delete";
+    deleteButton.className = "task-card__button task-card__button--delete";
+    deleteButton.innerHTML = deleteSVG;
     deleteButton.addEventListener("click", () => {
       deleteTask(task.id);
     });
-    taskCard.appendChild(deleteButton);
-  }
+    buttonsContainer.appendChild(deleteButton);
 
-  if (!task.isCompleted) {
-    const checkButton = document.createElement("button");
-    checkButton.className = "btn-check";
-    checkButton.textContent = "✔️";
-    checkButton.addEventListener("click", () => {
-      task.isCompleted = true;
-      renderTasks();
-    });
-    taskCard.appendChild(checkButton);
+    actionsContainer.appendChild(buttonsContainer);
+
+    taskCard.appendChild(actionsContainer);
   }
 
   return taskCard;
@@ -154,14 +180,6 @@ const createTaskCard = (task) => {
 const deleteTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== taskId);
   renderTasks(currentFilter);
-};
-
-const editTask = (taskId) => {
-  const taskToEdit = tasks.find((task) => task.id === taskId);
-  if (taskToEdit) {
-    taskToEdit.isBeingEdited = true;
-    renderTasks();
-  }
 };
 
 const filterTasks = (searchText, filter) => {
@@ -180,15 +198,12 @@ const renderTasks = (filter = currentFilter, append = false) => {
   const searchText = $searchInput.value.toLowerCase();
   if (!append) {
     $taskList.innerHTML = "";
-    page_current = 1;
+    pageCurrent = 1;
   }
 
   const filteredTasks = filterTasks(searchText, filter);
-  const startIndex = (page_current - 1) * page_load;
-  const paginatedTasks = filteredTasks.slice(
-    startIndex,
-    startIndex + page_load
-  );
+  const startIndex = (pageCurrent - 1) * pageLoad;
+  const paginatedTasks = filteredTasks.slice(startIndex, startIndex + pageLoad);
 
   paginatedTasks.forEach((task) => {
     const taskCard = createTaskCard(task);
@@ -196,19 +211,31 @@ const renderTasks = (filter = currentFilter, append = false) => {
   });
 
   updatePaginationButtons(filteredTasks.length);
+
+  if (tasks.length === 0) {
+    $emptyState.classList.add("show");
+    $emptyState.classList.remove("hide");
+  } else {
+    $emptyState.classList.add("hide");
+    $emptyState.classList.remove("show");
+  }
 };
 
 const updatePaginationButtons = (totalTasks) => {
-  if (page_current * page_load >= totalTasks) {
-    $btnLoadMore.style.display = "none";
+  if (pageCurrent * pageLoad >= totalTasks) {
+    $btnLoadMore.classList.add("hide");
+    $btnLoadMore.classList.remove("show");
   } else {
-    $btnLoadMore.style.display = "block";
+    $btnLoadMore.classList.add("show");
+    $btnLoadMore.classList.remove("hide");
   }
 
-  if (page_current > 1) {
-    $btnShowLess.style.display = "block";
+  if (pageCurrent > 1) {
+    $btnShowLess.classList.add("show");
+    $btnShowLess.classList.remove("hide");
   } else {
-    $btnShowLess.style.display = "none";
+    $btnShowLess.classList.add("hide");
+    $btnShowLess.classList.remove("show");
   }
 };
 
@@ -220,11 +247,26 @@ const showError = (message) => {
 };
 
 const handlePagination = () => {
-  page_current++;
+  pageCurrent++;
   renderTasks(currentFilter, true);
 };
 
+const handleSearchIconClick = () => {
+  if (
+    $searchInput.classList.contains("hide") ||
+    !$searchInput.classList.contains("show")
+  ) {
+    $searchInput.classList.add("show");
+    $searchInput.classList.remove("hide");
+    $searchInput.focus();
+  } else {
+    $searchInput.classList.add("hide");
+    $searchInput.classList.remove("show");
+  }
+};
+
 $searchInput.addEventListener("input", () => renderTasks(currentFilter));
+
 $filterAll.addEventListener("click", () => {
   currentFilter = "all";
   renderTasks("all");
@@ -240,8 +282,11 @@ $filterIncomplete.addEventListener("click", () => {
 $btnCreate.addEventListener("click", openForm);
 $btnLoadMore.addEventListener("click", handlePagination);
 $btnShowLess.addEventListener("click", () => {
-  page_current = 1;
+  pageCurrent = 1;
   renderTasks(currentFilter);
 });
-document.getElementById("btnAddTask").addEventListener("click", saveTask);
-document.getElementById("btnCloseForm").addEventListener("click", closeForm);
+$searchIcon.addEventListener("click", handleSearchIconClick);
+$btnAddTask.addEventListener("click", saveTask);
+$btnCloseForm.addEventListener("click", closeForm);
+
+renderTasks();

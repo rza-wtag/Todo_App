@@ -9,5 +9,6 @@ export const $filterIncomplete = document.getElementById("filterIncomplete");
 export const $btnLoadMore = document.getElementById("btnLoadMore");
 export const $btnShowLess = document.getElementById("btnShowLess");
 export const $emptyState = document.getElementById("noTasks");
+export const $searchIcon = document.getElementById("searchIcon");
 export const $btnAddTask = document.getElementById("btnAddTask");
 export const $btnCloseForm = document.getElementById("btnCloseForm");

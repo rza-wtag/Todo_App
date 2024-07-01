@@ -10,6 +10,7 @@ import {
   $btnLoadMore,
   $btnShowLess,
   $emptyState,
+  $searchIcon,
   $btnAddTask,
   $btnCloseForm,
 } from "../js/elements.js";
@@ -274,9 +275,7 @@ $btnShowLess.addEventListener("click", () => {
   pageCurrent = 1;
   renderTasks(currentFilter);
 });
-document
-  .getElementById("searchIcon")
-  .addEventListener("click", handleSearchIconClick);
+$searchIcon.addEventListener("click", handleSearchIconClick);
 $btnAddTask.addEventListener("click", saveTask);
 $btnCloseForm.addEventListener("click", closeForm);
 

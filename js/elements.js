@@ -8,3 +8,4 @@ export const $filterComplete = document.getElementById("filterComplete");
 export const $filterIncomplete = document.getElementById("filterIncomplete");
 export const $btnLoadMore = document.getElementById("btnLoadMore");
 export const $btnShowLess = document.getElementById("btnShowLess");
+export const $emptyState = document.getElementById("noTasks");

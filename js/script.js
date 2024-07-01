@@ -9,6 +9,7 @@ import {
   $filterIncomplete,
   $btnLoadMore,
   $btnShowLess,
+  $emptyState,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
@@ -207,9 +208,9 @@ const renderTasks = (filter = currentFilter, append = false) => {
   updatePaginationButtons(filteredTasks.length);
 
   if (tasks.length === 0) {
-    document.getElementById("noTasks").style.display = "block";
+    $emptyState.style.display = "block";
   } else {
-    document.getElementById("noTasks").style.display = "none";
+    $emptyState.style.display = "none";
   }
 };
 

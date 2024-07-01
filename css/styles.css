@@ -315,6 +315,20 @@ body {
   width: 100px;
 }
 
+#no-tasks img {
+  text-align: center;
+  margin-top: 366px;
+  margin-top: 237px;
+  height: 213px;
+}
+
+#no-tasks h1 {
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+  color: #32394b;
+}
+
 .filter-tasks button.active {
   background-color: #021d3c;
   color: #f8f8f8;
@@ -325,4 +339,10 @@ body {
 #filterIncomplete.active {
   background-color: #4a90e2;
   color: #fff;
+}
+
+@media (max-width: 768px) {
+  .task-list {
+    grid-template-columns: 1fr;
+  }
 }

@@ -82,23 +82,55 @@ const createTaskCard = (task) => {
     taskCard.classList.add("task-completed");
   }
 
-  const titleElement = document.createElement("p");
-  titleElement.textContent = task.title;
-  titleElement.classList.toggle("line-through", task.isCompleted);
-  taskCard.appendChild(titleElement);
+  if (task.isBeingEdited) {
+    const inputElement = document.createElement("input");
+    inputElement.type = "text";
+    inputElement.value = task.title;
+    inputElement.className = "edit-input";
+    taskCard.appendChild(inputElement);
 
-  const createdAtElement = document.createElement("p");
-  createdAtElement.className = "created-at";
-  createdAtElement.textContent = `Created At: ${task.createdAt}`;
-  taskCard.appendChild(createdAtElement);
+    const actionsContainer = document.createElement("div");
+    actionsContainer.className = "edit-actions";
 
-  const actionsContainer = document.createElement("div");
-  actionsContainer.className = "task-actions";
+    const saveButton = document.createElement("button");
+    saveButton.className = "btn-save";
+    saveButton.textContent = "Save";
+    saveButton.addEventListener("click", () => {
+      updateTask(task.id, inputElement.value);
+      renderTasks(currentFilter);
+    });
+    actionsContainer.appendChild(saveButton);
 
-  const buttonsContainer = document.createElement("div");
-  buttonsContainer.className = "task-buttons";
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn-delete";
+    deleteButton.innerHTML = `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M19 24H5C3.896 24 3 23.104 3 22V6H21V22C21 23.104 20.104 24 19 24ZM10 10C10 9.448 9.552 9 9 9C8.448 9 8 9.448 8 10V19C8 19.552 8.448 20 9 20C9.552 20 10 19.552 10 19V10ZM16 10C16 9.448 15.552 9 15 9C14.448 9 14 9.448 14 10V19C14 19.552 14.448 20 15 20C15.552 20 16 19.552 16 19V10ZM22 5H2V3H8V1.5C8 0.673 8.673 0 9.5 0H14.5C15.325 0 16 0.671 16 1.5V3H22V5ZM10 3H14V2H10V3Z" fill="#BBBDD0"/>
+      </svg>
+    `;
+    deleteButton.addEventListener("click", () => {
+      deleteTask(task.id);
+    });
+    actionsContainer.appendChild(deleteButton);
 
-  if (!task.isCompleted) {
+    taskCard.appendChild(actionsContainer);
+  } else {
+    const titleElement = document.createElement("p");
+    titleElement.textContent = task.title;
+    titleElement.classList.toggle("line-through", task.isCompleted);
+    taskCard.appendChild(titleElement);
+
+    const createdAtElement = document.createElement("p");
+    createdAtElement.className = "created-at";
+    createdAtElement.textContent = `Created At: ${task.createdAt}`;
+    taskCard.appendChild(createdAtElement);
+
+    const actionsContainer = document.createElement("div");
+    actionsContainer.className = "task-actions";
+
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.className = "task-buttons";
+
     const checkButton = document.createElement("button");
     checkButton.className = "btn-check";
     checkButton.innerHTML = `
@@ -107,15 +139,12 @@ const createTaskCard = (task) => {
       </svg>
     `;
     checkButton.addEventListener("click", () => {
-      task.isCompleted = true;
-      titleElement.classList.add("line-through");
-      taskCard.classList.add("task-completed");
+      task.isCompleted = !task.isCompleted;
+      taskCard.classList.toggle("task-completed");
       renderTasks(currentFilter);
     });
     buttonsContainer.appendChild(checkButton);
-  }
 
-  if (!task.isCompleted) {
     const editButton = document.createElement("button");
     editButton.className = "btn-edit";
     editButton.innerHTML = `
@@ -135,30 +164,30 @@ const createTaskCard = (task) => {
       renderTasks(currentFilter);
     });
     buttonsContainer.appendChild(editButton);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn-delete";
+    deleteButton.innerHTML = `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M19 24H5C3.896 24 3 23.104 3 22V6H21V22C21 23.104 20.104 24 19 24ZM10 10C10 9.448 9.552 9 9 9C8.448 9 8 9.448 8 10V19C8 19.552 8.448 20 9 20C9.552 20 10 19.552 10 19V10ZM16 10C16 9.448 15.552 9 15 9C14.448 9 14 9.448 14 10V19C14 19.552 14.448 20 15 20C15.552 20 16 19.552 16 19V10ZM22 5H2V3H8V1.5C8 0.673 8.673 0 9.5 0H14.5C15.325 0 16 0.671 16 1.5V3H22V5ZM10 3H14V2H10V3Z" fill="#BBBDD0"/>
+      </svg>
+    `;
+    deleteButton.addEventListener("click", () => {
+      deleteTask(task.id);
+    });
+    buttonsContainer.appendChild(deleteButton);
+
+    actionsContainer.appendChild(buttonsContainer);
+
+    if (task.isCompleted) {
+      const completedTag = document.createElement("div");
+      completedTag.className = "completed-tag";
+      completedTag.textContent = "Completed in 3 days";
+      actionsContainer.appendChild(completedTag);
+    }
+
+    taskCard.appendChild(actionsContainer);
   }
-
-  const deleteButton = document.createElement("button");
-  deleteButton.className = "btn-delete";
-  deleteButton.innerHTML = `
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M19 24H5C3.896 24 3 23.104 3 22V6H21V22C21 23.104 20.104 24 19 24ZM10 10C10 9.448 9.552 9 9 9C8.448 9 8 9.448 8 10V19C8 19.552 8.448 20 9 20C9.552 20 10 19.552 10 19V10ZM16 10C16 9.448 15.552 9 15 9C14.448 9 14 9.448 14 10V19C14 19.552 14.448 20 15 20C15.552 20 16 19.552 16 19V10ZM22 5H2V3H8V1.5C8 0.673 8.673 0 9.5 0H14.5C15.325 0 16 0.671 16 1.5V3H22V5ZM10 3H14V2H10V3Z" fill="#BBBDD0"/>
-    </svg>
-  `;
-  deleteButton.addEventListener("click", () => {
-    deleteTask(task.id);
-  });
-  buttonsContainer.appendChild(deleteButton);
-
-  actionsContainer.appendChild(buttonsContainer);
-
-  if (task.isCompleted) {
-    const completedTag = document.createElement("div");
-    completedTag.className = "completed-tag";
-    completedTag.textContent = "Completed in 3 days";
-    actionsContainer.appendChild(completedTag);
-  }
-
-  taskCard.appendChild(actionsContainer);
 
   return taskCard;
 };
@@ -200,6 +229,12 @@ const renderTasks = (filter = currentFilter, append = false) => {
   });
 
   updatePaginationButtons(filteredTasks.length);
+
+  if (tasks.length === 0) {
+    document.getElementById("no-tasks").style.display = "block";
+  } else {
+    document.getElementById("no-tasks").style.display = "none";
+  }
 };
 
 const updatePaginationButtons = (totalTasks) => {
@@ -265,3 +300,5 @@ document
   .addEventListener("click", handleSearchIconClick);
 document.getElementById("btnAddTask").addEventListener("click", saveTask);
 document.getElementById("btnCloseForm").addEventListener("click", closeForm);
+
+renderTasks();

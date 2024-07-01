@@ -140,9 +140,10 @@ const createTaskCard = (task) => {
       </svg>
     `;
     checkButton.addEventListener("click", () => {
-      task.isCompleted = !task.isCompleted;
-      taskCard.classList.toggle("task-card--completed");
-      renderTasks(currentFilter);
+      task.isCompleted = true;
+      taskCard.classList.add("task-card--completed");
+      checkButton.classList.add("hidden");
+      editButton.classList.add("hidden");
     });
     buttonsContainer.appendChild(checkButton);
 

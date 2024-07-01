@@ -16,6 +16,11 @@ header {
   background-color: #f4f4f9;
 }
 
+.task-card .line-through {
+  text-decoration: line-through;
+  color: green;
+}
+
 .title {
   color: #32394b;
   font-size: 30px;

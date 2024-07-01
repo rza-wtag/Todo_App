@@ -4,11 +4,19 @@ import {
   $taskList,
   $btnCreate,
   $searchInput,
+  $filterAll,
+  $filterComplete,
+  $filterIncomplete,
+  $btnLoadMore,
+  $btnShowLess,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
 
 let tasks = [];
+let page_current = 1;
+const page_load = 9;
+let currentFilter = "all";
 
 const openForm = () => {
   $taskForm.classList.add("show");
@@ -62,7 +70,7 @@ const saveTask = () => {
     addTask();
   }
 
-  renderTasks();
+  renderTasks(currentFilter);
   $taskTitle.value = "";
   closeForm();
 };
@@ -145,7 +153,7 @@ const createTaskCard = (task) => {
 
 const deleteTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== taskId);
-  renderTasks();
+  renderTasks(currentFilter);
 };
 
 const editTask = (taskId) => {
@@ -156,16 +164,52 @@ const editTask = (taskId) => {
   }
 };
 
-const renderTasks = () => {
-  const searchText = $searchInput.value.toLowerCase();
-  $taskList.innerHTML = "";
+const filterTasks = (searchText, filter) => {
+  return tasks.filter((task) => {
+    const matchesSearch = task.title.toLowerCase().includes(searchText);
+    const matchesFilter =
+      filter === "all" ||
+      (filter === "complete" && task.isCompleted) ||
+      (filter === "incomplete" && !task.isCompleted);
+    return matchesSearch && matchesFilter;
+  });
+};
 
-  tasks
-    .filter((task) => task.title.toLowerCase().includes(searchText))
-    .forEach((task) => {
-      const taskCard = createTaskCard(task);
-      $taskList.appendChild(taskCard);
-    });
+const renderTasks = (filter = currentFilter, append = false) => {
+  currentFilter = filter;
+  const searchText = $searchInput.value.toLowerCase();
+  if (!append) {
+    $taskList.innerHTML = "";
+    page_current = 1;
+  }
+
+  const filteredTasks = filterTasks(searchText, filter);
+  const startIndex = (page_current - 1) * page_load;
+  const paginatedTasks = filteredTasks.slice(
+    startIndex,
+    startIndex + page_load
+  );
+
+  paginatedTasks.forEach((task) => {
+    const taskCard = createTaskCard(task);
+    $taskList.appendChild(taskCard);
+  });
+
+  updatePaginationButtons(filteredTasks.length);
+};
+
+const updatePaginationButtons = (totalTasks) => {
+  if (page_current * page_load >= totalTasks) {
+    $btnLoadMore.style.display = "none";
+  } else {
+    $btnLoadMore.style.display = "block";
+  }
+
+  if (page_current > 1) {
+    $btnShowLess.style.display = "block";
+  } else {
+    $btnShowLess.style.display = "none";
+  }
 };
 
 const showError = (message) => {
@@ -175,7 +219,29 @@ const showError = (message) => {
   $taskForm.insertBefore($errorMessage, $taskTitle);
 };
 
-$searchInput.addEventListener("input", () => renderTasks());
+const handlePagination = () => {
+  page_current++;
+  renderTasks(currentFilter, true);
+};
+
+$searchInput.addEventListener("input", () => renderTasks(currentFilter));
+$filterAll.addEventListener("click", () => {
+  currentFilter = "all";
+  renderTasks("all");
+});
+$filterComplete.addEventListener("click", () => {
+  currentFilter = "complete";
+  renderTasks("complete");
+});
+$filterIncomplete.addEventListener("click", () => {
+  currentFilter = "incomplete";
+  renderTasks("incomplete");
+});
 $btnCreate.addEventListener("click", openForm);
+$btnLoadMore.addEventListener("click", handlePagination);
+$btnShowLess.addEventListener("click", () => {
+  page_current = 1;
+  renderTasks(currentFilter);
+});
 document.getElementById("btnAddTask").addEventListener("click", saveTask);
 document.getElementById("btnCloseForm").addEventListener("click", closeForm);

@@ -21,6 +21,11 @@
           <div class="add-task">
             <button id="btnCreate">+ Create</button>
           </div>
+          <div class="filter-tasks">
+            <button id="filterAll">All</button>
+            <button id="filterComplete">Complete</button>
+            <button id="filterIncomplete">Incomplete</button>
+          </div>
         </section>
         <div id="taskForm" class="task-form">
           <input type="text" id="taskTitle" placeholder="Task Title" />
@@ -28,6 +33,8 @@
           <button id="btnCloseForm">Close</button>
         </div>
         <section class="task-list" id="taskList"></section>
+        <button id="btnLoadMore" style="display: none">Load More</button>
+        <button id="btnShowLess" style="display: none">Show Less</button>
       </main>
     </div>
     <script type="module" src="/js/elements.js"></script>

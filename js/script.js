@@ -10,6 +10,8 @@ import {
   $btnLoadMore,
   $btnShowLess,
   $emptyState,
+  $btnAddTask,
+  $btnCloseForm,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
@@ -275,7 +277,7 @@ $btnShowLess.addEventListener("click", () => {
 document
   .getElementById("searchIcon")
   .addEventListener("click", handleSearchIconClick);
-document.getElementById("btnAddTask").addEventListener("click", saveTask);
-document.getElementById("btnCloseForm").addEventListener("click", closeForm);
+$btnAddTask.addEventListener("click", saveTask);
+$btnCloseForm.addEventListener("click", closeForm);
 
 renderTasks();

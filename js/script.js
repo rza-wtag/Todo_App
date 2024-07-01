@@ -12,6 +12,7 @@ import {
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
+import { debounce } from "./utils/addDebounce.js";
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let page_current = 1;
@@ -284,7 +285,10 @@ const handleSearchIconClick = () => {
   }
 };
 
-$searchInput.addEventListener("input", () => renderTasks(currentFilter));
+$searchInput.addEventListener(
+  "input",
+  debounce(() => renderTasks(currentFilter), 500)
+);
 
 $filterAll.addEventListener("click", () => {
   currentFilter = "all";

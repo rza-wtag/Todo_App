@@ -25,11 +25,13 @@ const pageLoad = 9;
 let currentFilter = "all";
 
 const openForm = () => {
-  $taskForm.classList.add("task-form--show");
+  $taskForm.classList.add("show");
+  $taskForm.classList.remove("hide");
 };
 
 const closeForm = () => {
-  $taskForm.classList.remove("task-form--show");
+  $taskForm.classList.add("hide");
+  $taskForm.classList.remove("show");
   $taskTitle.value = "";
   tasks.forEach((task) => (task.isBeingEdited = false));
 };
@@ -140,8 +142,8 @@ const createTaskCard = (task) => {
     checkButton.addEventListener("click", () => {
       task.isCompleted = true;
       taskCard.classList.add("task-card--completed");
-      checkButton.classList.add("hidden");
-      editButton.classList.add("hidden");
+      checkButton.classList.add("hide");
+      editButton.classList.add("hide");
 
       const completedTag = document.createElement("div");
       completedTag.className = "task-card__completed-tag";
@@ -211,23 +213,29 @@ const renderTasks = (filter = currentFilter, append = false) => {
   updatePaginationButtons(filteredTasks.length);
 
   if (tasks.length === 0) {
-    $emptyState.style.display = "block";
+    $emptyState.classList.add("show");
+    $emptyState.classList.remove("hide");
   } else {
-    $emptyState.style.display = "none";
+    $emptyState.classList.add("hide");
+    $emptyState.classList.remove("show");
   }
 };
 
 const updatePaginationButtons = (totalTasks) => {
   if (pageCurrent * pageLoad >= totalTasks) {
-    $btnLoadMore.style.display = "none";
+    $btnLoadMore.classList.add("hide");
+    $btnLoadMore.classList.remove("show");
   } else {
-    $btnLoadMore.style.display = "block";
+    $btnLoadMore.classList.add("show");
+    $btnLoadMore.classList.remove("hide");
   }
 
   if (pageCurrent > 1) {
-    $btnShowLess.style.display = "block";
+    $btnShowLess.classList.add("show");
+    $btnShowLess.classList.remove("hide");
   } else {
-    $btnShowLess.style.display = "none";
+    $btnShowLess.classList.add("hide");
+    $btnShowLess.classList.remove("show");
   }
 };
 
@@ -245,13 +253,15 @@ const handlePagination = () => {
 
 const handleSearchIconClick = () => {
   if (
-    $searchInput.style.display === "none" ||
-    $searchInput.style.display === ""
+    $searchInput.classList.contains("hide") ||
+    !$searchInput.classList.contains("show")
   ) {
-    $searchInput.style.display = "block";
+    $searchInput.classList.add("show");
+    $searchInput.classList.remove("hide");
     $searchInput.focus();
   } else {
-    $searchInput.style.display = "none";
+    $searchInput.classList.add("hide");
+    $searchInput.classList.remove("show");
   }
 };
 

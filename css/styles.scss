@@ -190,6 +190,14 @@ body {
   }
 }
 
+.show {
+  display: block !important;
+}
+
+.hide {
+  display: none !important;
+}
+
 .task-card {
   background: #ffffff;
   border: 0.0625rem solid #dde2ff;

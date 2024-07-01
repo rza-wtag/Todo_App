@@ -1,13 +1,15 @@
+@import "variables";
+
 body {
-  background-color: #dfe2f3;
-  color: #333;
+  background-color: $color-background;
+  color: $color-text;
   font-family: Roboto, sans-serif;
   margin: 0;
   padding: 0;
 }
 
 .button {
-  background-color: #7a8dfd;
+  background-color: $color-primary;
   border: none;
   border-radius: 0.3125rem;
   box-sizing: border-box;
@@ -19,7 +21,7 @@ body {
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #357ab7;
+    background-color: $color-primary-hover;
   }
 
   &:last-child {
@@ -27,22 +29,22 @@ body {
   }
 
   &--active {
-    background-color: #021d3c;
+    background-color: $color-active;
     color: #f8f8f8;
 
     &:hover {
-      background-color: #4a90e2;
+      background-color: $color-active-hover;
       color: #fff;
     }
   }
 
   &--complete {
-    background-color: #ffffff;
-    border: 0.0625rem solid #e9ebee;
+    background-color: $color-complete;
+    border: 0.0625rem solid $color-complete-border;
     color: #020203;
 
     &:hover {
-      background-color: #bbbdd0;
+      background-color: $color-complete-hover;
     }
   }
 
@@ -53,28 +55,28 @@ body {
   }
 
   &--filter {
-    background-color: #ffffff;
-    border: 0.0625rem solid #e9ebee;
+    background-color: $color-complete;
+    border: 0.0625rem solid $color-complete-border;
     color: #020203;
 
     &:hover {
-      background-color: #bbbdd0;
+      background-color: $color-complete-hover;
     }
   }
 
   &--incomplete {
-    background-color: #ffffff;
-    border: 0.0625rem solid #e9ebee;
+    background-color: $color-incomplete;
+    border: 0.0625rem solid $color-incomplete-border;
     color: #020203;
 
     &:hover {
-      background-color: #bbbdd0;
+      background-color: $color-incomplete-hover;
     }
   }
 
   &--load-more,
   &--show-less {
-    background-color: #32394b;
+    background-color: $color-load-more;
     border: none;
     border-radius: 0.3125rem;
     color: #fff;
@@ -85,7 +87,7 @@ body {
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: #357ab7;
+      background-color: $color-load-more-hover;
     }
   }
 }
@@ -105,13 +107,13 @@ body {
 }
 
 .error-message {
-  color: #dc3545;
+  color: $color-error;
   margin: 0.625rem 0;
 }
 
 .header {
   &__title {
-    color: #32394b;
+    color: $color-task-title;
     font-size: 1.875rem;
     font-weight: bold;
     margin-top: 7.5rem;
@@ -160,7 +162,7 @@ body {
   }
 
   &__title {
-    color: #7a8dfd;
+    color: $color-primary;
     font-family: Roboto, sans-serif;
     font-size: 2.25rem;
     margin-left: 17.5rem;
@@ -181,7 +183,7 @@ body {
   }
 
   &__message {
-    color: #32394b;
+    color: $color-task-title;
     font-size: 1.5rem;
     font-weight: 700;
     text-align: center;
@@ -210,33 +212,33 @@ body {
     transition: color 0.3s;
 
     &--check {
-      color: #0bc375;
+      color: $color-task-line-through;
 
       &:hover {
-        color: #0bc375;
+        color: $color-task-line-through;
       }
     }
 
     &--delete {
-      color: #dc3545;
+      color: $color-delete-button;
 
       &:hover {
-        color: #c82333;
+        color: $color-delete-button-hover;
       }
     }
 
     &--edit {
-      color: #ffc107;
+      color: $color-edit-button;
 
       &:hover {
-        color: #e0a800;
+        color: $color-edit-button-hover;
       }
     }
   }
 
   &__created-at {
     border-radius: 0.3125rem;
-    color: #bbbdd0;
+    color: $color-task-created;
     font-size: 0.875rem;
     font-weight: 700;
     line-height: 1.025625rem;
@@ -255,13 +257,13 @@ body {
   &__edit-button--save {
     border: none;
     border-radius: 0.3125rem;
-    color: #32394b;
+    color: $color-task-title;
     cursor: pointer;
     padding: 0.3125rem 0.625rem;
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: #357ab7;
+      background-color: $color-primary-hover;
     }
   }
 
@@ -279,7 +281,7 @@ body {
 
   &__title {
     border-radius: 0.3125rem;
-    color: #32394b;
+    color: $color-task-title;
     font-size: 2.25rem;
     font-weight: 700;
     line-height: 1.758125rem;
@@ -289,7 +291,7 @@ body {
   }
 
   &__completed-tag {
-    background-color: #7a8dfd;
+    background-color: $color-task-completed-tag;
     border-radius: 0.3125rem;
     color: #fff;
     display: inline-block;
@@ -299,18 +301,18 @@ body {
 
   &--completed {
     .task-card__created-at {
-      color: #28a745;
+      color: $color-task-completed;
     }
 
     .task-card__title {
-      color: #28a745;
+      color: $color-task-completed;
       text-decoration: line-through;
     }
   }
 }
 
 .task-card__line-through {
-  color: #0bc375;
+  color: $color-task-line-through;
   text-decoration: line-through;
 }
 

@@ -8,15 +8,15 @@
   </head>
   <body>
     <div class="container">
-      <header>
+      <header class="header">
         <nav class="navbar">
-          <div class="logo">
-            <h1>Todos</h1>
+          <div class="navbar__logo">
+            <h1 class="navbar__title">Todos</h1>
           </div>
-          <div class="search-container">
+          <div class="navbar__search-container">
             <svg
               id="searchIcon"
-              class="search-icon"
+              class="navbar__search-icon"
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -35,37 +35,75 @@
                 </clipPath>
               </defs>
             </svg>
-            <input id="searchInput" type="text" placeholder="Search tasks..." />
+            <input
+              id="searchInput"
+              type="text"
+              class="navbar__search-input"
+              placeholder="Search tasks..."
+            />
           </div>
         </nav>
-        <h2 class="title">Add Tasks</h2>
+        <h2 class="header__title">Add Tasks</h2>
       </header>
       <main>
-        <section class="add-task-filter">
-          <div class="add-task">
-            <button id="btnCreate">+ Create</button>
+        <section class="task-controls">
+          <div class="task-controls__add">
+            <button id="btnCreate" class="button button--create">
+              + Create
+            </button>
           </div>
-          <div class="filter-tasks">
-            <button id="filterAll">All</button>
-            <button id="filterComplete">Complete</button>
-            <button id="filterIncomplete">Incomplete</button>
+          <div class="task-controls__filter">
+            <button id="filterAll" class="button button--filter">All</button>
+            <button id="filterComplete" class="button button--filter">
+              Complete
+            </button>
+            <button id="filterIncomplete" class="button button--filter">
+              Incomplete
+            </button>
           </div>
         </section>
 
         <div id="taskForm" class="task-form">
-          <input type="text" id="taskTitle" placeholder="Task Title" />
-          <button id="btnAddTask">Add Task</button>
-          <button id="btnCloseForm">Close</button>
+          <input
+            type="text"
+            id="taskTitle"
+            class="task-form__input"
+            placeholder="Task Title"
+          />
+          <button id="btnAddTask" class="button button--add-task">
+            Add Task
+          </button>
+          <button id="btnCloseForm" class="button button--close-form">
+            Close
+          </button>
         </div>
 
-        <div id="no-tasks" style="display: none; text-align: center">
-          <img src="./assets/emptyState.png" alt="No tasks" />
-          <h1>You didn’t add any task. Please, add one.</h1>
+        <div id="noTasks" class="no-tasks" style="display: none">
+          <img
+            src="./assets/emptyState.png"
+            alt="No tasks"
+            class="no-tasks__image"
+          />
+          <h1 class="no-tasks__message">
+            You didn’t add any task. Please, add one.
+          </h1>
         </div>
 
         <section class="task-list" id="taskList"></section>
-        <button id="btnLoadMore" style="display: none">Load More</button>
-        <button id="btnShowLess" style="display: none">Show Less</button>
+        <button
+          id="btnLoadMore"
+          class="button button--load-more"
+          style="display: none"
+        >
+          Load More
+        </button>
+        <button
+          id="btnShowLess"
+          class="button button--show-less"
+          style="display: none"
+        >
+          Show Less
+        </button>
       </main>
     </div>
     <script type="module" src="/js/elements.js"></script>

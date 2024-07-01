@@ -14,16 +14,16 @@ import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
 
 let tasks = [];
-let page_current = 1;
-const page_load = 9;
+let pageCurrent = 1;
+const pageLoad = 9;
 let currentFilter = "all";
 
 const openForm = () => {
-  $taskForm.classList.add("show");
+  $taskForm.classList.add("task-form--show");
 };
 
 const closeForm = () => {
-  $taskForm.classList.remove("show");
+  $taskForm.classList.remove("task-form--show");
   $taskTitle.value = "";
   tasks.forEach((task) => (task.isBeingEdited = false));
 };
@@ -79,7 +79,7 @@ const createTaskCard = (task) => {
   const taskCard = document.createElement("div");
   taskCard.className = "task-card";
   if (task.isCompleted) {
-    taskCard.classList.add("task-completed");
+    taskCard.classList.add("task-card--completed");
   }
 
   if (task.isBeingEdited) {
@@ -90,10 +90,10 @@ const createTaskCard = (task) => {
     taskCard.appendChild(inputElement);
 
     const actionsContainer = document.createElement("div");
-    actionsContainer.className = "edit-actions";
+    actionsContainer.className = "task-card__edit-actions";
 
     const saveButton = document.createElement("button");
-    saveButton.className = "btn-save";
+    saveButton.className = "task-card__edit-button--save";
     saveButton.textContent = "Save";
     saveButton.addEventListener("click", () => {
       updateTask(task.id, inputElement.value);
@@ -102,7 +102,7 @@ const createTaskCard = (task) => {
     actionsContainer.appendChild(saveButton);
 
     const deleteButton = document.createElement("button");
-    deleteButton.className = "btn-delete";
+    deleteButton.className = "task-card__button task-card__button--delete";
     deleteButton.innerHTML = `
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M19 24H5C3.896 24 3 23.104 3 22V6H21V22C21 23.104 20.104 24 19 24ZM10 10C10 9.448 9.552 9 9 9C8.448 9 8 9.448 8 10V19C8 19.552 8.448 20 9 20C9.552 20 10 19.552 10 19V10ZM16 10C16 9.448 15.552 9 15 9C14.448 9 14 9.448 14 10V19C14 19.552 14.448 20 15 20C15.552 20 16 19.552 16 19V10ZM22 5H2V3H8V1.5C8 0.673 8.673 0 9.5 0H14.5C15.325 0 16 0.671 16 1.5V3H22V5ZM10 3H14V2H10V3Z" fill="#BBBDD0"/>
@@ -116,23 +116,24 @@ const createTaskCard = (task) => {
     taskCard.appendChild(actionsContainer);
   } else {
     const titleElement = document.createElement("p");
+    titleElement.className = "task-card__title";
     titleElement.textContent = task.title;
-    titleElement.classList.toggle("line-through", task.isCompleted);
+    titleElement.classList.toggle("task-card__line-through", task.isCompleted);
     taskCard.appendChild(titleElement);
 
     const createdAtElement = document.createElement("p");
-    createdAtElement.className = "created-at";
+    createdAtElement.className = "task-card__created-at";
     createdAtElement.textContent = `Created At: ${task.createdAt}`;
     taskCard.appendChild(createdAtElement);
 
     const actionsContainer = document.createElement("div");
-    actionsContainer.className = "task-actions";
+    actionsContainer.className = "task-card__task-actions";
 
     const buttonsContainer = document.createElement("div");
-    buttonsContainer.className = "task-buttons";
+    buttonsContainer.className = "task-card__task-buttons";
 
     const checkButton = document.createElement("button");
-    checkButton.className = "btn-check";
+    checkButton.className = "task-card__button task-card__button--check";
     checkButton.innerHTML = `
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M20.285 2L9 13.567L3.714 8.556L0 12.272L9 21L24 5.715L20.285 2Z" fill="#BBBDD0"/>
@@ -140,13 +141,13 @@ const createTaskCard = (task) => {
     `;
     checkButton.addEventListener("click", () => {
       task.isCompleted = !task.isCompleted;
-      taskCard.classList.toggle("task-completed");
+      taskCard.classList.toggle("task-card--completed");
       renderTasks(currentFilter);
     });
     buttonsContainer.appendChild(checkButton);
 
     const editButton = document.createElement("button");
-    editButton.className = "btn-edit";
+    editButton.className = "task-card__button task-card__button--edit";
     editButton.innerHTML = `
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_3_35)">
@@ -166,7 +167,7 @@ const createTaskCard = (task) => {
     buttonsContainer.appendChild(editButton);
 
     const deleteButton = document.createElement("button");
-    deleteButton.className = "btn-delete";
+    deleteButton.className = "task-card__button task-card__button--delete";
     deleteButton.innerHTML = `
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M19 24H5C3.896 24 3 23.104 3 22V6H21V22C21 23.104 20.104 24 19 24ZM10 10C10 9.448 9.552 9 9 9C8.448 9 8 9.448 8 10V19C8 19.552 8.448 20 9 20C9.552 20 10 19.552 10 19V10ZM16 10C16 9.448 15.552 9 15 9C14.448 9 14 9.448 14 10V19C14 19.552 14.448 20 15 20C15.552 20 16 19.552 16 19V10ZM22 5H2V3H8V1.5C8 0.673 8.673 0 9.5 0H14.5C15.325 0 16 0.671 16 1.5V3H22V5ZM10 3H14V2H10V3Z" fill="#BBBDD0"/>
@@ -181,7 +182,7 @@ const createTaskCard = (task) => {
 
     if (task.isCompleted) {
       const completedTag = document.createElement("div");
-      completedTag.className = "completed-tag";
+      completedTag.className = "task-card__completed-tag";
       completedTag.textContent = "Completed in 3 days";
       actionsContainer.appendChild(completedTag);
     }
@@ -213,15 +214,12 @@ const renderTasks = (filter = currentFilter, append = false) => {
   const searchText = $searchInput.value.toLowerCase();
   if (!append) {
     $taskList.innerHTML = "";
-    page_current = 1;
+    pageCurrent = 1;
   }
 
   const filteredTasks = filterTasks(searchText, filter);
-  const startIndex = (page_current - 1) * page_load;
-  const paginatedTasks = filteredTasks.slice(
-    startIndex,
-    startIndex + page_load
-  );
+  const startIndex = (pageCurrent - 1) * pageLoad;
+  const paginatedTasks = filteredTasks.slice(startIndex, startIndex + pageLoad);
 
   paginatedTasks.forEach((task) => {
     const taskCard = createTaskCard(task);
@@ -231,20 +229,20 @@ const renderTasks = (filter = currentFilter, append = false) => {
   updatePaginationButtons(filteredTasks.length);
 
   if (tasks.length === 0) {
-    document.getElementById("no-tasks").style.display = "block";
+    document.getElementById("noTasks").style.display = "block";
   } else {
-    document.getElementById("no-tasks").style.display = "none";
+    document.getElementById("noTasks").style.display = "none";
   }
 };
 
 const updatePaginationButtons = (totalTasks) => {
-  if (page_current * page_load >= totalTasks) {
+  if (pageCurrent * pageLoad >= totalTasks) {
     $btnLoadMore.style.display = "none";
   } else {
     $btnLoadMore.style.display = "block";
   }
 
-  if (page_current > 1) {
+  if (pageCurrent > 1) {
     $btnShowLess.style.display = "block";
   } else {
     $btnShowLess.style.display = "none";
@@ -259,7 +257,7 @@ const showError = (message) => {
 };
 
 const handlePagination = () => {
-  page_current++;
+  pageCurrent++;
   renderTasks(currentFilter, true);
 };
 
@@ -292,7 +290,7 @@ $filterIncomplete.addEventListener("click", () => {
 $btnCreate.addEventListener("click", openForm);
 $btnLoadMore.addEventListener("click", handlePagination);
 $btnShowLess.addEventListener("click", () => {
-  page_current = 1;
+  pageCurrent = 1;
   renderTasks(currentFilter);
 });
 document

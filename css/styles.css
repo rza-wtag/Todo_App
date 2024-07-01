@@ -16,6 +16,10 @@ header {
   background-color: #f4f4f9;
 }
 
+#searchIcon {
+  cursor: pointer;
+}
+
 .task-card .line-through {
   text-decoration: line-through;
   color: green;
@@ -59,7 +63,7 @@ header {
   border: 1px solid #ddd;
   border-radius: 5px;
   width: 200px;
-  display: none; /* Hide by default */
+  display: none;
 }
 
 .add-task-filter {

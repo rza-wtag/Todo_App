@@ -19,10 +19,14 @@ import { formatDate } from "../js/helpers/formatDate.js";
 import { checkSVG, editSVG, deleteSVG } from "./utils/constants.js";
 import { calculateCompletionTime } from "./utils/utils.js";
 
-let tasks = [];
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 let pageCurrent = 1;
 const pageLoad = 9;
 let currentFilter = "all";
+
+const saveTasksToLocalStorage = () => {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};
 
 const openForm = () => {
   $taskForm.classList.add("show");
@@ -54,6 +58,7 @@ const addTask = () => {
     isBeingEdited: false,
   };
   tasks.unshift(newTask);
+  saveTasksToLocalStorage();
 
   renderTasks(currentFilter);
   $taskTitle.value = "";
@@ -65,6 +70,7 @@ const updateTask = (taskId, newTitle) => {
   if (taskIndex !== -1) {
     tasks[taskIndex].title = newTitle;
     tasks[taskIndex].isBeingEdited = false;
+    saveTasksToLocalStorage();
   }
 };
 
@@ -90,95 +96,69 @@ const createTaskCard = (task) => {
     taskCard.classList.add("task-card--completed");
   }
 
-  if (task.isBeingEdited) {
-    const inputElement = document.createElement("input");
-    inputElement.type = "text";
-    inputElement.value = task.title;
-    inputElement.className = "edit-input";
-    taskCard.appendChild(inputElement);
+  const titleElement = document.createElement("p");
+  titleElement.className = "task-card__title";
+  titleElement.textContent = task.title;
+  titleElement.classList.toggle("task-card__line-through", task.isCompleted);
+  taskCard.appendChild(titleElement);
 
-    const actionsContainer = document.createElement("div");
-    actionsContainer.className = "task-card__edit-actions";
+  const createdAtElement = document.createElement("p");
+  createdAtElement.className = "task-card__created-at";
+  createdAtElement.textContent = `Created At: ${task.createdAt}`;
+  taskCard.appendChild(createdAtElement);
 
-    const saveButton = document.createElement("button");
-    saveButton.className = "task-card__edit-button--save";
-    saveButton.textContent = "Save";
-    saveButton.addEventListener("click", () => {
-      updateTask(task.id, inputElement.value);
-      renderTasks(currentFilter);
-    });
-    actionsContainer.appendChild(saveButton);
+  const actionsContainer = document.createElement("div");
+  actionsContainer.className = "task-card__task-actions";
 
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "task-card__button task-card__button--delete";
-    deleteButton.innerHTML = deleteSVG;
-    deleteButton.addEventListener("click", () => {
-      deleteTask(task.id);
-    });
-    actionsContainer.appendChild(deleteButton);
+  const buttonsContainer = document.createElement("div");
+  buttonsContainer.className = "task-card__task-buttons";
 
-    taskCard.appendChild(actionsContainer);
-  } else {
-    const titleElement = document.createElement("p");
-    titleElement.className = "task-card__title";
-    titleElement.textContent = task.title;
-    titleElement.classList.toggle("task-card__line-through", task.isCompleted);
-    taskCard.appendChild(titleElement);
+  const checkButton = document.createElement("button");
+  checkButton.className = "task-card__button task-card__button--check";
+  checkButton.innerHTML = checkSVG;
+  checkButton.addEventListener("click", () => {
+    task.isCompleted = true;
+    saveTasksToLocalStorage();
+    renderTasks(currentFilter);
+  });
 
-    const createdAtElement = document.createElement("p");
-    createdAtElement.className = "task-card__created-at";
-    createdAtElement.textContent = `Created At: ${task.createdAt}`;
-    taskCard.appendChild(createdAtElement);
+  const editButton = document.createElement("button");
+  editButton.className = "task-card__button task-card__button--edit";
+  editButton.innerHTML = editSVG;
+  editButton.addEventListener("click", () => {
+    task.isBeingEdited = true;
+    renderTasks(currentFilter);
+  });
 
-    const actionsContainer = document.createElement("div");
-    actionsContainer.className = "task-card__task-actions";
+  const deleteButton = document.createElement("button");
+  deleteButton.className = "task-card__button task-card__button--delete";
+  deleteButton.innerHTML = deleteSVG;
+  deleteButton.addEventListener("click", () => {
+    deleteTask(task.id);
+  });
 
-    const buttonsContainer = document.createElement("div");
-    buttonsContainer.className = "task-card__task-buttons";
+  if (task.isCompleted) {
+    checkButton.classList.add("hide");
+    editButton.classList.add("hide");
 
-    const checkButton = document.createElement("button");
-    checkButton.className = "task-card__button task-card__button--check";
-    checkButton.innerHTML = checkSVG;
-    checkButton.addEventListener("click", () => {
-      task.isCompleted = true;
-      taskCard.classList.add("task-card--completed");
-      checkButton.classList.add("hide");
-      editButton.classList.add("hide");
-
-      const completedTag = document.createElement("div");
-      completedTag.className = "task-card__completed-tag";
-      completedTag.textContent = calculateCompletionTime(task.createdAt);
-      actionsContainer.appendChild(completedTag);
-    });
-    buttonsContainer.appendChild(checkButton);
-
-    const editButton = document.createElement("button");
-    editButton.className = "task-card__button task-card__button--edit";
-    editButton.innerHTML = editSVG;
-    editButton.addEventListener("click", () => {
-      task.isBeingEdited = true;
-      renderTasks(currentFilter);
-    });
-    buttonsContainer.appendChild(editButton);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "task-card__button task-card__button--delete";
-    deleteButton.innerHTML = deleteSVG;
-    deleteButton.addEventListener("click", () => {
-      deleteTask(task.id);
-    });
-    buttonsContainer.appendChild(deleteButton);
-
-    actionsContainer.appendChild(buttonsContainer);
-
-    taskCard.appendChild(actionsContainer);
+    const completedTag = document.createElement("div");
+    completedTag.className = "task-card__completed-tag";
+    completedTag.textContent = calculateCompletionTime(task.createdAt);
+    actionsContainer.appendChild(completedTag);
   }
+
+  buttonsContainer.appendChild(checkButton);
+  buttonsContainer.appendChild(editButton);
+  buttonsContainer.appendChild(deleteButton);
+  actionsContainer.appendChild(buttonsContainer);
+  taskCard.appendChild(actionsContainer);
 
   return taskCard;
 };
 
 const deleteTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== taskId);
+  saveTasksToLocalStorage();
   renderTasks(currentFilter);
 };
 

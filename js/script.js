@@ -160,12 +160,14 @@ const renderTasks = () => {
   const searchText = $searchInput.value.toLowerCase();
   $taskList.innerHTML = "";
 
-  tasks
-    .filter((task) => task.title.toLowerCase().includes(searchText))
-    .forEach((task) => {
-      const taskCard = createTaskCard(task);
-      $taskList.appendChild(taskCard);
-    });
+  const searchedTasks = tasks.filter((task) =>
+    task.title.toLowerCase().includes(searchText)
+  );
+
+  searchedTasks.forEach((task) => {
+    const taskCard = createTaskCard(task);
+    $taskList.appendChild(taskCard);
+  });
 };
 
 const showError = (message) => {

@@ -3,6 +3,8 @@ import {
   $taskTitle,
   $taskList,
   $btnCreate,
+  $btnAddTask,
+  $btnCloseForm,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
@@ -49,14 +51,12 @@ const updateTask = (taskId, newTitle) => {
   }
 };
 
-const saveTask = () => {
+const saveUpdatedTask = () => {
   const title = $taskTitle.value.trim();
   const editedTaskIndex = tasks.findIndex((task) => task.isBeingEdited);
 
   if (editedTaskIndex !== -1) {
     updateTask(tasks[editedTaskIndex].id, title);
-  } else {
-    addTask();
   }
 
   renderTasks();
@@ -156,5 +156,5 @@ const showError = (message) => {
 };
 
 $btnCreate.addEventListener("click", openForm);
-document.getElementById("btnAddTask").addEventListener("click", saveTask);
-document.getElementById("btnCloseForm").addEventListener("click", closeForm);
+$btnAddTask.addEventListener("click", addTask);
+$btnCloseForm.addEventListener("click", closeForm);

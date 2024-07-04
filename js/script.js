@@ -173,9 +173,9 @@ const filterTasks = (searchText, filter) => {
   return tasks.filter((task) => {
     const matchesSearch = task.title.toLowerCase().includes(searchText);
     const matchesFilter =
-      filter === "all" ||
-      (filter === "complete" && task.isCompleted) ||
-      (filter === "incomplete" && !task.isCompleted);
+      filter === ALL ||
+      (filter === COMPLETE && task.isCompleted) ||
+      (filter === IN_COMPLETE && !task.isCompleted);
     return matchesSearch && matchesFilter;
   });
 };

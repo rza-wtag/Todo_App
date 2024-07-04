@@ -51,19 +51,6 @@ const updateTask = (taskId, newTitle) => {
   }
 };
 
-const saveUpdatedTask = () => {
-  const title = $taskTitle.value.trim();
-  const editedTaskIndex = tasks.findIndex((task) => task.isBeingEdited);
-
-  if (editedTaskIndex !== -1) {
-    updateTask(tasks[editedTaskIndex].id, title);
-  }
-
-  renderTasks();
-  $taskTitle.value = "";
-  closeForm();
-};
-
 const createEditElements = (task, taskCard) => {
   const inputElement = document.createElement("input");
   inputElement.type = "text";

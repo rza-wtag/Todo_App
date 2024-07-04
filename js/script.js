@@ -64,38 +64,42 @@ const saveUpdatedTask = () => {
   closeForm();
 };
 
+const createEditElements = (task, taskCard) => {
+  const inputElement = document.createElement("input");
+  inputElement.type = "text";
+  inputElement.value = task.title;
+  inputElement.className = "edit-input";
+  taskCard.appendChild(inputElement);
+
+  const actionsContainer = document.createElement("div");
+  actionsContainer.className = "edit-actions";
+
+  const saveButton = document.createElement("button");
+  saveButton.className = "btn-save";
+  saveButton.textContent = "Save";
+  saveButton.addEventListener("click", () => {
+    updateTask(task.id, inputElement.value);
+    renderTasks();
+  });
+  actionsContainer.appendChild(saveButton);
+
+  const deleteButton = document.createElement("button");
+  deleteButton.className = "btn-delete";
+  deleteButton.textContent = "Delete";
+  deleteButton.addEventListener("click", () => {
+    deleteTask(task.id);
+  });
+  actionsContainer.appendChild(deleteButton);
+
+  taskCard.appendChild(actionsContainer);
+};
+
 const createTaskCard = (task) => {
   const taskCard = document.createElement("div");
   taskCard.className = "task-card";
 
   if (task.isBeingEdited) {
-    const inputElement = document.createElement("input");
-    inputElement.type = "text";
-    inputElement.value = task.title;
-    inputElement.className = "edit-input";
-    taskCard.appendChild(inputElement);
-
-    const actionsContainer = document.createElement("div");
-    actionsContainer.className = "edit-actions";
-
-    const saveButton = document.createElement("button");
-    saveButton.className = "btn-save";
-    saveButton.textContent = "Save";
-    saveButton.addEventListener("click", () => {
-      updateTask(task.id, inputElement.value);
-      renderTasks();
-    });
-    actionsContainer.appendChild(saveButton);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "btn-delete";
-    deleteButton.textContent = "Delete";
-    deleteButton.addEventListener("click", () => {
-      deleteTask(task.id);
-    });
-    actionsContainer.appendChild(deleteButton);
-
-    taskCard.appendChild(actionsContainer);
+    createEditElements(task, taskCard);
   } else {
     const titleElement = document.createElement("p");
     titleElement.textContent = task.title;

@@ -3,11 +3,13 @@ import {
   $taskTitle,
   $taskList,
   $btnCreate,
+  $searchInput,
   $btnAddTask,
   $btnCloseForm,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
+
 let tasks = [];
 
 const openForm = () => {
@@ -150,9 +152,14 @@ const editTask = (taskId) => {
 };
 
 const renderTasks = () => {
+  const searchText = $searchInput.value.toLowerCase();
   $taskList.innerHTML = "";
 
-  tasks.forEach((task) => {
+  const searchedTasks = tasks.filter((task) =>
+    task.title.toLowerCase().includes(searchText)
+  );
+
+  searchedTasks.forEach((task) => {
     const taskCard = createTaskCard(task);
     $taskList.appendChild(taskCard);
   });
@@ -165,6 +172,7 @@ const showError = (message) => {
   $taskForm.insertBefore($errorMessage, $taskTitle);
 };
 
+$searchInput.addEventListener("input", renderTasks);
 $btnCreate.addEventListener("click", openForm);
 $btnAddTask.addEventListener("click", addTask);
 $btnCloseForm.addEventListener("click", closeForm);

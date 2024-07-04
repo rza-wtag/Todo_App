@@ -4,6 +4,8 @@ import {
   $taskList,
   $btnCreate,
   $searchInput,
+  $btnAddTask,
+  $btnCloseForm,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
@@ -52,19 +54,45 @@ const updateTask = (taskId, newTitle) => {
   }
 };
 
-const saveTask = () => {
-  const title = $taskTitle.value.trim();
-  const editedTaskIndex = tasks.findIndex((task) => task.isBeingEdited);
+const createEditElements = (task, taskCard) => {
+  const inputElement = document.createElement("input");
+  inputElement.type = "text";
+  inputElement.value = task.title;
+  inputElement.className = "edit-input";
+  taskCard.appendChild(inputElement);
 
-  if (editedTaskIndex !== -1) {
-    updateTask(tasks[editedTaskIndex].id, title);
-  } else {
-    addTask();
-  }
+  const actionsContainer = document.createElement("div");
+  actionsContainer.className = "edit-actions";
 
-  renderTasks();
-  $taskTitle.value = "";
-  closeForm();
+  const saveButton = document.createElement("button");
+  saveButton.className = "btn-save";
+  saveButton.textContent = "Save";
+  saveButton.addEventListener("click", () => {
+    updateTask(task.id, inputElement.value);
+    renderTasks();
+  });
+  actionsContainer.appendChild(saveButton);
+
+  const deleteButton = document.createElement("button");
+  deleteButton.className = "btn-delete";
+  deleteButton.textContent = "Delete";
+  deleteButton.addEventListener("click", () => {
+    deleteTask(task.id);
+  });
+  actionsContainer.appendChild(deleteButton);
+
+  taskCard.appendChild(actionsContainer);
+};
+
+const markAsDone = (task, taskCard) => {
+  const checkButton = document.createElement("button");
+  checkButton.className = "btn-check";
+  checkButton.textContent = "✔️";
+  checkButton.addEventListener("click", () => {
+    task.isCompleted = true;
+    renderTasks();
+  });
+  taskCard.appendChild(checkButton);
 };
 
 const createTaskCard = (task) => {
@@ -75,33 +103,7 @@ const createTaskCard = (task) => {
   }
 
   if (task.isBeingEdited) {
-    const inputElement = document.createElement("input");
-    inputElement.type = "text";
-    inputElement.value = task.title;
-    inputElement.className = "edit-input";
-    taskCard.appendChild(inputElement);
-
-    const actionsContainer = document.createElement("div");
-    actionsContainer.className = "edit-actions";
-
-    const saveButton = document.createElement("button");
-    saveButton.className = "btn-save";
-    saveButton.textContent = "Save";
-    saveButton.addEventListener("click", () => {
-      updateTask(task.id, inputElement.value);
-      renderTasks();
-    });
-    actionsContainer.appendChild(saveButton);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "btn-delete";
-    deleteButton.textContent = "Delete";
-    deleteButton.addEventListener("click", () => {
-      deleteTask(task.id);
-    });
-    actionsContainer.appendChild(deleteButton);
-
-    taskCard.appendChild(actionsContainer);
+    createEditElements(task, taskCard);
   } else {
     const titleElement = document.createElement("p");
     titleElement.textContent = task.title;
@@ -130,14 +132,7 @@ const createTaskCard = (task) => {
   }
 
   if (!task.isCompleted) {
-    const checkButton = document.createElement("button");
-    checkButton.className = "btn-check";
-    checkButton.textContent = "✔️";
-    checkButton.addEventListener("click", () => {
-      task.isCompleted = true;
-      renderTasks();
-    });
-    taskCard.appendChild(checkButton);
+    markAsDone(task, taskCard);
   }
 
   return taskCard;
@@ -179,5 +174,5 @@ const showError = (message) => {
 
 $searchInput.addEventListener("input", renderTasks);
 $btnCreate.addEventListener("click", openForm);
-document.getElementById("btnAddTask").addEventListener("click", saveTask);
-document.getElementById("btnCloseForm").addEventListener("click", closeForm);
+$btnAddTask.addEventListener("click", addTask);
+$btnCloseForm.addEventListener("click", closeForm);

@@ -34,6 +34,7 @@ const addTask = () => {
     id: Date.now(),
     title: taskTitle,
     createdAt: formatDate(new Date()),
+    isCompleted: false,
     isBeingEdited: false,
   };
   tasks.unshift(newTask);
@@ -81,9 +82,23 @@ const createEditElements = (task, taskCard) => {
   taskCard.appendChild(actionsContainer);
 };
 
+const markAsDone = (task, taskCard) => {
+  const checkButton = document.createElement("button");
+  checkButton.className = "btn-check";
+  checkButton.textContent = "✔️";
+  checkButton.addEventListener("click", () => {
+    task.isCompleted = true;
+    renderTasks();
+  });
+  taskCard.appendChild(checkButton);
+};
+
 const createTaskCard = (task) => {
   const taskCard = document.createElement("div");
   taskCard.className = "task-card";
+  if (task.isCompleted) {
+    taskCard.classList.add("task-completed");
+  }
 
   if (task.isBeingEdited) {
     createEditElements(task, taskCard);
@@ -112,6 +127,10 @@ const createTaskCard = (task) => {
       deleteTask(task.id);
     });
     taskCard.appendChild(deleteButton);
+  }
+
+  if (!task.isCompleted) {
+    markAsDone(task, taskCard);
   }
 
   return taskCard;

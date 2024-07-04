@@ -3,6 +3,8 @@ import {
   $taskTitle,
   $taskList,
   $btnCreate,
+  $btnAddTask,
+  $btnCloseForm,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
@@ -14,6 +16,8 @@ const openForm = () => {
 
 const closeForm = () => {
   $taskForm.classList.remove("show");
+  $taskTitle.value = "";
+  tasks.forEach((task) => (task.isBeingEdited = false));
 };
 
 const addTask = () => {
@@ -30,31 +34,41 @@ const addTask = () => {
     id: Date.now(),
     title: taskTitle,
     createdAt: formatDate(new Date()),
+    isBeingEdited: false,
   };
-
   tasks.unshift(newTask);
+
   renderTasks();
   $taskTitle.value = "";
   closeForm();
 };
 
-const createTaskCard = (task) => {
-  const taskCard = document.createElement("div");
-  taskCard.className = "task-card";
+const updateTask = (taskId, newTitle) => {
+  const taskIndex = tasks.findIndex((task) => task.id === taskId);
+  if (taskIndex !== -1) {
+    tasks[taskIndex].title = newTitle;
+    tasks[taskIndex].isBeingEdited = false;
+  }
+};
 
-  const titleElement = document.createElement("p");
-  titleElement.textContent = task.title;
-  taskCard.appendChild(titleElement);
+const createEditElements = (task, taskCard) => {
+  const inputElement = document.createElement("input");
+  inputElement.type = "text";
+  inputElement.value = task.title;
+  inputElement.className = "edit-input";
+  taskCard.appendChild(inputElement);
 
-  const createdAtElement = document.createElement("p");
-  createdAtElement.className = "created-at";
-  createdAtElement.textContent = `Created At: ${task.createdAt}`;
-  taskCard.appendChild(createdAtElement);
+  const actionsContainer = document.createElement("div");
+  actionsContainer.className = "edit-actions";
 
-  const editButton = document.createElement("button");
-  editButton.className = "btn-edit";
-  editButton.textContent = "Edit";
-  taskCard.appendChild(editButton);
+  const saveButton = document.createElement("button");
+  saveButton.className = "btn-save";
+  saveButton.textContent = "Save";
+  saveButton.addEventListener("click", () => {
+    updateTask(task.id, inputElement.value);
+    renderTasks();
+  });
+  actionsContainer.appendChild(saveButton);
 
   const deleteButton = document.createElement("button");
   deleteButton.className = "btn-delete";
@@ -62,7 +76,43 @@ const createTaskCard = (task) => {
   deleteButton.addEventListener("click", () => {
     deleteTask(task.id);
   });
-  taskCard.appendChild(deleteButton);
+  actionsContainer.appendChild(deleteButton);
+
+  taskCard.appendChild(actionsContainer);
+};
+
+const createTaskCard = (task) => {
+  const taskCard = document.createElement("div");
+  taskCard.className = "task-card";
+
+  if (task.isBeingEdited) {
+    createEditElements(task, taskCard);
+  } else {
+    const titleElement = document.createElement("p");
+    titleElement.textContent = task.title;
+    taskCard.appendChild(titleElement);
+
+    const createdAtElement = document.createElement("p");
+    createdAtElement.className = "created-at";
+    createdAtElement.textContent = `Created At: ${task.createdAt}`;
+    taskCard.appendChild(createdAtElement);
+
+    const editButton = document.createElement("button");
+    editButton.className = "btn-edit";
+    editButton.textContent = "Edit";
+    editButton.addEventListener("click", () => {
+      editTask(task.id);
+    });
+    taskCard.appendChild(editButton);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn-delete";
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => {
+      deleteTask(task.id);
+    });
+    taskCard.appendChild(deleteButton);
+  }
 
   return taskCard;
 };
@@ -70,6 +120,14 @@ const createTaskCard = (task) => {
 const deleteTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== taskId);
   renderTasks();
+};
+
+const editTask = (taskId) => {
+  const taskToEdit = tasks.find((task) => task.id === taskId);
+  if (taskToEdit) {
+    taskToEdit.isBeingEdited = true;
+    renderTasks();
+  }
 };
 
 const renderTasks = () => {
@@ -89,5 +147,5 @@ const showError = (message) => {
 };
 
 $btnCreate.addEventListener("click", openForm);
-document.getElementById("btnAddTask").addEventListener("click", addTask);
-document.getElementById("btnCloseForm").addEventListener("click", closeForm);
+$btnAddTask.addEventListener("click", addTask);
+$btnCloseForm.addEventListener("click", closeForm);

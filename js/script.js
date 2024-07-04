@@ -12,10 +12,15 @@ import {
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
+import {
+  TASK_PER_PAGE,
+  ALL,
+  COMPLETE,
+  IN_COMPLETE,
+} from "./helpers/constants.js";
 
 let tasks = [];
 let page_current = 1;
-const page_load = 9;
 let currentFilter = "all";
 
 const openForm = () => {
@@ -184,10 +189,10 @@ const renderTasks = (filter = currentFilter, append = false) => {
   }
 
   const filteredTasks = filterTasks(searchText, filter);
-  const startIndex = (page_current - 1) * page_load;
+  const startIndex = (page_current - 1) * TASK_PER_PAGE;
   const paginatedTasks = filteredTasks.slice(
     startIndex,
-    startIndex + page_load
+    startIndex + TASK_PER_PAGE
   );
 
   paginatedTasks.forEach((task) => {
@@ -199,7 +204,7 @@ const renderTasks = (filter = currentFilter, append = false) => {
 };
 
 const updatePaginationButtons = (totalTasks) => {
-  if (page_current * page_load >= totalTasks) {
+  if (page_current * TASK_PER_PAGE >= totalTasks) {
     $btnLoadMore.style.display = "none";
   } else {
     $btnLoadMore.style.display = "block";

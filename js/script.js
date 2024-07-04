@@ -15,7 +15,7 @@ import { formatDate } from "../js/helpers/formatDate.js";
 
 let tasks = [];
 let page_current = 1;
-const page_load = 9;
+const page_load = 2;
 let currentFilter = "all";
 
 const openForm = () => {

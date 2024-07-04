@@ -60,3 +60,11 @@ input[type="text"] {
 .task-form.show {
   display: flex;
 }
+
+#btnLoadMore {
+  display: none;
+}
+
+#btnShowLess {
+  display: none;
+}

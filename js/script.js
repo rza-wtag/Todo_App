@@ -9,6 +9,8 @@ import {
   $filterIncomplete,
   $btnLoadMore,
   $btnShowLess,
+  $btnAddTask,
+  $btnCloseForm,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
@@ -248,5 +250,5 @@ $btnShowLess.addEventListener("click", () => {
   page_current = 1;
   renderTasks(currentFilter);
 });
-document.getElementById("btnAddTask").addEventListener("click", saveTask);
-document.getElementById("btnCloseForm").addEventListener("click", closeForm);
+$btnAddTask.addEventListener("click", addTask);
+$btnCloseForm.addEventListener("click", closeForm);

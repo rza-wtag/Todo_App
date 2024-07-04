@@ -95,6 +95,17 @@ const createEditElements = (task, taskCard) => {
   taskCard.appendChild(actionsContainer);
 };
 
+const markAsDone = (task, taskCard) => {
+  const checkButton = document.createElement("button");
+  checkButton.className = "btn-check";
+  checkButton.textContent = "✔️";
+  checkButton.addEventListener("click", () => {
+    task.isCompleted = true;
+    renderTasks();
+  });
+  taskCard.appendChild(checkButton);
+};
+
 const createTaskCard = (task) => {
   const taskCard = document.createElement("div");
   taskCard.className = "task-card";
@@ -132,14 +143,7 @@ const createTaskCard = (task) => {
   }
 
   if (!task.isCompleted) {
-    const checkButton = document.createElement("button");
-    checkButton.className = "btn-check";
-    checkButton.textContent = "✔️";
-    checkButton.addEventListener("click", () => {
-      task.isCompleted = true;
-      renderTasks();
-    });
-    taskCard.appendChild(checkButton);
+    markAsDone(task, taskCard);
   }
 
   return taskCard;

@@ -18,11 +18,16 @@ import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
 import { checkSVG, editSVG, deleteSVG } from "./utils/constants.js";
 import { calculateCompletionTime } from "./utils/utils.js";
+import {
+  TASK_PER_PAGE,
+  ALL,
+  COMPLETE,
+  IN_COMPLETE,
+} from "./helpers/constants.js";
 
 let tasks = [];
-let pageCurrent = 1;
-const pageLoad = 9;
-let currentFilter = "all";
+let page_current = 1;
+let currentFilter = ALL;
 
 const openForm = () => {
   $taskForm.classList.add("show");
@@ -186,9 +191,9 @@ const filterTasks = (searchText, filter) => {
   return tasks.filter((task) => {
     const matchesSearch = task.title.toLowerCase().includes(searchText);
     const matchesFilter =
-      filter === "all" ||
-      (filter === "complete" && task.isCompleted) ||
-      (filter === "incomplete" && !task.isCompleted);
+      filter === ALL ||
+      (filter === COMPLETE && task.isCompleted) ||
+      (filter === IN_COMPLETE && !task.isCompleted);
     return matchesSearch && matchesFilter;
   });
 };
@@ -198,13 +203,15 @@ const renderTasks = (filter = currentFilter, append = false) => {
   const searchText = $searchInput.value.toLowerCase();
   if (!append) {
     $taskList.innerHTML = "";
-    pageCurrent = 1;
+    page_current = 1;
   }
 
   const filteredTasks = filterTasks(searchText, filter);
-  const startIndex = (pageCurrent - 1) * pageLoad;
-  const paginatedTasks = filteredTasks.slice(startIndex, startIndex + pageLoad);
-
+  const startIndex = (page_current - 1) * TASK_PER_PAGE;
+  const paginatedTasks = filteredTasks.slice(
+    startIndex,
+    startIndex + TASK_PER_PAGE
+  );
   paginatedTasks.forEach((task) => {
     const taskCard = createTaskCard(task);
     $taskList.appendChild(taskCard);
@@ -222,15 +229,14 @@ const renderTasks = (filter = currentFilter, append = false) => {
 };
 
 const updatePaginationButtons = (totalTasks) => {
-  if (pageCurrent * pageLoad >= totalTasks) {
-    $btnLoadMore.classList.add("hide");
-    $btnLoadMore.classList.remove("show");
+  if (page_current * TASK_PER_PAGE >= totalTasks) {
+    $btnLoadMore.style.display = "none";
   } else {
     $btnLoadMore.classList.add("show");
     $btnLoadMore.classList.remove("hide");
   }
 
-  if (pageCurrent > 1) {
+  if (page_current > 1) {
     $btnShowLess.classList.add("show");
     $btnShowLess.classList.remove("hide");
   } else {
@@ -247,7 +253,7 @@ const showError = (message) => {
 };
 
 const handlePagination = () => {
-  pageCurrent++;
+  page_current++;
   renderTasks(currentFilter, true);
 };
 
@@ -268,25 +274,23 @@ const handleSearchIconClick = () => {
 $searchInput.addEventListener("input", () => renderTasks(currentFilter));
 
 $filterAll.addEventListener("click", () => {
-  currentFilter = "all";
-  renderTasks("all");
+  currentFilter = ALL;
+  renderTasks(ALL);
 });
 $filterComplete.addEventListener("click", () => {
-  currentFilter = "complete";
-  renderTasks("complete");
+  currentFilter = COMPLETE;
+  renderTasks(COMPLETE);
 });
 $filterIncomplete.addEventListener("click", () => {
-  currentFilter = "incomplete";
-  renderTasks("incomplete");
+  currentFilter = IN_COMPLETE;
+  renderTasks(IN_COMPLETE);
 });
 $btnCreate.addEventListener("click", openForm);
 $btnLoadMore.addEventListener("click", handlePagination);
 $btnShowLess.addEventListener("click", () => {
-  pageCurrent = 1;
+  page_current = 1;
   renderTasks(currentFilter);
 });
 $searchIcon.addEventListener("click", handleSearchIconClick);
-$btnAddTask.addEventListener("click", saveTask);
+$btnAddTask.addEventListener("click", addTask);
 $btnCloseForm.addEventListener("click", closeForm);
-
-renderTasks();

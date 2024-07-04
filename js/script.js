@@ -177,7 +177,7 @@ const showError = (message) => {
   $taskForm.insertBefore($errorMessage, $taskTitle);
 };
 
-$searchInput.addEventListener("input", () => renderTasks());
+$searchInput.addEventListener("input", renderTasks);
 $btnCreate.addEventListener("click", openForm);
 document.getElementById("btnAddTask").addEventListener("click", saveTask);
 document.getElementById("btnCloseForm").addEventListener("click", closeForm);

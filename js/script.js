@@ -23,7 +23,7 @@ import {
 
 let tasks = [];
 let page_current = 1;
-let currentFilter = "all";
+let currentFilter = ALL;
 
 const openForm = () => {
   $taskForm.classList.add("show");
@@ -233,16 +233,16 @@ const handlePagination = () => {
 
 $searchInput.addEventListener("input", () => renderTasks(currentFilter));
 $filterAll.addEventListener("click", () => {
-  currentFilter = "all";
-  renderTasks("all");
+  currentFilter = ALL;
+  renderTasks(ALL);
 });
 $filterComplete.addEventListener("click", () => {
-  currentFilter = "complete";
-  renderTasks("complete");
+  currentFilter = COMPLETE;
+  renderTasks(COMPLETE);
 });
 $filterIncomplete.addEventListener("click", () => {
-  currentFilter = "incomplete";
-  renderTasks("incomplete");
+  currentFilter = IN_COMPLETE;
+  renderTasks(IN_COMPLETE);
 });
 $btnCreate.addEventListener("click", openForm);
 $btnLoadMore.addEventListener("click", handlePagination);

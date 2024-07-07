@@ -21,9 +21,6 @@ body {
 .button:hover {
   background-color: #357ab7;
 }
-.button:last-child {
-  margin-right: 0;
-}
 .button--active {
   background-color: #021d3c;
   color: #f8f8f8;

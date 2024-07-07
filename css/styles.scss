@@ -24,10 +24,6 @@ body {
     background-color: $color-primary-hover;
   }
 
-  &:last-child {
-    margin-right: 0;
-  }
-
   &--active {
     background-color: $color-active;
     color: #f8f8f8;

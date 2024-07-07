@@ -39,9 +39,11 @@ const openNewTaskCard = () => {
 };
 
 const addTask = (taskId, newTitle) => {
+  const sanitizedTitle = stripSanitizedParts(newTitle.trim());
+  console.log("Adding task with sanitized title:", sanitizedTitle);
   const taskIndex = tasks.findIndex((task) => task.id === taskId);
   if (taskIndex !== -1) {
-    tasks[taskIndex].title = newTitle;
+    tasks[taskIndex].title = sanitizedTitle;
     tasks[taskIndex].isNew = false;
     tasks[taskIndex].isBeingEdited = false;
     renderTasks(currentFilter);
@@ -49,10 +51,13 @@ const addTask = (taskId, newTitle) => {
 };
 
 const updateTask = (taskId, newTitle) => {
+  const sanitizedTitle = stripSanitizedParts(newTitle.trim());
+  console.log("Updating task with sanitized title:", sanitizedTitle);
   const taskIndex = tasks.findIndex((task) => task.id === taskId);
   if (taskIndex !== -1) {
-    tasks[taskIndex].title = newTitle;
+    tasks[taskIndex].title = sanitizedTitle;
     tasks[taskIndex].isBeingEdited = false;
+    renderTasks(currentFilter);
   }
 };
 
@@ -82,6 +87,7 @@ const createTaskCard = (task) => {
     addButton.className = "task-card__edit-button--save";
     addButton.textContent = "Add Task";
     addButton.addEventListener("click", () => {
+      if (inputElement.value.trim() === "") return;
       addTask(task.id, inputElement.value);
     });
     actionsContainer.appendChild(addButton);
@@ -109,8 +115,8 @@ const createTaskCard = (task) => {
     saveButton.className = "task-card__edit-button--save";
     saveButton.textContent = "Save";
     saveButton.addEventListener("click", () => {
+      if (inputElement.value.trim() === "") return;
       updateTask(task.id, inputElement.value);
-      renderTasks(currentFilter);
     });
     actionsContainer.appendChild(saveButton);
 
@@ -127,6 +133,7 @@ const createTaskCard = (task) => {
     const titleElement = document.createElement("p");
     titleElement.className = "task-card__title";
     titleElement.textContent = task.title;
+    console.log("Displaying task title:", task.title);
     titleElement.classList.toggle("task-card__line-through", task.isCompleted);
     taskCard.appendChild(titleElement);
 
@@ -242,6 +249,8 @@ const updatePaginationButtons = (totalTasks) => {
 const handlePagination = () => {
   page_current++;
   renderTasks(currentFilter, true);
+  $btnLoadMore.classList.add("hide");
+  $btnShowLess.classList.remove("hide");
 };
 
 const handleSearchIconClick = () => {
@@ -277,5 +286,7 @@ $btnLoadMore.addEventListener("click", handlePagination);
 $btnShowLess.addEventListener("click", () => {
   page_current = 1;
   renderTasks(currentFilter);
+  $btnShowLess.classList.add("hide");
+  $btnLoadMore.classList.remove("hide");
 });
 $searchIcon.addEventListener("click", handleSearchIconClick);

@@ -290,3 +290,5 @@ $btnShowLess.addEventListener("click", () => {
   $btnLoadMore.classList.remove("hide");
 });
 $searchIcon.addEventListener("click", handleSearchIconClick);
+
+renderTasks();

@@ -1,6 +1,4 @@
 import {
-  $taskForm,
-  $taskTitle,
   $taskList,
   $btnCreate,
   $searchInput,
@@ -11,8 +9,6 @@ import {
   $btnShowLess,
   $emptyState,
   $searchIcon,
-  $btnAddTask,
-  $btnCloseForm,
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
@@ -29,40 +25,27 @@ let tasks = [];
 let page_current = 1;
 let currentFilter = ALL;
 
-const openForm = () => {
-  $taskForm.classList.add("show");
-  $taskForm.classList.remove("hide");
-};
-
-const closeForm = () => {
-  $taskForm.classList.add("hide");
-  $taskForm.classList.remove("show");
-  $taskTitle.value = "";
-  tasks.forEach((task) => (task.isBeingEdited = false));
-};
-
-const addTask = () => {
-  const title = $taskTitle.value.trim();
-
-  if (title === "") {
-    showError("Please enter a task title.");
-    return;
-  }
-
-  const taskTitle = stripSanitizedParts(title);
-
+const openNewTaskCard = () => {
   const newTask = {
     id: Date.now(),
-    title: taskTitle,
+    title: "",
     createdAt: formatDate(new Date()),
     isCompleted: false,
     isBeingEdited: false,
+    isNew: true,
   };
   tasks.unshift(newTask);
-
   renderTasks(currentFilter);
-  $taskTitle.value = "";
-  closeForm();
+};
+
+const addTask = (taskId, newTitle) => {
+  const taskIndex = tasks.findIndex((task) => task.id === taskId);
+  if (taskIndex !== -1) {
+    tasks[taskIndex].title = newTitle;
+    tasks[taskIndex].isNew = false;
+    tasks[taskIndex].isBeingEdited = false;
+    renderTasks(currentFilter);
+  }
 };
 
 const updateTask = (taskId, newTitle) => {
@@ -73,19 +56,9 @@ const updateTask = (taskId, newTitle) => {
   }
 };
 
-const saveTask = () => {
-  const title = $taskTitle.value.trim();
-  const editedTaskIndex = tasks.findIndex((task) => task.isBeingEdited);
-
-  if (editedTaskIndex !== -1) {
-    updateTask(tasks[editedTaskIndex].id, title);
-  } else {
-    addTask();
-  }
-
+const deleteTask = (taskId) => {
+  tasks = tasks.filter((task) => task.id !== taskId);
   renderTasks(currentFilter);
-  $taskTitle.value = "";
-  closeForm();
 };
 
 const createTaskCard = (task) => {
@@ -95,7 +68,34 @@ const createTaskCard = (task) => {
     taskCard.classList.add("task-card--completed");
   }
 
-  if (task.isBeingEdited) {
+  if (task.isNew) {
+    const inputElement = document.createElement("input");
+    inputElement.type = "text";
+    inputElement.value = task.title;
+    inputElement.className = "edit-input";
+    taskCard.appendChild(inputElement);
+
+    const actionsContainer = document.createElement("div");
+    actionsContainer.className = "task-card__edit-actions";
+
+    const addButton = document.createElement("button");
+    addButton.className = "task-card__edit-button--save";
+    addButton.textContent = "Add Task";
+    addButton.addEventListener("click", () => {
+      addTask(task.id, inputElement.value);
+    });
+    actionsContainer.appendChild(addButton);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "task-card__button task-card__button--delete";
+    deleteButton.innerHTML = deleteSVG;
+    deleteButton.addEventListener("click", () => {
+      deleteTask(task.id);
+    });
+    actionsContainer.appendChild(deleteButton);
+
+    taskCard.appendChild(actionsContainer);
+  } else if (task.isBeingEdited) {
     const inputElement = document.createElement("input");
     inputElement.type = "text";
     inputElement.value = task.title;
@@ -175,16 +175,10 @@ const createTaskCard = (task) => {
     buttonsContainer.appendChild(deleteButton);
 
     actionsContainer.appendChild(buttonsContainer);
-
     taskCard.appendChild(actionsContainer);
   }
 
   return taskCard;
-};
-
-const deleteTask = (taskId) => {
-  tasks = tasks.filter((task) => task.id !== taskId);
-  renderTasks(currentFilter);
 };
 
 const filterTasks = (searchText, filter) => {
@@ -245,13 +239,6 @@ const updatePaginationButtons = (totalTasks) => {
   }
 };
 
-const showError = (message) => {
-  const $errorMessage = document.createElement("p");
-  $errorMessage.className = "error-message";
-  $errorMessage.textContent = message;
-  $taskForm.insertBefore($errorMessage, $taskTitle);
-};
-
 const handlePagination = () => {
   page_current++;
   renderTasks(currentFilter, true);
@@ -285,12 +272,10 @@ $filterIncomplete.addEventListener("click", () => {
   currentFilter = IN_COMPLETE;
   renderTasks(IN_COMPLETE);
 });
-$btnCreate.addEventListener("click", openForm);
+$btnCreate.addEventListener("click", openNewTaskCard);
 $btnLoadMore.addEventListener("click", handlePagination);
 $btnShowLess.addEventListener("click", () => {
   page_current = 1;
   renderTasks(currentFilter);
 });
 $searchIcon.addEventListener("click", handleSearchIconClick);
-$btnAddTask.addEventListener("click", addTask);
-$btnCloseForm.addEventListener("click", closeForm);

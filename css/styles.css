@@ -135,7 +135,7 @@ body {
   border-radius: 0.3125rem;
   padding: 0.625rem;
   width: 12.5rem;
-  display: none; /* Initially hidden */
+  display: none;
 }
 .navbar__title {
   color: #7a8dfd;

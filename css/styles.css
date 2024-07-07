@@ -121,25 +121,31 @@ body {
   display: flex;
 }
 .navbar__search-container {
+  margin-right: 325px;
   align-items: center;
+  display: flex;
+  position: relative;
 }
 .navbar__search-icon {
   cursor: pointer;
-  margin-right: 21.25rem;
+  margin-right: 15px;
 }
 .navbar__search-input {
   border: 0.0625rem solid #ddd;
   border-radius: 0.3125rem;
-  display: none;
-  margin-right: 19.375rem;
   padding: 0.625rem;
   width: 12.5rem;
+  display: none; /* Initially hidden */
 }
 .navbar__title {
   color: #7a8dfd;
   font-family: Roboto, sans-serif;
   font-size: 2.25rem;
   margin-left: 19rem;
+}
+.navbar__search-container.show-input .navbar__search-input {
+  display: block;
+  margin-left: 0.5rem;
 }
 
 .no-tasks {

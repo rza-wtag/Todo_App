@@ -125,6 +125,7 @@ body {
   align-items: center;
   background-color: #f4f4f9;
   border-bottom: 0.0625rem solid #dde2ff;
+
   display: flex;
   height: 72px;
   justify-content: space-between;
@@ -139,21 +140,23 @@ body {
   }
 
   &__search-container {
+    margin-right: 325px;
     align-items: center;
+    display: flex;
+    position: relative;
   }
 
   &__search-icon {
     cursor: pointer;
-    margin-right: 21.25rem;
+    margin-right: 15px;
   }
 
   &__search-input {
     border: 0.0625rem solid #ddd;
     border-radius: 0.3125rem;
-    display: none;
-    margin-right: 19.375rem;
     padding: 0.625rem;
     width: 12.5rem;
+    display: none; /* Initially hidden */
   }
 
   &__title {
@@ -161,6 +164,10 @@ body {
     font-family: Roboto, sans-serif;
     font-size: 2.25rem;
     margin-left: 19rem;
+  }
+  &__search-container.show-input .navbar__search-input {
+    display: block;
+    margin-left: 0.5rem;
   }
 }
 

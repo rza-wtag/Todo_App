@@ -125,7 +125,6 @@ body {
   align-items: center;
   background-color: #f4f4f9;
   border-bottom: 0.0625rem solid #dde2ff;
-
   display: flex;
   height: 72px;
   justify-content: space-between;
@@ -165,6 +164,7 @@ body {
     font-size: 2.25rem;
     margin-left: 19rem;
   }
+
   &__search-container.show-input .navbar__search-input {
     display: block;
     margin-left: 0.5rem;
@@ -213,7 +213,7 @@ body {
   padding: 12px;
   position: relative;
   transition: all 0.3s;
-  width: 382px fixed;
+  width: 100%;
 
   &__button {
     background: none;
@@ -370,5 +370,117 @@ body {
 
   @media (max-width: 48rem) {
     grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1200px) {
+  .navbar__title {
+    font-size: 1.8rem;
+    margin-left: 1rem;
+  }
+
+  .navbar__search-container {
+    margin-right: 1rem;
+  }
+
+  .header__title {
+    font-size: 2.5rem;
+    margin-top: 6rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 992px) {
+  .navbar__title {
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+  }
+
+  .navbar__search-container {
+    margin-right: 0.5rem;
+  }
+
+  .header__title {
+    font-size: 2rem;
+    margin-top: 5rem;
+    text-align: center;
+  }
+
+  .task-card {
+    height: 120px;
+  }
+
+  .task-card__title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar__title {
+    font-size: 1.25rem;
+    margin-left: 0.25rem;
+  }
+
+  .navbar__search-container {
+    margin-right: 0.25rem;
+  }
+
+  .header__title {
+    font-size: 1.5rem;
+    margin-top: 4rem;
+    text-align: center;
+  }
+
+  .task-card {
+    height: 100px;
+  }
+
+  .task-card__title {
+    font-size: 1.5rem;
+  }
+
+  .button--create {
+    width: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar__title {
+    font-size: 1rem;
+    margin-left: 0.25rem;
+  }
+
+  .navbar__search-container {
+    margin-right: 0.25rem;
+  }
+
+  .header__title {
+    font-size: 1.25rem;
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  .task-card {
+    height: 80px;
+  }
+
+  .task-card__title {
+    font-size: 1.25rem;
+  }
+
+  .button--create {
+    width: auto;
   }
 }

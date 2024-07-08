@@ -492,6 +492,7 @@ body {
 
   .task-card {
     height: 80%;
+    width: 92%;
   }
 
   .task-card__title {
@@ -501,6 +502,7 @@ body {
   .button--create {
     width: auto;
     margin-bottom: 10px;
+    justify-content: left;
   }
 
   .task-controls {
@@ -508,6 +510,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    width: 100%;
   }
 
   .task-list {

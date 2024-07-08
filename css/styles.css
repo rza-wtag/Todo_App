@@ -431,6 +431,7 @@ body {
   }
   .task-card {
     height: 80%;
+    width: 92%;
   }
   .task-card__title {
     font-size: 1.25rem;
@@ -438,12 +439,14 @@ body {
   .button--create {
     width: auto;
     margin-bottom: 10px;
+    justify-content: left;
   }
   .task-controls {
     flex-direction: row;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    width: 100%;
   }
   .task-list {
     grid-template-columns: 1fr;

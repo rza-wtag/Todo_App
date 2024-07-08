@@ -428,7 +428,7 @@ body {
   }
 
   .task-card {
-    height: 120px;
+    height: 80%;
   }
 
   .task-card__title {
@@ -453,7 +453,7 @@ body {
   }
 
   .task-card {
-    height: 100px;
+    height: 80%;
   }
 
   .task-card__title {
@@ -491,6 +491,7 @@ body {
 
   .button--create {
     width: auto;
+    margin-bottom: 10px;
   }
 
   .task-controls {

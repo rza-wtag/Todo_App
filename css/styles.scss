@@ -48,7 +48,6 @@ body {
     font-size: 1rem;
     height: 36px;
     width: 104px;
-    margin-top: 28px;
     font-weight: medium;
     font-size: 16px;
   }
@@ -207,13 +206,14 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin: 34px 0px 0px 0px;
+  margin: 34px 0px;
   height: 140px;
   opacity: 1;
   padding: 12px;
   position: relative;
   transition: all 0.3s;
-  width: 100%;
+  width: 92%;
+  margin-bottom: 20px;
 
   &__button {
     background: none;
@@ -368,20 +368,20 @@ body {
   gap: 1.25rem;
   grid-template-columns: repeat(3, 1fr);
 
-  @media (max-width: 48rem) {
-    grid-template-columns: 1fr;
-  }
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
   }
 
   @media (max-width: 992px) {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -473,7 +473,7 @@ body {
   }
 
   .task-card {
-    height: 80px;
+    height: 90%;
   }
 
   .task-card__title {
@@ -483,4 +483,15 @@ body {
   .button--create {
     width: auto;
   }
+
+  .task-controls {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+.task-card {
+  margin-bottom: 20px;
 }

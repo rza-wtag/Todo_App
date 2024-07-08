@@ -160,9 +160,10 @@ body {
 
   &__search-input {
     border: 0.0625rem solid #ddd;
+    margin-right: 10px;
     border-radius: 0.3125rem;
     padding: 0.625rem;
-    width: 12.5rem;
+    width: 518px;
     display: none;
   }
 
@@ -479,6 +480,10 @@ body {
     font-size: 1.25rem;
     margin-top: 3rem;
     text-align: center;
+  }
+
+  .navbar__search-input {
+    width: 200px;
   }
 
   .task-card {

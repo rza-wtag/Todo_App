@@ -24,8 +24,16 @@ import {
 let tasks = [];
 let page_current = 1;
 let currentFilter = ALL;
+let newTaskBeingEdited = false;
 
 const openNewTaskCard = () => {
+  if (newTaskBeingEdited) {
+    tasks = tasks.filter((task) => !task.isNew);
+    newTaskBeingEdited = false;
+    renderTasks(currentFilter);
+    return;
+  }
+
   const newTask = {
     id: Date.now(),
     title: "",
@@ -35,6 +43,7 @@ const openNewTaskCard = () => {
     isNew: true,
   };
   tasks.unshift(newTask);
+  newTaskBeingEdited = true;
   renderTasks(currentFilter);
 };
 
@@ -46,6 +55,7 @@ const addTask = (taskId, newTitle) => {
     tasks[taskIndex].title = sanitizedTitle;
     tasks[taskIndex].isNew = false;
     tasks[taskIndex].isBeingEdited = false;
+    newTaskBeingEdited = false;
     renderTasks(currentFilter);
   }
 };

@@ -1,5 +1,5 @@
 body {
-  background-color: #dfe2f3;
+  background-color: #f8f9ff;
   color: #333;
   font-family: Roboto, sans-serif;
   margin: 0;
@@ -110,7 +110,7 @@ body {
 
 .navbar {
   align-items: center;
-  background-color: #f4f4f9;
+  background-color: #ffffff;
   border-bottom: 0.0625rem solid #dde2ff;
   display: flex;
   height: 72px;

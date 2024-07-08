@@ -185,14 +185,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin: 34px 0px;
+  margin: 30px 0px 0px 0px;
   height: 140px;
   opacity: 1;
   padding: 12px;
   position: relative;
   transition: all 0.3s;
   width: 388px;
-  margin-bottom: 20px;
 }
 .task-card__button {
   background: none;
@@ -441,7 +440,4 @@ body {
   .button--show-less {
     margin-top: 40px;
   }
-}
-.task-card {
-  margin-bottom: 20px;
 }/*# sourceMappingURL=styles.css.map */

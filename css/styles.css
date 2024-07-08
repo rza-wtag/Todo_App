@@ -43,6 +43,11 @@ body {
   width: 104px;
   font-weight: medium;
   font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
+  margin-left: 0;
 }
 .button--filter {
   background-color: #ffffff;
@@ -291,6 +296,7 @@ body {
   align-items: center;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .task-controls__filter {

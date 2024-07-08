@@ -90,7 +90,8 @@ body {
   border-radius: 0.3125rem;
   height: 90%;
   font-size: x-large;
-  padding: 0.3125rem;
+  padding: 0px 0px 30px 5px;
+  line-height: normal;
   vertical-align: top;
   text-align: left;
 }
@@ -160,11 +161,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: 14.8125rem;
+  margin-top: 9.8125rem;
   text-align: center;
 }
 .no-tasks__image {
   height: 13.3125rem;
+  width: 222px;
   text-align: center;
 }
 .no-tasks__message {

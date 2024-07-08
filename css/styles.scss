@@ -473,7 +473,7 @@ body {
   }
 
   .task-card {
-    height: 90%;
+    height: 80%;
   }
 
   .task-card__title {
@@ -489,6 +489,18 @@ body {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+  }
+
+  .task-list {
+    grid-template-columns: 1fr;
+  }
+
+  .button--load-more {
+    margin-top: 40px;
+  }
+
+  .button--show-less {
+    margin-top: 40px;
   }
 }
 

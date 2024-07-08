@@ -395,6 +395,9 @@ body {
   .navbar__search-container {
     margin-right: 0.25rem;
   }
+  .navbar__search-input {
+    width: 300px;
+  }
   .header__title {
     font-size: 1.5rem;
     margin-top: 4rem;

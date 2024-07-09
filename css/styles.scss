@@ -47,45 +47,6 @@ body {
       color: #fff;
     }
   }
-
-  &--create {
-    font-size: 1rem;
-    height: 36px;
-    width: 104px;
-    font-weight: medium;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0;
-  }
-
-  &--filter {
-    background-color: $color-complete;
-    border: 0.0625rem solid $color-complete-border;
-    color: #020203;
-
-    &:hover {
-      background-color: $color-complete-hover;
-    }
-  }
-
-  &--load-more,
-  &--show-less {
-    background-color: $color-load-more;
-    border: none;
-    border-radius: 0.3125rem;
-    color: #fff;
-    cursor: pointer;
-    display: block;
-    margin: 1.25rem auto;
-    padding: 0.625rem 1.25rem;
-    transition: background-color 0.3s;
-
-    &:hover {
-      background-color: $color-load-more-hover;
-    }
-  }
 }
 
 .container {
@@ -268,22 +229,6 @@ body {
     gap: 0.625rem;
     justify-content: flex-start;
     margin-top: 0.9375rem;
-  }
-
-  &__edit-button--save {
-    border: none;
-    border-radius: 0.3125rem;
-    color: $color-task-title;
-    cursor: pointer;
-    width: 91px;
-    height: 36px;
-    padding: 0.3125rem 0.625rem;
-    margin-top: 17px;
-    transition: background-color 0.3s;
-
-    &:hover {
-      background-color: $color-primary-hover;
-    }
   }
 
   &__task-actions {

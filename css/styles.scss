@@ -133,7 +133,60 @@ body {
     display: block;
     margin-left: 0.5rem;
   }
+
+  @media (max-width: 1200px) {
+    &__title {
+      font-size: 1.8rem;
+      margin-left: 1rem;
+    }
+
+    &__search-container {
+      margin-right: 1rem;
+    }
+  }
+
+  @media (max-width: 992px) {
+    &__title {
+      font-size: 1.5rem;
+      margin-left: 0.5rem;
+    }
+
+    &__search-container {
+      margin-right: 0.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    &__title {
+      font-size: 1.25rem;
+      margin-left: 0.25rem;
+    }
+
+    &__search-container {
+      margin-right: 0.25rem;
+    }
+
+    &__search-input {
+      width: 300px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    &__title {
+      font-size: 1rem;
+      margin-left: 0.25rem;
+    }
+
+    &__search-container {
+      margin-right: 0.25rem;
+    }
+
+    &__search-input {
+      width: 200px;
+    }
+  }
 }
+
 .no-tasks {
   align-items: center;
   display: flex;
@@ -292,10 +345,12 @@ body {
   flex-wrap: wrap;
 }
 
-.task-controls__filter {
-  align-items: center;
-  display: flex;
-  justify-content: center;
+.task-controls {
+  __filter {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .task-form {
@@ -340,15 +395,6 @@ body {
 }
 
 @media (max-width: 1200px) {
-  .navbar__title {
-    font-size: 1.8rem;
-    margin-left: 1rem;
-  }
-
-  .navbar__search-container {
-    margin-right: 1rem;
-  }
-
   .header__title {
     font-size: 2.5rem;
     margin-top: 12rem;
@@ -357,15 +403,6 @@ body {
 }
 
 @media (max-width: 992px) {
-  .navbar__title {
-    font-size: 1.5rem;
-    margin-left: 0.5rem;
-  }
-
-  .navbar__search-container {
-    margin-right: 0.5rem;
-  }
-
   .header__title {
     font-size: 2rem;
     margin-top: 5rem;
@@ -382,19 +419,6 @@ body {
 }
 
 @media (max-width: 768px) {
-  .navbar__title {
-    font-size: 1.25rem;
-    margin-left: 0.25rem;
-  }
-
-  .navbar__search-container {
-    margin-right: 0.25rem;
-  }
-
-  .navbar__search-input {
-    width: 300px;
-  }
-
   .header__title {
     font-size: 1.5rem;
     margin-top: 4rem;
@@ -415,23 +439,10 @@ body {
 }
 
 @media (max-width: 576px) {
-  .navbar__title {
-    font-size: 1rem;
-    margin-left: 0.25rem;
-  }
-
-  .navbar__search-container {
-    margin-right: 0.25rem;
-  }
-
   .header__title {
     font-size: 1.25rem;
     margin-top: 6rem;
     text-align: center;
-  }
-
-  .navbar__search-input {
-    width: 200px;
   }
 
   .task-card {

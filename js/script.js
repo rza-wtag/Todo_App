@@ -49,7 +49,6 @@ const openNewTaskCard = () => {
 
 const addTask = (taskId, newTitle) => {
   const sanitizedTitle = stripSanitizedParts(newTitle.trim());
-  console.log("Adding task with sanitized title:", sanitizedTitle);
   const taskIndex = tasks.findIndex((task) => task.id === taskId);
   if (taskIndex !== -1) {
     tasks[taskIndex].title = sanitizedTitle;
@@ -142,7 +141,6 @@ const createTaskCard = (task) => {
     const titleElement = document.createElement("p");
     titleElement.className = "task-card__title";
     titleElement.textContent = task.title;
-    console.log("Displaying task title:", task.title);
     titleElement.classList.toggle("task-card__line-through", task.isCompleted);
     taskCard.appendChild(titleElement);
 

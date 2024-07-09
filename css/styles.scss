@@ -183,7 +183,7 @@ body {
   transition: all 0.3s;
   width: 388px;
 
-  &__button {
+  &__icon-button {
     background: none;
     border: none;
     cursor: pointer;
@@ -278,9 +278,11 @@ body {
   }
 }
 
-.task-card__line-through {
-  color: $color-task-line-through;
-  text-decoration: line-through;
+.task-card {
+  __line-through {
+    color: $color-task-line-through;
+    text-decoration: line-through;
+  }
 }
 
 .task-controls {

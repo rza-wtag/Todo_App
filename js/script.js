@@ -62,7 +62,6 @@ const addTask = (taskId, newTitle) => {
 
 const updateTask = (taskId, newTitle) => {
   const sanitizedTitle = stripSanitizedParts(newTitle.trim());
-  console.log("Updating task with sanitized title:", sanitizedTitle);
   const taskIndex = tasks.findIndex((task) => task.id === taskId);
   if (taskIndex !== -1) {
     tasks[taskIndex].title = sanitizedTitle;

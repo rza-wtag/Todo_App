@@ -53,11 +53,11 @@
             </button>
           </div>
           <div class="task-controls__filter">
-            <button id="filterAll" class="button button--filter">All</button>
-            <button id="filterIncomplete" class="button button--incomplete">
+            <button id="filterAll" class="button button--primary">All</button>
+            <button id="filterIncomplete" class="button button--secondary">
               Incomplete
             </button>
-            <button id="filterComplete" class="button button--complete">
+            <button id="filterComplete" class="button button--dark">
               Complete
             </button>
           </div>
@@ -70,15 +70,15 @@
             class="task-form__input"
             placeholder="Task Title"
           />
-          <button id="btnAddTask" class="button button--add-task">
+          <button id="btnAddTask" class="button button--primary">
             Add Task
           </button>
-          <button id="btnCloseForm" class="button button--close-form">
+          <button id="btnCloseForm" class="button button--secondary">
             Close
           </button>
         </div>
 
-        <div id="noTasks" class="no-tasks" style="display: none">
+        <div id="noTasks" class="no-tasks">
           <img
             src="./assets/emptyState.png"
             alt="No tasks"
@@ -92,14 +92,14 @@
         <section class="task-list" id="taskList"></section>
         <button
           id="btnLoadMore"
-          class="button button--load-more"
+          class="button button--primary"
           style="display: none"
         >
           Load More
         </button>
         <button
           id="btnShowLess"
-          class="button button--show-less"
+          class="button button--secondary"
           style="display: none"
         >
           Show Less

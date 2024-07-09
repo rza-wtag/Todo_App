@@ -134,7 +134,6 @@ body {
     margin-left: 0.5rem;
   }
 }
-
 .no-tasks {
   align-items: center;
   display: flex;
@@ -142,6 +141,10 @@ body {
   justify-content: center;
   margin-top: 9.8125rem;
   text-align: center;
+  display: none;
+  &.show {
+    display: flex;
+  }
 
   &__image {
     height: 13.3125rem;

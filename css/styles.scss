@@ -47,6 +47,10 @@ body {
       color: #fff;
     }
   }
+
+  &__paginate {
+    margin-top: 40px;
+  }
 }
 
 .container {
@@ -332,7 +336,7 @@ body {
 }
 
 .task-card {
-  __line-through {
+  &__line-through {
     color: $color-task-line-through;
     text-decoration: line-through;
   }
@@ -346,7 +350,7 @@ body {
 }
 
 .task-controls {
-  __filter {
+  &__filter {
     align-items: center;
     display: flex;
     justify-content: center;

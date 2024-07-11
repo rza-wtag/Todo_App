@@ -477,10 +477,10 @@ body {
   }
 
   .button--load-more {
-    margin-top: 40px;
-  }
-
-  .button--show-less {
-    margin-top: 40px;
+    .button--show-less {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+    }
   }
 }

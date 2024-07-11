@@ -48,7 +48,10 @@
       <main>
         <section class="task-controls">
           <div class="task-controls__add">
-            <button id="btnCreate" class="button button--create">
+            <button
+              id="btnCreate"
+              class="button button--create button--primary"
+            >
               + Create
             </button>
           </div>
@@ -90,18 +93,20 @@
         </div>
 
         <section class="task-list" id="taskList"></section>
-        <button
-          id="btnLoadMore"
-          class="button button--primary button__paginate button--load-more"
-        >
-          Load More
-        </button>
-        <button
-          id="btnShowLess"
-          class="button button--secondary button__paginate button--load-more"
-        >
-          Show Less
-        </button>
+        <div class="button-container">
+          <button
+            id="btnLoadMore"
+            class="button button--primary button--load-more"
+          >
+            Load More
+          </button>
+          <button
+            id="btnShowLess"
+            class="button button--secondary button--show-less"
+          >
+            Show Less
+          </button>
+        </div>
       </main>
     </div>
     <script type="module" src="/js/elements.js"></script>

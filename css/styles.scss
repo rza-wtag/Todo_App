@@ -25,7 +25,7 @@ body {
   }
 
   &--secondary {
-    background-color: $color-secondary;
+    background-color: $color-secondary !important;
     &:hover {
       background-color: $color-secondary-hover;
     }
@@ -50,6 +50,8 @@ body {
 
   &__paginate {
     margin-top: 40px;
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -133,7 +135,7 @@ body {
     margin-left: 19rem;
   }
 
-  &__search-container.show-input__search-input {
+  &__search-container.show-input .navbar__search-input {
     display: block;
     margin-left: 0.5rem;
   }
@@ -476,12 +478,10 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .button--load-more {
-    .button--show-less {
-      margin-top: 40px;
-      display: flex;
-      justify-content: center;
-      display: none;
-    }
+  .button--load-more,
+  .button--show-less {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
   }
 }

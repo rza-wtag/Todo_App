@@ -27,11 +27,23 @@ let currentFilter = ALL;
 let newTaskBeingEdited = false;
 let newTaskId = null;
 
+const loadTasksFromLocalStorage = () => {
+  const storedTasks = localStorage.getItem("tasks");
+  if (storedTasks) {
+    tasks = JSON.parse(storedTasks);
+  }
+};
+
+const saveTasksToLocalStorage = () => {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};
+
 const openNewTaskCard = () => {
   if (newTaskBeingEdited) {
     tasks = tasks.filter((task) => task.id !== newTaskId);
     newTaskBeingEdited = false;
     renderTasks(currentFilter);
+    saveTasksToLocalStorage();
     return;
   }
 
@@ -46,6 +58,7 @@ const openNewTaskCard = () => {
   newTaskBeingEdited = true;
   newTaskId = newTask.id;
   renderTasks(currentFilter);
+  saveTasksToLocalStorage();
 };
 
 const addTask = (taskId, newTitle) => {
@@ -56,6 +69,7 @@ const addTask = (taskId, newTitle) => {
     tasks[taskIndex].isBeingEdited = false;
     newTaskBeingEdited = false;
     renderTasks(currentFilter);
+    saveTasksToLocalStorage();
   }
 };
 
@@ -66,12 +80,14 @@ const updateTask = (taskId, newTitle) => {
     tasks[taskIndex].title = sanitizedTitle;
     tasks[taskIndex].isBeingEdited = false;
     renderTasks(currentFilter);
+    saveTasksToLocalStorage();
   }
 };
 
 const deleteTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== taskId);
   renderTasks(currentFilter);
+  saveTasksToLocalStorage();
 };
 
 const createTaskCard = (task) => {
@@ -144,6 +160,7 @@ const createTaskCard = (task) => {
       completedTag.className = "task-card__completed-tag";
       completedTag.textContent = calculateCompletionTime(task.createdAt);
       actionsContainer.appendChild(completedTag);
+      saveTasksToLocalStorage();
     });
     buttonsContainer.appendChild(checkButton);
 
@@ -153,6 +170,7 @@ const createTaskCard = (task) => {
     editButton.addEventListener("click", () => {
       task.isBeingEdited = true;
       renderTasks(currentFilter);
+      saveTasksToLocalStorage();
     });
     buttonsContainer.appendChild(editButton);
 
@@ -161,6 +179,7 @@ const createTaskCard = (task) => {
     deleteButton.innerHTML = deleteSVG;
     deleteButton.addEventListener("click", () => {
       deleteTask(task.id);
+      saveTasksToLocalStorage();
     });
     buttonsContainer.appendChild(deleteButton);
 
@@ -274,4 +293,5 @@ $btnShowLess.addEventListener("click", () => {
 });
 $searchIcon.addEventListener("click", handleSearchIconClick);
 
+loadTasksFromLocalStorage();
 renderTasks();

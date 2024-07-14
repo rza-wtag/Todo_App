@@ -104,7 +104,7 @@ const createTaskCard = (task) => {
     });
     actionsContainer.appendChild(saveButton);
 
-    const deleteButton = document.createElement("button");
+    const deleteButton = document.createElement("div");
     deleteButton.className = "task-card__button task-card__button--delete";
     deleteButton.innerHTML = deleteSVG;
     deleteButton.addEventListener("click", () => {
@@ -131,7 +131,7 @@ const createTaskCard = (task) => {
     const buttonsContainer = document.createElement("div");
     buttonsContainer.className = "task-card__task-buttons";
 
-    const checkButton = document.createElement("button");
+    const checkButton = document.createElement("div");
     checkButton.className = "task-card__button task-card__button--check";
     checkButton.innerHTML = checkSVG;
     checkButton.addEventListener("click", () => {
@@ -147,7 +147,7 @@ const createTaskCard = (task) => {
     });
     buttonsContainer.appendChild(checkButton);
 
-    const editButton = document.createElement("button");
+    const editButton = document.createElement("div");
     editButton.className = "task-card__button task-card__button--edit";
     editButton.innerHTML = editSVG;
     editButton.addEventListener("click", () => {
@@ -156,7 +156,7 @@ const createTaskCard = (task) => {
     });
     buttonsContainer.appendChild(editButton);
 
-    const deleteButton = document.createElement("button");
+    const deleteButton = document.createElement("div");
     deleteButton.className = "task-card__button task-card__button--delete";
     deleteButton.innerHTML = deleteSVG;
     deleteButton.addEventListener("click", () => {

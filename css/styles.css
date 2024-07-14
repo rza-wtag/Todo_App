@@ -215,31 +215,12 @@ body {
   transition: all 0.3s;
   width: 388px;
 }
-.task-card__icon-button {
+.task-card__button {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 1.2em;
-  margin-top: 20px;
-  transition: color 0.3s;
-}
-.task-card__icon-button--check {
-  color: #0bc375;
-}
-.task-card__icon-button--check:hover {
-  color: #0bc375;
-}
-.task-card__icon-button--delete {
-  color: #dc3545;
-}
-.task-card__icon-button--delete:hover {
-  color: #dc3545;
-}
-.task-card__icon-button--edit {
-  color: #dc3545;
-}
-.task-card__icon-button--edit:hover {
-  color: #dc3545;
+  margin-top: 0.3125rem;
 }
 .task-card__created-at {
   border-radius: 0.3125rem;

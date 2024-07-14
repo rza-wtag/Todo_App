@@ -243,37 +243,12 @@ body {
   transition: all 0.3s;
   width: 388px;
 
-  &__icon-button {
+  &__button {
     background: none;
     border: none;
     cursor: pointer;
     font-size: 1.2em;
-    margin-top: 20px;
-    transition: color 0.3s;
-
-    &--check {
-      color: $color-task-line-through;
-
-      &:hover {
-        color: $color-task-line-through;
-      }
-    }
-
-    &--delete {
-      color: $color-delete-button;
-
-      &:hover {
-        color: $color-delete-button-hover;
-      }
-    }
-
-    &--edit {
-      color: $color-edit-button;
-
-      &:hover {
-        color: $color-edit-button-hover;
-      }
-    }
+    margin-top: 0.3125rem;
   }
 
   &__created-at {

@@ -92,7 +92,7 @@ const createTaskCard = (task) => {
     actionsContainer.className = "task-card__edit-actions";
 
     const saveButton = document.createElement("button");
-    saveButton.className = "task-card__edit-button--save";
+    saveButton.className = "button button--secondary";
     saveButton.textContent = task.id === newTaskId ? "Add Task" : "Save";
     saveButton.addEventListener("click", () => {
       if (inputElement.value.trim() === "") return;
@@ -104,8 +104,8 @@ const createTaskCard = (task) => {
     });
     actionsContainer.appendChild(saveButton);
 
-    const deleteButton = document.createElement("div");
-    deleteButton.className = "task-card__button task-card__button--delete";
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "task-card__button";
     deleteButton.innerHTML = deleteSVG;
     deleteButton.addEventListener("click", () => {
       deleteTask(task.id);
@@ -147,8 +147,8 @@ const createTaskCard = (task) => {
     });
     buttonsContainer.appendChild(checkButton);
 
-    const editButton = document.createElement("div");
-    editButton.className = "task-card__button task-card__button--edit";
+    const editButton = document.createElement("button");
+    editButton.className = "task-card__button";
     editButton.innerHTML = editSVG;
     editButton.addEventListener("click", () => {
       task.isBeingEdited = true;

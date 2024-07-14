@@ -17,6 +17,21 @@ body {
   padding: 0.625rem 1.25rem;
   transition: background-color 0.3s;
 
+  &-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &--load-more {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #32394b;
+  }
+
   &--primary {
     background-color: $color-primary;
     &:hover {

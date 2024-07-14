@@ -15,6 +15,19 @@ body {
   padding: 0.625rem 1.25rem;
   transition: background-color 0.3s;
 }
+.button-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.button--load-more {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #32394b;
+}
 .button--primary {
   background-color: #7a8dfd;
 }

@@ -22,10 +22,12 @@ body {
   background-color: #357ab7;
 }
 .button--secondary {
-  background-color: #bbbdd0 !important;
+  background-color: #ffffff !important;
+  color: black;
+  border: 1px solid #e6e6e6;
 }
 .button--secondary:hover {
-  background-color: #9da0bb;
+  background-color: #e6e6e6;
 }
 .button--dark {
   background-color: #32394b;
@@ -97,14 +99,13 @@ body {
   display: flex;
 }
 .navbar__search-container {
-  margin-right: 325px;
+  margin-right: 310px;
   align-items: center;
   display: flex;
   position: relative;
 }
 .navbar__search-icon {
   cursor: pointer;
-  margin-right: 15px;
 }
 .navbar__search-input {
   border: 0.0625rem solid #ddd;
@@ -309,6 +310,7 @@ body {
   align-items: center;
   display: flex;
   justify-content: center;
+  gap: 19px;
 }
 
 .task-form {

@@ -26,6 +26,8 @@ body {
 
   &--secondary {
     background-color: $color-secondary !important;
+    color: black;
+    border: 1px solid $color-secondary-hover;
     &:hover {
       background-color: $color-secondary-hover;
     }
@@ -108,7 +110,7 @@ body {
   }
 
   &__search-container {
-    margin-right: 325px;
+    margin-right: 310px;
     align-items: center;
     display: flex;
     position: relative;
@@ -116,7 +118,6 @@ body {
 
   &__search-icon {
     cursor: pointer;
-    margin-right: 15px;
   }
 
   &__search-input {
@@ -357,6 +358,7 @@ body {
     align-items: center;
     display: flex;
     justify-content: center;
+    gap: 19px;
   }
 }
 

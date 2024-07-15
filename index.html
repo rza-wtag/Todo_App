@@ -14,6 +14,12 @@
             <h1 class="navbar__title">Todos</h1>
           </div>
           <div class="navbar__search-container">
+            <input
+              id="searchInput"
+              type="text"
+              class="navbar__search-input"
+              placeholder="Search tasks..."
+            />
             <svg
               id="searchIcon"
               class="navbar__search-icon"
@@ -35,12 +41,6 @@
                 </clipPath>
               </defs>
             </svg>
-            <input
-              id="searchInput"
-              type="text"
-              class="navbar__search-input"
-              placeholder="Search tasks..."
-            />
           </div>
         </nav>
         <h2 class="header__title">Add Tasks</h2>
@@ -48,17 +48,20 @@
       <main>
         <section class="task-controls">
           <div class="task-controls__add">
-            <button id="btnCreate" class="button button--create">
+            <button
+              id="btnCreate"
+              class="button button--create button--primary"
+            >
               + Create
             </button>
           </div>
           <div class="task-controls__filter">
-            <button id="filterAll" class="button button--filter">All</button>
-            <button id="filterComplete" class="button button--complete">
-              Complete
-            </button>
-            <button id="filterIncomplete" class="button button--incomplete">
+            <button id="filterAll" class="button button--secondary">All</button>
+            <button id="filterIncomplete" class="button button--secondary">
               Incomplete
+            </button>
+            <button id="filterComplete" class="button button--secondary">
+              Complete
             </button>
           </div>
         </section>
@@ -70,15 +73,15 @@
             class="task-form__input"
             placeholder="Task Title"
           />
-          <button id="btnAddTask" class="button button--add-task">
+          <button id="btnAddTask" class="button button--primary">
             Add Task
           </button>
-          <button id="btnCloseForm" class="button button--close-form">
+          <button id="btnCloseForm" class="button button--secondary">
             Close
           </button>
         </div>
 
-        <div id="noTasks" class="no-tasks" style="display: none">
+        <div id="noTasks" class="no-tasks">
           <img
             src="./assets/emptyState.png"
             alt="No tasks"
@@ -90,20 +93,14 @@
         </div>
 
         <section class="task-list" id="taskList"></section>
-        <button
-          id="btnLoadMore"
-          class="button button--load-more"
-          style="display: none"
-        >
-          Load More
-        </button>
-        <button
-          id="btnShowLess"
-          class="button button--show-less"
-          style="display: none"
-        >
-          Show Less
-        </button>
+        <div class="button-container">
+          <button id="btnLoadMore" class="button button--load-more">
+            Load More
+          </button>
+          <button id="btnShowLess" class="button button--load-more">
+            Show Less
+          </button>
+        </div>
       </main>
     </div>
     <script type="module" src="/js/elements.js"></script>

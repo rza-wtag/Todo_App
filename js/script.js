@@ -12,6 +12,7 @@ import {
 } from "../js/elements.js";
 import { stripSanitizedParts } from "../js/utils/stripSanitizedParts.js";
 import { formatDate } from "../js/helpers/formatDate.js";
+import { debounce } from "./utils/debounce.js";
 import { checkSVG, editSVG, deleteSVG } from "./utils/constants.js";
 import { calculateCompletionTime } from "./utils/utils.js";
 import {
@@ -270,7 +271,10 @@ const handleSearchIconClick = () => {
   }
 };
 
-$searchInput.addEventListener("input", () => renderTasks(currentFilter));
+$searchInput.addEventListener(
+  "input",
+  debounce(() => renderTasks(currentFilter), 500)
+);
 
 $filterAll.addEventListener("click", () => {
   currentFilter = ALL;

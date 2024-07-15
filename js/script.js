@@ -19,6 +19,7 @@ import {
   ALL,
   COMPLETE,
   IN_COMPLETE,
+  TASKS,
 } from "./helpers/constants.js";
 
 let tasks = [];
@@ -28,14 +29,14 @@ let newTaskBeingEdited = false;
 let newTaskId = null;
 
 const loadTasksFromLocalStorage = () => {
-  const storedTasks = localStorage.getItem("tasks");
+  const storedTasks = localStorage.getItem(TASKS);
   if (storedTasks) {
     tasks = JSON.parse(storedTasks);
   }
 };
 
 const saveTasksToLocalStorage = () => {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem(TASKS, JSON.stringify(tasks));
 };
 
 const openNewTaskCard = () => {
